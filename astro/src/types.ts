@@ -11,6 +11,8 @@ export interface Config {
     posts: Post;
     users: User;
     media: Media;
+    records: Record;
+    artists: Artist;
   };
   globals: {};
 }
@@ -51,4 +53,28 @@ export interface Media {
   filesize?: number;
   width?: number;
   height?: number;
+}
+export interface Record {
+  id: string;
+  title?: string;
+  artist?: string[] | Artist[];
+  releaseDate?: string;
+  image: string | Media;
+  content?: {
+    [k: string]: unknown;
+  }[];
+  status?: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Artist {
+  id: string;
+  name?: string;
+  image: string | Media;
+  content?: {
+    [k: string]: unknown;
+  }[];
+  status?: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
 }

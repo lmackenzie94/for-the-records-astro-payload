@@ -1,8 +1,18 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { getPosts } from "@/utils/payload";
+import { getArtists } from "@/utils/payload/artist";
+import { getPosts } from "@/utils/payload/post";
+import { getRecords } from "@/utils/payload/record";
 
-const posts = await getPosts();
+// const posts = await getPosts();
+// const artist = await getArtists();
+// const records = await getRecords();
+
+const [posts, artists, records] = await Promise.all([
+  getPosts(),
+  getArtists(),
+  getRecords(),
+]);
 ---
 
 <Layout title="Astroad">
@@ -20,7 +30,7 @@ const posts = await getPosts();
       reverse proxy. This setup provides a secure and scalable production
       environment for your website.
     </p>
-    <h2 class="mt-6 font-bold text-2xl">Posts</h2>
+        <h2 class="mt-6 font-bold text-2xl">Posts</h2>
     <div class="flex gap-4 mt-3 flex-wrap">
       {
         posts.length > 0 ? (
@@ -38,6 +48,44 @@ const posts = await getPosts();
           ))
         ) : (
           <p>Add Posts in Payloadcms</p>
+        )
+      }
+    </div>
+    <h2 class="mt-6 font-bold text-2xl">Artists</h2>
+    <div class="flex gap-4 mt-3 flex-wrap">
+      {
+        artists.length > 0 ? (
+          artists.map((artist) => (
+            <a href={`/artists/${artist.id}/`}>
+              <article class="text-gray bg-gray-light px-5 py-3 rounded-md shadow-md w-64 text-center hover:-translate-y-1 transition-transform justify-end flex gap-5 flex-row-reverse">
+                <h3 class="font-bold text-lg" transition:name=`title-${artist.id}`>{artist.name}</h3>
+                {artist.image && (
+                  <img src={artist.image.url} alt={artist.name} class="aspect-square object-cover w-20"/>
+                )}
+              </article>
+            </a>
+          ))
+        ) : (
+          <p>Add Artists in Payloadcms</p>
+        )
+      }
+    </div>
+    <h2 class="mt-6 font-bold text-2xl">Records</h2>
+    <div class="flex gap-4 mt-3 flex-wrap">
+      {
+        records.length > 0 ? (
+          records.map((record) => (
+            <a href={`/records/${record.id}/`}>
+              <article class="text-gray bg-gray-light px-5 py-3 rounded-md shadow-md w-64 text-center hover:-translate-y-1 transition-transform justify-end flex gap-5 flex-row-reverse">
+                <h3 class="font-bold text-lg" transition:name=`title-${record.id}`>{record.title}</h3>
+                {record.image && (
+                  <img src={record.image.url} alt={record.title} class="aspect-square object-cover w-20"/>
+                )}
+              </article>
+            </a>
+          ))
+        ) : (
+          <p>Add Records in Payloadcms</p>
         )
       }
     </div>

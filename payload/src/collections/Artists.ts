@@ -2,11 +2,12 @@ import StatusField from '@/fields/Status';
 import ContentField from '@/fields/content';
 import { CollectionConfig } from 'payload/types';
 
-const Posts: CollectionConfig = {
-  slug: 'posts',
+const Artists: CollectionConfig = {
+  slug: 'artists',
   admin: {
-    // defaultColumns: ['title', 'author', 'status'],
-    useAsTitle: 'title'
+    // TODO: not working...
+    defaultColumns: ['name'],
+    useAsTitle: 'name'
   },
   access: {
     read: () => true,
@@ -43,20 +44,18 @@ const Posts: CollectionConfig = {
   },
   fields: [
     {
-      name: 'title',
+      name: 'name',
       type: 'text'
     },
     {
-      name: 'hallo',
-      type: 'text'
-    },
-    {
-      name: 'publishedDate',
-      type: 'date'
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      required: true
     },
     ContentField,
     StatusField
   ]
 };
 
-export default Posts;
+export default Artists;
