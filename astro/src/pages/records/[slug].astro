@@ -1,0 +1,82 @@
+---
+import { getRecords } from "@/utils/payload/record";
+import Layout from "@/layouts/Layout.astro";
+
+// TODO: how to get type hints...?
+
+export async function getStaticPaths() {
+
+  const records = await getRecords();
+
+  const paths = records.map((record) => ({
+    params: { slug: record.id.toString() },
+    props: { record }
+  }));
+
+  return paths;
+}
+
+const { slug } = Astro.params;
+const { record } = Astro.props;
+
+const releaseYear = new Date(record.releaseDate).getFullYear();
+const artists = record.artist.map((artist) => artist.name).join(", ");
+---
+
+<Layout title={record.title}>
+
+  <section class="flex flex-col">
+    <h1 class="ml-4 -mb-6 font-black text-[#dcdcdc] text-7xl mix-blend-exclusion">{ record.title }</h1>
+
+    <div class="flex gap-6 mb-8">
+      <div class="flex-grow-0 w-1/4 record">
+        <a href="">
+          <div class="overflow-hidden record-cover">
+            <img src={record.image.url} alt="Record Cover" class="object-cover w-full transition-transform duration-500 aspect-square" />
+          </div>        
+        </Link>
+      </div>
+      <div class="flex flex-col mt-16 justify-between">
+        <div class="font-mono text-sm">
+          <p><span class="font-mono font-bold tracking-tighter text-gray-400">Artist: </span>{artists}</p>
+          <p><span class="font-mono font-bold tracking-tighter text-gray-400">Year: </span>{releaseYear}</p>
+          {record.label && 
+            <p><span class="font-mono font-bold tracking-tighter text-gray-400">Label: </span>{record.label}</p>
+          }
+          {record.genre &&
+            <p><span class="font-mono font-bold tracking-tighter text-gray-400">Genre(s): </span>{record.genre}</p>
+          }
+        </div>
+        <!-- <div v-if="user" class="flex gap-1 mt-10">
+          <a href="route('record.edit', {record: record.id})" class="btn-primary small">
+            Edit
+          </a>
+          <a href="route('record.destroy', {record: record.id})" method="DELETE" as="button" class="btn-red small"> 
+            Delete
+          </a>
+        </div> -->
+      </div>
+    </div>
+    <!-- <div class="prose-sm prose md:prose-base" v-html="marked(record.about)" /> -->
+  </section>
+
+  <!-- <div v-if="similarRecords.length" class="mt-16">
+    <h2 class="mb-3 text-3xl font-black">Related Records</h2>
+    <div class="flex flex-wrap gap-6">
+      <template v-for="simRecord in similarRecords" :key="simRecord.id">
+        <div class="flex-grow-0 w-1/4">
+          <Link :href="route('record.show', {record: simRecord.id})">
+            <div class="overflow-hidden record-cover">
+              <img :src="getCoverImageURL(simRecord)" alt="record Cover" class="object-cover w-full transition-transform duration-500 aspect-square" />
+            </div>
+          </Link>
+        </div>
+      </template>
+    </div>
+  </div> -->
+
+</Layout>
+
+<!-- <pre>
+  {JSON.stringify(record, null, 2)}
+</pre> -->

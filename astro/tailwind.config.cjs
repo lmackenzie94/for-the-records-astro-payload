@@ -1,17 +1,50 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  darkMode: 'class',
   theme: {
-    fontFamily: {
-      plex: ["Plex", "sans-serif"],
+    container: {
+      center: true,
+    },
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
     },
     extend: {
-      colors: {
-        gray: {
-          DEFAULT: "#111111",
-          light: "#888888",
-          dark: "#222222",
+      keyframes: {
+        'fade-in-scale': {
+          '0%': {
+            opacity: '0',
+            transform: 'scale(0.95)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'scale(1)',
+          },
         },
+        'fade-in-drop-down': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-40px) scale(0.97)',
+          },
+          '40%': {
+            opacity: '1',
+            transform: 'translateY(-40px) scale(1)',
+          },
+          '85%': {
+            opacity: '1',
+            transform: 'translateY(-40px) scale(1)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0) scale(1)',
+          },
+        },
+      },
+      animation: {
+        'fade-in-scale': 'fade-in-scale 0.2s ease-out forwards',
+        'fade-in-drop-down': 'fade-in-drop-down 1.2s ease-out 0.2s forwards',
       },
     },
   },

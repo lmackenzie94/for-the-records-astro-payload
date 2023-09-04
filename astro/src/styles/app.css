@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background: rgb(255,255,255);
+    background: linear-gradient(-45deg, rgba(240,240,240,1) 0%, rgba(240,240,240,1) 50%, rgba(250,250,250,1) 50%);
+
+    /* for dark mode */
+    /* background: linear-gradient(-45deg, rgba(30,30,30,1) 0%, rgba(30,30,30,1) 50%, rgba(20,20,20,1) 50%); */
+  }
+
+  div#app {
+    @apply flex flex-col min-h-screen;
+  }
+}
+
+@layer components {
+
+  .container {
+    width: 95%;
+  }
+
+  .label {
+    @apply block mb-1 text-gray-400 font-medium;
+  }
+
+  .input {
+    @apply block w-full p-2 rounded-md shadow-sm border border-gray-300 dark:border-gray-600 text-gray-500;
+  }
+
+  .input-error {
+    @apply text-sm text-red-500 dark:text-red-400;
+  }
+
+  .btn-base {
+    @apply text-xs font-medium p-2 rounded-md;
+  }
+
+  .btn-base.small {
+    @apply py-1;
+  }
+
+  .btn-primary {
+    @apply bg-gray-700 hover:bg-gray-600 text-white btn-base;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-700 btn-base;
+  }
+
+  .btn-tertiary {
+    @apply bg-[#3c421a] text-gray-100 btn-base;
+  }
+
+  .btn-red {
+    @apply bg-red-500 hover:bg-red-400 text-white btn-base;
+  }
+
+  .btn-outline-1 {
+    @apply border border-gray-300 dark:border-gray-600 text-gray-500 btn-base hover:bg-gray-100 dark:hover:bg-gray-800;
+  }
+
+  .btn-outline-2 {
+    @apply border border-gray-300 dark:border-gray-600 text-gray-500 btn-base hover:bg-gray-100 dark:hover:bg-gray-800;
+  }
+
+}

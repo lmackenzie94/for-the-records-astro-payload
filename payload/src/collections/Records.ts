@@ -45,12 +45,23 @@ const Records: CollectionConfig = {
       name: 'title',
       type: 'text'
     },
-    // reference Artist
     {
       name: 'artist',
       type: 'relationship',
       relationTo: 'artists',
       hasMany: true
+    },
+    {
+      name: 'label',
+      type: 'text'
+    },
+    {
+      name: 'genre',
+      label: 'Genre(s)',
+      type: 'text',
+      admin: {
+        description: 'Separate multiple genres with a comma'
+      }
     },
     {
       name: 'releaseDate',

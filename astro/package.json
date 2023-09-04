@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "astro dev --host",
-    "build": "astro build"
+    "build": "astro build",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@astrojs/image": "^0.17.3",

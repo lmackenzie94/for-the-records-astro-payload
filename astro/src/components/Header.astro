@@ -1,0 +1,17 @@
+<header class="w-full mb-16">
+  <div class="container">
+    <nav class="flex items-center justify-between py-6">
+      <h2 class="text-base font-bold tracking-tight text-center text-gray-900 md:text-lg">
+        <a href="/">For The Records.</a>
+      </h2>
+      
+      <div class="flex items-center gap-4 text-sm font-medium text-gray-900 md:gap-6">
+        <a href="/records" class="font-mono tracking-tight">Records</a>
+        <a href="/artists" class="font-mono tracking-tight">Artists</a>
+        <div v-if="user" class="relative">
+          <!-- <UserModal :user="user" /> -->
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,27 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Record from '@/components/Record.astro';
+import { getRecords } from '@/utils/payload/record';
+
+const records = await getRecords();
+---
+
+<Layout title="Records">
+  <h1
+    class="relative z-10 -mb-[.3em] ml-2 text-6xl font-black text-[#dcdcdc] mix-blend-exclusion md:text-7xl"
+  >
+    Records.
+  </h1>
+
+  {
+    records?.length ? (
+      <section class="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
+        {records.map((record) => (
+          <Record record={record} />
+        ))}
+      </section>
+    ) : (
+      <p class="text-[#dcdcdc]">No records found.</p>
+    )
+  }
+</Layout>
