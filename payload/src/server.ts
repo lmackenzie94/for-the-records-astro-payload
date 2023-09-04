@@ -1,11 +1,11 @@
-import express from "express";
-import payload from "payload";
+import express from 'express';
+import payload from 'payload';
 
-require("dotenv").config();
+require('dotenv').config();
 const app = express();
 
-app.get("/", (_, res) => {
-  res.redirect("/admin");
+app.get('/', (_, res) => {
+  res.redirect('/admin');
 });
 
 payload.init({
@@ -14,8 +14,8 @@ payload.init({
   express: app,
   onInit: () => {
     payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`);
-  },
+  }
 });
 
-app.use("/media", express.static("media"));
+app.use('/media', express.static('media'));
 app.listen(process.env.PAYLOAD_PORT);

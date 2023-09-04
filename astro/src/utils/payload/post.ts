@@ -1,6 +1,6 @@
-import { URL } from "./config";
+import { URL } from './config';
 
-import type { Post } from "@/types";
+import type { Post } from '@/types';
 
 export const getPosts = async () =>
   (await (await fetch(`${URL}/api/posts`)).json()).docs as Post[];

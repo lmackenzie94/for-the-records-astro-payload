@@ -11,7 +11,7 @@ export default buildConfig({
   serverURL: process.env.PAYLOAD_URL,
   admin: {
     user: Users.slug,
-    webpack: config => ({
+    webpack: (config) => ({
       ...config,
       resolve: {
         ...config.resolve,

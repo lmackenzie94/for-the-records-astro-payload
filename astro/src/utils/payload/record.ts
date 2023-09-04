@@ -1,6 +1,6 @@
-import { URL } from "./config";
+import { URL } from './config';
 
-import type { Record } from "@/types";
+import type { Record } from '@/types';
 
 export const getRecords = async () =>
   (await (await fetch(`${URL}/api/records`)).json()).docs as Record[];

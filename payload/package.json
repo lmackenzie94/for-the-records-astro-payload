@@ -10,7 +10,8 @@
     "build:server": "tsc",
     "build": "yarn build:payload && yarn build:server",
     "serve": "cross-env PAYLOAD_CONFIG_PATH=dist/payload.config.js node -r tsconfig-paths/register dist/server.js",
-    "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts node -r tsconfig-paths/register node_modules/payload/dist/bin/index.js generate:types"
+    "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts node -r tsconfig-paths/register node_modules/payload/dist/bin/index.js generate:types",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "cross-env": "^7.0.3",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@types/express": "^4.17.9",
     "nodemon": "^3.0.1",
+    "prettier": "3.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
