@@ -5,24 +5,24 @@
   "version": "1.1",
   "license": "MIT",
   "scripts": {
-    "dev": "astro dev --host",
+    "dev": "astro dev --host --port 3000",
     "build": "astro build",
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@astrojs/image": "^0.17.3",
     "@astrojs/prefetch": "^0.4.0",
     "@astrojs/sitemap": "^3.0.0",
-    "@astrojs/tailwind": "4.0.0",
-    "astro": "^2.10.15",
+    "@astrojs/tailwind": "^5.0.0",
+    "@slate-serializers/html": "^2.0.0",
+    "astro": "^3.0.8",
     "css-select": "5.1.0",
+    "qs": "^6.11.2",
     "sharp": "^0.32.5",
-    "slate-serializers": "0.4.1",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {
     "prettier": "^3.0.2",
-    "prettier-plugin-tailwindcss": "^0.5.4",
-    "prettier-plugin-astro": "^0.12.0"
+    "prettier-plugin-astro": "^0.12.0",
+    "prettier-plugin-tailwindcss": "^0.5.4"
   }
 }

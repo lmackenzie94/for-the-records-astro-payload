@@ -1,6 +1,9 @@
-import StatusField from '@/fields/Status';
-import ContentField from '@/fields/content';
+import { status } from '@/fields/Status';
+import { content } from '@/fields/Content';
+import { slug } from '@/fields/Slug';
+
 import { CollectionConfig } from 'payload/types';
+
 const Records: CollectionConfig = {
   slug: 'records',
   admin: {
@@ -46,6 +49,8 @@ const Records: CollectionConfig = {
       type: 'text',
       required: true
     },
+    // since configuration is in code we can call functions to define data structures dynamically in a reusable way
+    slug(),
     {
       name: 'artist',
       type: 'relationship',
@@ -58,12 +63,12 @@ const Records: CollectionConfig = {
       type: 'text'
     },
     {
-      name: 'genre',
+      name: 'genres',
       label: 'Genre(s)',
-      type: 'text',
-      admin: {
-        description: 'Separate multiple genres with a comma'
-      }
+      relationTo: 'genres',
+      type: 'relationship',
+      hasMany: true,
+      required: true
     },
     {
       name: 'releaseDate',
@@ -75,8 +80,8 @@ const Records: CollectionConfig = {
       relationTo: 'media',
       required: true
     },
-    ContentField,
-    StatusField
+    content,
+    status
   ]
 };
 

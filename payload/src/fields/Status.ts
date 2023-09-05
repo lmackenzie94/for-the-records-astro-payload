@@ -1,4 +1,6 @@
-const StatusField = {
+import { Field } from 'payload/types';
+
+export const status: Field = {
   name: 'status',
   type: 'select',
   options: [
@@ -16,5 +18,3 @@ const StatusField = {
     position: 'sidebar'
   }
 };
-
-export default StatusField;

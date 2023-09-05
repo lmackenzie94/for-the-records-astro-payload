@@ -1,11 +1,16 @@
 ---
-import { getRecords } from '@/utils/payload/record';
+import { getRecords, getRecordsBySimilarGenre } from '@/utils/payload/record';
 
 import Layout from '@/layouts/Layout.astro';
 import RecordArtists from '@/components/RecordArtists.astro';
 import type { InferGetStaticParamsType } from 'astro';
-import type { Artist as ArtistType, Record as RecordType } from '@/types';
+import type {
+  Artist as ArtistType,
+  Record as RecordType,
+  Genre
+} from '@/types';
 import Artist from '@/components/Artist.astro';
+import Record from '@/components/Record.astro';
 
 // TODO: how to get type hints...?
 
@@ -13,7 +18,7 @@ export async function getStaticPaths() {
   const records = await getRecords();
 
   const paths = records.map((record) => ({
-    params: { slug: record.id.toString() },
+    params: { slug: record.slug?.toString() },
     props: { record }
   }));
 
@@ -31,19 +36,26 @@ const { record } = Astro.props;
 
 const releaseYear = new Date(record.releaseDate).getFullYear();
 const artists: ArtistType[] = record.artist;
+const genres: Genre[] = record.genres;
+
+const similarRecords = await getRecordsBySimilarGenre(record);
 ---
 
 <Layout title={record.title}>
   <section class="grid grid-cols-12 gap-4">
     <div class="col-span-full flex flex-col md:col-span-10">
       <h1
-        class="-mb-6 ml-4 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion"
+        class="relative z-10 -mb-6 ml-4 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion"
+        transition:name={`heading`}
       >
         {record.title}
       </h1>
       <div class="mb-8 flex gap-6">
         <div class="w-1/4 flex-grow-0">
-          <div class="overflow-hidden rounded-sm">
+          <div
+            class="overflow-hidden rounded-sm"
+            transition:name={`record-${record.id}`}
+          >
             <img
               src={record.image.url}
               alt="Record Cover"
@@ -75,19 +87,37 @@ const artists: ArtistType[] = record.artist;
               )
             }
             {
-              record.genre && (
+              genres && (
                 <p>
                   <span class="font-mono font-bold tracking-tighter text-gray-light">
                     Genre(s):{' '}
                   </span>
-                  {record.genre}
+                  {genres.map((genre) => genre.title).join(', ')}
                 </p>
               )
             }
           </div>
         </div>
       </div>
-      <!-- <div class="prose-sm prose md:prose-base" v-html="marked(record.about)" /> -->
+
+      <div class="max-w-[70ch]">
+        <h2 class="mb-3 text-2xl font-bold text-armyGreen">About</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
+          veritatis repudiandae id eos laborum sint quod. Quae quas ea
+          architecto, quam totam exercitationem aliquam reiciendis obcaecati
+          corporis at officia quod est non modi! Libero culpa accusamus
+          necessitatibus, quae doloribus totam minima veritatis mollitia illum
+          recusandae quas reiciendis nisi eos provident obcaecati.
+        </p><p>
+          Sapiente mollitia ad dolores non debitis necessitatibus velit amet,
+          reprehenderit, quasi magnam labore eaque, pariatur eligendi facere
+          cumque obcaecati optio vero. Aliquid atque accusamus voluptatem nisi
+          pariatur neque labore. Ex quibusdam praesentium illum, voluptate hic
+          tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
+          fugit unde itaque eveniet reprehenderit!
+        </p>
+      </div>
     </div>
 
     <aside class="col-span-full md:col-span-2">
@@ -103,19 +133,18 @@ const artists: ArtistType[] = record.artist;
     </aside>
   </section>
 
-  <!-- SIMILAR RECORDS... -->
-  <!-- <div v-if="similarRecords.length" class="mt-16">
-    <h2 class="mb-3 text-3xl font-black">Related Records</h2>
-    <div class="flex flex-wrap gap-6">
-      <template v-for="simRecord in similarRecords" :key="simRecord.id">
-        <div class="flex-grow-0 w-1/4">
-          <Link :href="route('record.show', {record: simRecord.id})">
-            <div class="overflow-hidden record-cover">
-              <img :src="getCoverImageURL(simRecord)" alt="record Cover" class="object-cover w-full transition-transform duration-500 aspect-square" />
+  {
+    similarRecords?.length > 0 && (
+      <section class="mt-16">
+        <h2 class="mb-3 text-2xl font-bold text-armyGreen">Similar Records</h2>
+        <div class="grid grid-cols-12 gap-4">
+          {similarRecords.map((record) => (
+            <div class="col-span-3 md:col-span-2">
+              <Record record={record} />
             </div>
-          </Link>
+          ))}
         </div>
-      </template>
-    </div>
-  </div> -->
+      </section>
+    )
+  }
 </Layout>

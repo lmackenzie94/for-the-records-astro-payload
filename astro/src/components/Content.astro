@@ -1,7 +1,7 @@
 ---
-import { Image } from "@astrojs/image/components";
-import { getContentArray } from "@/utils/helpers";
-import { getImageSrc } from "@/utils/payload/image";
+import { getContentArray } from '@/utils/helpers';
+import { getImageSrc } from '@/utils/payload/image';
+import { Image } from 'astro:assets';
 const { content } = Astro.props;
 const contentArray = getContentArray(content);
 ---
@@ -9,7 +9,7 @@ const contentArray = getContentArray(content);
 <div>
   {
     contentArray.map((value) => {
-      if (typeof value === "string") {
+      if (typeof value === 'string') {
         return <article set:html={value} />;
       } else {
         return (

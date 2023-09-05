@@ -1,5 +1,6 @@
-import StatusField from '@/fields/Status';
-import ContentField from '@/fields/content';
+import { status } from '@/fields/Status';
+import { content } from '@/fields/Content';
+
 import { CollectionConfig } from 'payload/types';
 
 const Posts: CollectionConfig = {
@@ -54,8 +55,8 @@ const Posts: CollectionConfig = {
       name: 'publishedDate',
       type: 'date'
     },
-    ContentField,
-    StatusField
+    content,
+    status
   ]
 };
 

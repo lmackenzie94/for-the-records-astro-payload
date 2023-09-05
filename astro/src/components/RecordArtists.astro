@@ -14,7 +14,7 @@ const { record, class: className } = Astro.props;
     record.artist.map((artist, index) => (
       <span>
         {index > 0 ? ', ' : ''}
-        <a class={className} href={`/artists/${artist.id}`}>
+        <a class={className} href={`/artists/${artist.slug}`}>
           {artist.name}
         </a>
       </span>

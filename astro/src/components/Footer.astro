@@ -1,8 +1,16 @@
-<footer class="w-full py-3 bg-[#d1cedd] mix-blend-exclusion">
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="w-full bg-[#d1cedd] py-3 mix-blend-exclusion">
   <div class="container flex items-center justify-center md:justify-end">
-    <div v-if="!user" class="flex items-center gap-2">
-      <!-- <Link :href="route('user-account.create')" class="btn-secondary">Register</Link>
-      <Link :href="route('login')" class="btn-primary">Login</Link> -->
-    </div>
+    <!-- current year -->
+    <p class="text-gray-500 font-mono text-xs">
+      For The Records. | {currentYear}
+    </p>
+    <!-- <div v-if="!user" class="flex items-center gap-2">
+      <Link :href="route('user-account.create')" class="btn-secondary">Register</Link>
+      <Link :href="route('login')" class="btn-primary">Login</Link>
+    </div> -->
   </div>
 </footer>

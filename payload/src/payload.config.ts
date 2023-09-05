@@ -5,7 +5,8 @@ import Posts from '@/collections/Posts';
 import Users from '@/collections/Users';
 import Media from '@/collections/Media';
 import Records from '@/collections/Records';
-import Artists from './collections/Artists';
+import Artists from '@/collections/Artists';
+import Genres from '@/collections/Genres';
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_URL,
@@ -22,7 +23,7 @@ export default buildConfig({
       }
     })
   },
-  collections: [Posts, Users, Media, Records, Artists],
+  collections: [Posts, Users, Media, Records, Artists, Genres],
   typescript: {
     outputFile: path.resolve('/', 'types.ts')
   }

@@ -13,6 +13,7 @@ export interface Config {
     media: Media;
     records: Record;
     artists: Artist;
+    genres: Genre;
   };
   globals: {};
 }
@@ -57,9 +58,10 @@ export interface Media {
 export interface Record {
   id: string;
   title: string;
+  slug?: string;
   artist: string[] | Artist[];
   label?: string;
-  genre?: string;
+  genres: string[] | Genre[];
   releaseDate?: string;
   image: string | Media;
   content?: {
@@ -72,11 +74,19 @@ export interface Record {
 export interface Artist {
   id: string;
   name: string;
+  slug?: string;
   image: string | Media;
   content?: {
     [k: string]: unknown;
   }[];
   status?: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Genre {
+  id: string;
+  title: string;
+  slug?: string;
   updatedAt: string;
   createdAt: string;
 }

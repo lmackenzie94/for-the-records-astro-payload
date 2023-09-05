@@ -1,10 +1,11 @@
 ---
-import { getArtists, getArtistRecords } from '@/utils/payload/artist';
+import { getArtists } from '@/utils/payload/artist';
 
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { InferGetStaticParamsType } from 'astro';
 import type { Artist as ArtistType } from '@/types';
+import { getRecordsByArtist } from '@/utils/payload/record';
 
 // TODO: how to get type hints...?
 
@@ -12,7 +13,7 @@ export async function getStaticPaths() {
   const artists = await getArtists();
 
   const paths = artists.map((artist) => ({
-    params: { slug: artist.id.toString() },
+    params: { slug: artist.slug?.toString() },
     props: { artist }
   }));
 
@@ -25,32 +26,35 @@ interface Props {
   artist: ArtistType;
 }
 
-const { slug } = Astro.params as Params;
+// const { slug } = Astro.params as Params;
 const { artist } = Astro.props;
 
-const records = await getArtistRecords(slug);
+const records = await getRecordsByArtist(artist.id);
 ---
 
 <Layout title={artist.name}>
   <section class="grid grid-cols-12 gap-4">
     <div class="col-span-full flex flex-col md:col-span-10">
       <h1
-        class="-mb-6 ml-4 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion"
+        class="relative z-10 -mb-6 ml-4 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion"
+        transition:name={`heading`}
       >
         {artist.name}
       </h1>
 
       <div class="mb-8 flex gap-6">
-        <div class="record w-1/4 flex-grow-0">
-          <div class="record-cover overflow-hidden">
+        <div class="w-1/4 flex-grow-0">
+          <div class="overflow-hidden rounded-sm">
             <img
               src={artist.image.url}
               alt="Artist Image"
-              class="aspect-square w-full object-cover transition-transform duration-500"
+              class="aspect-square w-full object-cover"
+              transition:name={`artist-${artist.id}`}
             />
           </div>
         </div>
-        <!-- <div class="mt-16 flex flex-col justify-between">
+      </div>
+      <!-- <div class="mt-16 flex flex-col justify-between">
         <div class="font-mono text-sm">
           <p>
             <span class="font-mono font-bold tracking-tighter text-gray-light"
@@ -85,8 +89,24 @@ const records = await getArtistRecords(slug);
           }
         </div>
       </div> -->
+      <div class="max-w-[70ch]">
+        <h2 class="mb-3 text-2xl font-bold text-armyGreen">About</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
+          veritatis repudiandae id eos laborum sint quod. Quae quas ea
+          architecto, quam totam exercitationem aliquam reiciendis obcaecati
+          corporis at officia quod est non modi! Libero culpa accusamus
+          necessitatibus, quae doloribus totam minima veritatis mollitia illum
+          recusandae quas reiciendis nisi eos provident obcaecati.
+        </p><p>
+          Sapiente mollitia ad dolores non debitis necessitatibus velit amet,
+          reprehenderit, quasi magnam labore eaque, pariatur eligendi facere
+          cumque obcaecati optio vero. Aliquid atque accusamus voluptatem nisi
+          pariatur neque labore. Ex quibusdam praesentium illum, voluptate hic
+          tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
+          fugit unde itaque eveniet reprehenderit!
+        </p>
       </div>
-      <!-- <div class="prose-sm prose md:prose-base" v-html="marked(record.about)" /> -->
     </div>
     <aside class="col-span-full md:col-span-2">
       <!-- <h2 class="mb-3 text-2xl font-bold text-gray-light">Records</h2> -->

@@ -1,11 +1,11 @@
-import { payloadSlateToDomConfig, slateToHtml } from 'slate-serializers';
+import { slateToHtml, payloadSlateToHtmlConfig } from '@slate-serializers/html';
 import { Element } from 'domhandler';
 
 export const getContentArray = (content: any) => {
   const html = slateToHtml(content, {
-    ...payloadSlateToDomConfig,
+    ...payloadSlateToHtmlConfig,
     elementTransforms: {
-      ...payloadSlateToDomConfig.elementTransforms,
+      ...payloadSlateToHtmlConfig.elementTransforms,
       upload: ({ node }) =>
         // @ts-ignore
         new Element('img', {

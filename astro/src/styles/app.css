@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  /* custom army green scroll bar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(240, 240, 240, 1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #373a2d;
+  }
+
   body {
     @apply text-black;
     background: rgb(255, 255, 255);

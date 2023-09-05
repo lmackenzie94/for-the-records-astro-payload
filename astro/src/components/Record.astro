@@ -1,6 +1,6 @@
 ---
 import RecordArtists from '@/components/RecordArtists.astro';
-import type { Record } from '@/types';
+import type { Genre, Record } from '@/types';
 
 interface Props {
   record: Record;
@@ -8,18 +8,27 @@ interface Props {
 }
 
 const { record, class: className } = Astro.props;
+
+const genres: Genre[] = record.genres;
 ---
 
 <article class={className}>
-  <a href={`/records/${record.id}`} class="glossy-hover mb-2 block rounded-sm">
+  <a
+    href={`/records/${record.slug}`}
+    class="glossy-hover mb-2 block rounded-sm"
+  >
     <img
       src={record.image.url}
       alt={`${record.title} album cover`}
       class="aspect-square h-full w-full object-cover"
+      transition:name={`record-${record.id}`}
     />
   </a>
   <p class="leading-5">{record.title}</p>
   <p class="text-xs font-light text-armyGreen">
     <RecordArtists record={record} class="hocus:underline" />
+  </p>
+  <p class="text-xs font-light text-gray-light">
+    {genres.map((genre) => genre.title).join(', ')}
   </p>
 </article>

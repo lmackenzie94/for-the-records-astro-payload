@@ -1,14 +1,11 @@
-import { status } from '@/fields/Status';
-import { content } from '@/fields/Content';
-import { CollectionConfig } from 'payload/types';
 import { slug } from '@/fields/Slug';
 
-const Artists: CollectionConfig = {
-  slug: 'artists',
+import { CollectionConfig } from 'payload/types';
+
+const Genres: CollectionConfig = {
+  slug: 'genres',
   admin: {
-    // TODO: not working...
-    defaultColumns: ['name'],
-    useAsTitle: 'name'
+    useAsTitle: 'title'
   },
   access: {
     read: () => true,
@@ -45,20 +42,14 @@ const Artists: CollectionConfig = {
   },
   fields: [
     {
-      name: 'name',
+      name: 'title',
       type: 'text',
-      required: true
+      required: true,
+      unique: true
     },
-    slug('name'),
-    {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
-      required: true
-    },
-    content,
-    status
+    // since configuration is in code we can call functions to define data structures dynamically in a reusable way
+    slug()
   ]
 };
 
-export default Artists;
+export default Genres;

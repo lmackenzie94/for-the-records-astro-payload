@@ -1,4 +1,6 @@
-const ContentField = {
+import { Field } from 'payload/types';
+
+export const content: Field = {
   name: 'content',
   type: 'richText',
   admin: {
@@ -20,5 +22,3 @@ const ContentField = {
     }
   }
 };
-
-export default ContentField;
