@@ -4,6 +4,7 @@
 
 @layer base {
   body {
+    @apply text-black;
     background: rgb(255, 255, 255);
     background: linear-gradient(
       -45deg,
@@ -16,8 +17,8 @@
     /* background: linear-gradient(-45deg, rgba(30,30,30,1) 0%, rgba(30,30,30,1) 50%, rgba(20,20,20,1) 50%); */
   }
 
-  div#app {
-    @apply flex min-h-screen flex-col;
+  *:focus {
+    @apply outline-1 outline-armyGreen;
   }
 }
 
@@ -26,8 +27,28 @@
     width: 95%;
   }
 
-  .label {
-    @apply mb-1 block font-medium text-gray-400;
+  .glossy-hover {
+    @apply relative overflow-hidden;
+  }
+  .glossy-hover > img {
+    @apply transition-transform duration-500 hocus:scale-[1.02];
+  }
+  .glossy-hover:hover:after,
+  .glossy-hover:focus:after {
+    @apply opacity-100;
+  }
+  .glossy-hover::after {
+    @apply pointer-events-none absolute left-0 top-0 block h-full w-full opacity-0 transition-opacity duration-500;
+    content: '';
+    background: linear-gradient(
+      -30deg,
+      rgba(237, 237, 237, 0.1) 55%,
+      rgba(247, 247, 247, 0.3) 69%
+    );
+  }
+
+  /* .label {
+    @apply text-gray-light mb-1 block font-medium;
   }
 
   .input {
@@ -47,11 +68,11 @@
   }
 
   .btn-primary {
-    @apply btn-base bg-gray-700 text-white hover:bg-gray-600;
+    @apply btn-base bg-gray text-white hover:bg-gray-600;
   }
 
   .btn-secondary {
-    @apply btn-base bg-gray-200 text-gray-700 hover:bg-gray-300;
+    @apply btn-base text-gray bg-gray-200 hover:bg-gray-300;
   }
 
   .btn-tertiary {
@@ -68,5 +89,5 @@
 
   .btn-outline-2 {
     @apply btn-base border border-gray-300 text-gray-500 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800;
-  }
+  } */
 }

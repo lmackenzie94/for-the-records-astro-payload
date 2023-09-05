@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -10,6 +12,19 @@ module.exports = {
       sm: '640px',
       md: '768px',
       lg: '1024px'
+    },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      blackFull: '#000',
+      whiteFull: '#fff',
+      black: '#272727',
+      white: '#fff',
+      armyGreen: '#5d6436',
+      gray: {
+        DEFAULT: '#374151',
+        light: '#9ca3af'
+      }
     },
     extend: {
       keyframes: {
@@ -49,5 +64,9 @@ module.exports = {
     }
   },
   safelist: [],
-  plugins: []
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant('hocus', ['&:hover', '&:focus']);
+    })
+  ]
 };

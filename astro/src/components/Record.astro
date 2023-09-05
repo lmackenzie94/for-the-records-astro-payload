@@ -1,40 +1,25 @@
 ---
-const { record } = Astro.props;
+import RecordArtists from '@/components/RecordArtists.astro';
+import type { Record } from '@/types';
+
+interface Props {
+  record: Record;
+  class?: string;
+}
+
+const { record, class: className } = Astro.props;
 ---
-<a href="#">
-  <div class="mb-1 overflow-hidden rounded-sm record-cover">
-    <img :src="coverImageURL" alt="Record Cover" class="object-cover w-full transition-transform duration-500 aspect-square hover:scale-[1.03]" />
-  </div>
-  <p>{record.title}</p>
-  <a href="#" class="text-sm text-gray-500">
-    { record.artist?.name}
-  </a> 
-</a>
 
-<style>
-
-.record-cover {
-  position: relative;
-}
-
-.record-cover:hover:after,
-.record-cover:focus:after {
-  opacity: 1;
-}
-
-.record-cover::after {
-  content: '';
-  pointer-events: none;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(-30deg, rgba(237, 237, 237, 0.1)55%, rgba(247, 247, 247, 0.3)69%);
-  opacity: 0;
-  transition: opacity 0.5s;
-  
-}
-
-</style>
+<article class={className}>
+  <a href={`/records/${record.id}`} class="glossy-hover mb-2 block rounded-sm">
+    <img
+      src={record.image.url}
+      alt={`${record.title} album cover`}
+      class="aspect-square h-full w-full object-cover"
+    />
+  </a>
+  <p class="leading-5">{record.title}</p>
+  <p class="text-xs font-light text-armyGreen">
+    <RecordArtists record={record} class="hocus:underline" />
+  </p>
+</article>

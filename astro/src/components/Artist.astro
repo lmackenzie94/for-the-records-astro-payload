@@ -1,0 +1,21 @@
+---
+import type { Artist } from '@/types';
+
+interface Props {
+  artist: Artist;
+  class?: string;
+}
+
+const { artist, class: className } = Astro.props;
+---
+
+<article class={className}>
+  <a href={`/artists/${artist.id}`} class="glossy-hover mb-2 block rounded-sm">
+    <img
+      src={artist.image.url}
+      alt={artist.name}
+      class="aspect-square h-full w-full object-cover"
+    />
+  </a>
+  <p class="leading-5">{artist.name}</p>
+</article>

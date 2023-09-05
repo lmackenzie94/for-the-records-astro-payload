@@ -43,13 +43,15 @@ const Records: CollectionConfig = {
   fields: [
     {
       name: 'title',
-      type: 'text'
+      type: 'text',
+      required: true
     },
     {
       name: 'artist',
       type: 'relationship',
       relationTo: 'artists',
-      hasMany: true
+      hasMany: true,
+      required: true
     },
     {
       name: 'label',

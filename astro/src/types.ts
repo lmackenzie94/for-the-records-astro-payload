@@ -56,8 +56,8 @@ export interface Media {
 }
 export interface Record {
   id: string;
-  title?: string;
-  artist?: string[] | Artist[];
+  title: string;
+  artist: string[] | Artist[];
   label?: string;
   genre?: string;
   releaseDate?: string;
@@ -71,7 +71,7 @@ export interface Record {
 }
 export interface Artist {
   id: string;
-  name?: string;
+  name: string;
   image: string | Media;
   content?: {
     [k: string]: unknown;

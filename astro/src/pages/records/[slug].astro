@@ -1,11 +1,15 @@
 ---
-import { getRecords } from "@/utils/payload/record";
-import Layout from "@/layouts/Layout.astro";
+import { getRecords } from '@/utils/payload/record';
+
+import Layout from '@/layouts/Layout.astro';
+import RecordArtists from '@/components/RecordArtists.astro';
+import type { InferGetStaticParamsType } from 'astro';
+import type { Artist as ArtistType, Record as RecordType } from '@/types';
+import Artist from '@/components/Artist.astro';
 
 // TODO: how to get type hints...?
 
 export async function getStaticPaths() {
-
   const records = await getRecords();
 
   const paths = records.map((record) => ({
@@ -16,50 +20,90 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { slug } = Astro.params;
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+
+interface Props {
+  record: RecordType;
+}
+
+const { slug } = Astro.params as Params;
 const { record } = Astro.props;
 
 const releaseYear = new Date(record.releaseDate).getFullYear();
-const artists = record.artist.map((artist) => artist.name).join(", ");
+const artists: ArtistType[] = record.artist;
 ---
 
 <Layout title={record.title}>
-
-  <section class="flex flex-col">
-    <h1 class="ml-4 -mb-6 font-black text-[#dcdcdc] text-7xl mix-blend-exclusion">{ record.title }</h1>
-
-    <div class="flex gap-6 mb-8">
-      <div class="flex-grow-0 w-1/4 record">
-        <a href="">
-          <div class="overflow-hidden record-cover">
-            <img src={record.image.url} alt="Record Cover" class="object-cover w-full transition-transform duration-500 aspect-square" />
-          </div>        
-        </Link>
-      </div>
-      <div class="flex flex-col mt-16 justify-between">
-        <div class="font-mono text-sm">
-          <p><span class="font-mono font-bold tracking-tighter text-gray-400">Artist: </span>{artists}</p>
-          <p><span class="font-mono font-bold tracking-tighter text-gray-400">Year: </span>{releaseYear}</p>
-          {record.label && 
-            <p><span class="font-mono font-bold tracking-tighter text-gray-400">Label: </span>{record.label}</p>
-          }
-          {record.genre &&
-            <p><span class="font-mono font-bold tracking-tighter text-gray-400">Genre(s): </span>{record.genre}</p>
-          }
+  <section class="grid grid-cols-12 gap-4">
+    <div class="col-span-full flex flex-col md:col-span-10">
+      <h1
+        class="-mb-6 ml-4 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion"
+      >
+        {record.title}
+      </h1>
+      <div class="mb-8 flex gap-6">
+        <div class="w-1/4 flex-grow-0">
+          <div class="overflow-hidden rounded-sm">
+            <img
+              src={record.image.url}
+              alt="Record Cover"
+              class="aspect-square w-full object-cover"
+            />
+          </div>
         </div>
-        <!-- <div v-if="user" class="flex gap-1 mt-10">
-          <a href="route('record.edit', {record: record.id})" class="btn-primary small">
-            Edit
-          </a>
-          <a href="route('record.destroy', {record: record.id})" method="DELETE" as="button" class="btn-red small"> 
-            Delete
-          </a>
-        </div> -->
+        <div class="mt-16 flex flex-col justify-between">
+          <div class="font-mono text-sm">
+            <p>
+              <span class="font-mono font-bold tracking-tighter text-gray-light"
+                >Artist:
+              </span>
+              <RecordArtists record={record} class="hocus:underline" />
+            </p>
+            <p>
+              <span class="font-mono font-bold tracking-tighter text-gray-light"
+                >Year:
+              </span>{releaseYear}
+            </p>
+            {
+              record.label && (
+                <p>
+                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                    Label:{' '}
+                  </span>
+                  {record.label}
+                </p>
+              )
+            }
+            {
+              record.genre && (
+                <p>
+                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                    Genre(s):{' '}
+                  </span>
+                  {record.genre}
+                </p>
+              )
+            }
+          </div>
+        </div>
       </div>
+      <!-- <div class="prose-sm prose md:prose-base" v-html="marked(record.about)" /> -->
     </div>
-    <!-- <div class="prose-sm prose md:prose-base" v-html="marked(record.about)" /> -->
+
+    <aside class="col-span-full md:col-span-2">
+      <!-- <h2 class="mb-3 text-2xl font-bold text-gray-light">Records</h2> -->
+      <div class="flex gap-5 md:flex-col md:items-end">
+        {
+          artists.length &&
+            artists.map((artist) => (
+              <Artist artist={artist} class="max-w-[9rem] flex-1" />
+            ))
+        }
+      </div>
+    </aside>
   </section>
 
+  <!-- SIMILAR RECORDS... -->
   <!-- <div v-if="similarRecords.length" class="mt-16">
     <h2 class="mb-3 text-3xl font-black">Related Records</h2>
     <div class="flex flex-wrap gap-6">
@@ -74,9 +118,4 @@ const artists = record.artist.map((artist) => artist.name).join(", ");
       </template>
     </div>
   </div> -->
-
 </Layout>
-
-<!-- <pre>
-  {JSON.stringify(record, null, 2)}
-</pre> -->

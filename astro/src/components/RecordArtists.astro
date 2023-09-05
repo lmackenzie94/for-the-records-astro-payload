@@ -1,0 +1,25 @@
+---
+import type { Record } from '@/types';
+
+interface Props {
+  record: Record;
+  class?: string;
+}
+
+const { record, class: className } = Astro.props;
+---
+
+{
+  record.artist.length ? (
+    record.artist.map((artist, index) => (
+      <span>
+        {index > 0 ? ', ' : ''}
+        <a class={className} href={`/artists/${artist.id}`}>
+          {artist.name}
+        </a>
+      </span>
+    ))
+  ) : (
+    <span class="text-muted">No artist</span>
+  )
+}

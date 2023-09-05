@@ -45,7 +45,8 @@ const Artists: CollectionConfig = {
   fields: [
     {
       name: 'name',
-      type: 'text'
+      type: 'text',
+      required: true
     },
     {
       name: 'image',

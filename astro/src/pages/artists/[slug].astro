@@ -1,0 +1,105 @@
+---
+import { getArtists, getArtistRecords } from '@/utils/payload/artist';
+
+import Record from '@/components/Record.astro';
+import Layout from '@/layouts/Layout.astro';
+import type { InferGetStaticParamsType } from 'astro';
+import type { Artist as ArtistType } from '@/types';
+
+// TODO: how to get type hints...?
+
+export async function getStaticPaths() {
+  const artists = await getArtists();
+
+  const paths = artists.map((artist) => ({
+    params: { slug: artist.id.toString() },
+    props: { artist }
+  }));
+
+  return paths;
+}
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+
+interface Props {
+  artist: ArtistType;
+}
+
+const { slug } = Astro.params as Params;
+const { artist } = Astro.props;
+
+const records = await getArtistRecords(slug);
+---
+
+<Layout title={artist.name}>
+  <section class="grid grid-cols-12 gap-4">
+    <div class="col-span-full flex flex-col md:col-span-10">
+      <h1
+        class="-mb-6 ml-4 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion"
+      >
+        {artist.name}
+      </h1>
+
+      <div class="mb-8 flex gap-6">
+        <div class="record w-1/4 flex-grow-0">
+          <div class="record-cover overflow-hidden">
+            <img
+              src={artist.image.url}
+              alt="Artist Image"
+              class="aspect-square w-full object-cover transition-transform duration-500"
+            />
+          </div>
+        </div>
+        <!-- <div class="mt-16 flex flex-col justify-between">
+        <div class="font-mono text-sm">
+          <p>
+            <span class="font-mono font-bold tracking-tighter text-gray-light"
+              >Artist:
+            </span>
+            <RecordArtists record={record} />
+          </p>
+          <p>
+            <span class="font-mono font-bold tracking-tighter text-gray-light"
+              >Year:
+            </span>{releaseYear}
+          </p>
+          {
+            record.label && (
+              <p>
+                <span class="font-mono font-bold tracking-tighter text-gray-light">
+                  Label:{' '}
+                </span>
+                {record.label}
+              </p>
+            )
+          }
+          {
+            record.genre && (
+              <p>
+                <span class="font-mono font-bold tracking-tighter text-gray-light">
+                  Genre(s):{' '}
+                </span>
+                {record.genre}
+              </p>
+            )
+          }
+        </div>
+      </div> -->
+      </div>
+      <!-- <div class="prose-sm prose md:prose-base" v-html="marked(record.about)" /> -->
+    </div>
+    <aside class="col-span-full md:col-span-2">
+      <!-- <h2 class="mb-3 text-2xl font-bold text-gray-light">Records</h2> -->
+      <div class="flex gap-5 md:flex-col md:items-end">
+        {
+          records.length &&
+            records.map((record) => (
+              <Record record={record} class="max-w-[9rem] flex-1" />
+            ))
+        }
+      </div>
+    </aside>
+
+    <!-- SIMILAR ARTISTS... -->
+  </section>
+</Layout>
