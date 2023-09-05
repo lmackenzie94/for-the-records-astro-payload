@@ -8,6 +8,7 @@
 6. Exclude drafts from API response
 7. Remove "genre" field from "Records" collection API response
 8. Add button in the CMS to automatically pull Record and Artist data from music API
+9. Get auth working
 
 # LOOK INTO:
 

@@ -15,7 +15,7 @@ const records = await getRecords();
 
   <section class="flex flex-wrap justify-center">
     {
-      records.length > 0 &&
+      records?.length > 0 &&
         records.map((record, idx) => {
           return (
             <div
@@ -35,17 +35,6 @@ const records = await getRecords();
           );
         })
     }
-    <!-- <div
-      v-for="(record, i) in records" :key="record.id" class="flex-grow-0 w-1/2 opacity-0 md:w-1/4 record animate-fade-in-scale" :style="{
-        animationDelay: `${getAnimDelay(i)}ms`
-      }"
-    >
-      <a href="route('record.show', {record: record.id})">
-        <div class="overflow-hidden record-cover">
-          <img :src="coverImageURL(record)" alt="Record Cover" class="object-cover w-full transition-all duration-500 aspect-square" />
-        </div>        
-      </a>
-    </div> -->
     <div class="mt-6 w-full text-right font-mono tracking-tighter">
       <a href="/records" class="text-armyGreen">View all >></a>
     </div>

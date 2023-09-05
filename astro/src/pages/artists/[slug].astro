@@ -109,10 +109,9 @@ const records = await getRecordsByArtist(artist.id);
       </div>
     </div>
     <aside class="col-span-full md:col-span-2">
-      <!-- <h2 class="mb-3 text-2xl font-bold text-gray-light">Records</h2> -->
       <div class="flex gap-5 md:flex-col md:items-end">
         {
-          records.length &&
+          records?.length > 0 &&
             records.map((record) => (
               <Record record={record} class="max-w-[9rem] flex-1" />
             ))

@@ -3,8 +3,7 @@ import { URL } from './config';
 // use for more complex queries (see payload docs)
 // import qs from 'qs';
 
-import type { Artist, Record } from '@/types';
-import { getRecords } from './record';
+import type { Artist } from '@/types';
 
 export const getArtists = async () =>
   (await (await fetch(`${URL}/api/artists`)).json()).docs as Artist[];

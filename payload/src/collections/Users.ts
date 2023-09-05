@@ -7,13 +7,25 @@ const Users: CollectionConfig = {
     useAsTitle: 'email'
   },
   access: {
-    read: () => true
+    read: () => true,
+    // TODO: change this to "admin" only or something...
+    create: () => true
   },
   fields: [
     // Email added by default
     {
       name: 'name',
       type: 'text'
+    },
+    {
+      name: 'role',
+      type: 'select',
+      options: [
+        { label: 'Admin', value: 'admin' },
+        { label: 'User', value: 'user' }
+      ],
+      required: true,
+      defaultValue: 'user'
     }
   ]
 };

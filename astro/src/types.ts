@@ -32,6 +32,7 @@ export interface Post {
 export interface User {
   id: string;
   name?: string;
+  role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -64,6 +65,7 @@ export interface Record {
   genres: string[] | Genre[];
   releaseDate?: string;
   image: string | Media;
+  createdBy?: string | User;
   content?: {
     [k: string]: unknown;
   }[];

@@ -4,6 +4,29 @@ import { slug } from '@/fields/Slug';
 
 import { CollectionConfig } from 'payload/types';
 
+const isAdminOrCreatedBy = ({ req: { user } }) => {
+  console.log('USER ', user);
+
+  // TODO: comment back in to allow "admins" to view/edit/etc all records
+  // Scenario #1 - Check if user has the 'admin' role
+  // if (user && user.role === 'admin') {
+  //   return true;
+  // }
+
+  // Scenario #2 - Allow only documents with the current user set to the 'createdBy' field
+  if (user) {
+    // Will return access for only documents that were created by the current user
+    return {
+      createdBy: {
+        equals: user.id
+      }
+    };
+  }
+
+  // Scenario #3 - Disallow all others
+  return false;
+};
+
 const Records: CollectionConfig = {
   slug: 'records',
   admin: {
@@ -12,10 +35,21 @@ const Records: CollectionConfig = {
   },
   access: {
     read: () => true,
-    create: () => true,
-    update: () => true
+    // read: isAdminOrCreatedBy, // TODO: doesn't work unless JWT is set in header (see utils/payload/records.ts)
+    update: isAdminOrCreatedBy,
+    delete: isAdminOrCreatedBy
   },
   hooks: {
+    beforeChange: [
+      ({ req, operation, data }) => {
+        if (operation === 'create') {
+          if (req.user) {
+            data.createdBy = req.user.id;
+            return data;
+          }
+        }
+      }
+    ],
     afterChange: [
       async () => {
         console.log(process.env.TOKEN);
@@ -79,6 +113,20 @@ const Records: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       required: true
+    },
+    {
+      name: 'createdBy',
+      type: 'relationship',
+      relationTo: 'users',
+      access: {
+        update: () => false
+      },
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        // hide from admin UI until there's a value...
+        condition: (data) => Boolean(data?.createdBy)
+      }
     },
     content,
     status

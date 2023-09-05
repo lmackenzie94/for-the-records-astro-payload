@@ -24,6 +24,14 @@ export default buildConfig({
     })
   },
   collections: [Posts, Users, Media, Records, Artists, Genres],
+  cors: '*', //TODO: change this
+  csrf: [
+    // TODO: need this?
+    // whitelist of domains to allow cookie auth from
+    'payload:3001',
+    'http://localhost:3001',
+    'http://localhost:3000'
+  ].filter(Boolean),
   typescript: {
     outputFile: path.resolve('/', 'types.ts')
   }
