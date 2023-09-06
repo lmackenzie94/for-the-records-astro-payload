@@ -6,6 +6,7 @@ import Layout from '@/layouts/Layout.astro';
 import type { InferGetStaticParamsType } from 'astro';
 import type { Artist as ArtistType } from '@/types';
 import { getRecordsByArtist } from '@/utils/payload/record';
+import Content from '@/components/Content.astro';
 
 // TODO: how to get type hints...?
 
@@ -36,7 +37,7 @@ const records = await getRecordsByArtist(artist.id);
   <section class="grid grid-cols-12 gap-4">
     <div class="col-span-full flex flex-col md:col-span-10">
       <h1
-        class="relative z-10 -mb-6 ml-4 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion"
+        class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion dark:text-[#d9bfff]"
         transition:name={`heading`}
       >
         {artist.name}
@@ -54,43 +55,7 @@ const records = await getRecordsByArtist(artist.id);
           </div>
         </div>
       </div>
-      <!-- <div class="mt-16 flex flex-col justify-between">
-        <div class="font-mono text-sm">
-          <p>
-            <span class="font-mono font-bold tracking-tighter text-gray-light"
-              >Artist:
-            </span>
-            <RecordArtists record={record} />
-          </p>
-          <p>
-            <span class="font-mono font-bold tracking-tighter text-gray-light"
-              >Year:
-            </span>{releaseYear}
-          </p>
-          {
-            record.label && (
-              <p>
-                <span class="font-mono font-bold tracking-tighter text-gray-light">
-                  Label:{' '}
-                </span>
-                {record.label}
-              </p>
-            )
-          }
-          {
-            record.genre && (
-              <p>
-                <span class="font-mono font-bold tracking-tighter text-gray-light">
-                  Genre(s):{' '}
-                </span>
-                {record.genre}
-              </p>
-            )
-          }
-        </div>
-      </div> -->
-      <div class="max-w-[70ch]">
-        <h2 class="mb-3 text-2xl font-bold text-armyGreen">About</h2>
+      <Content>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
           veritatis repudiandae id eos laborum sint quod. Quae quas ea
@@ -106,7 +71,7 @@ const records = await getRecordsByArtist(artist.id);
           tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
           fugit unde itaque eveniet reprehenderit!
         </p>
-      </div>
+      </Content>
     </div>
     <aside class="col-span-full md:col-span-2">
       <div class="flex gap-5 md:flex-col md:items-end">

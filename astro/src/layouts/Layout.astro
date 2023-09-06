@@ -17,7 +17,6 @@ const { title: pageTitle, description } = Astro.props;
 const title = `${pageTitle} | For The Records.`;
 ---
 
-<!doctype html>
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
@@ -27,7 +26,9 @@ const title = `${pageTitle} | For The Records.`;
     <title>{title}</title>
     <ViewTransitions />
   </head>
-  <body class="flex min-h-screen flex-col">
+
+  <!-- 100.1 to force scrollbar to show, preventing content shift -->
+  <body class="flex min-h-[100.1vh] flex-col">
     <Header />
     <main class="container mb-20 flex-1 md:mb-28">
       <slot />

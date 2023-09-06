@@ -1,0 +1,14 @@
+---
+interface Props {
+  heading: string;
+}
+
+const { heading } = Astro.props;
+---
+
+<h1
+  class="relative z-10 -mb-[.3em] ml-1 text-6xl font-black text-[#dcdcdc] mix-blend-exclusion dark:text-[#d9bfff] md:text-7xl"
+  transition:animate="slide"
+>
+  {heading}
+</h1>

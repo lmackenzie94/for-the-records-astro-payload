@@ -1,3 +1,7 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
+
 <header class="mb-16 w-full">
   <div class="container">
     <nav class="flex items-center justify-between py-6">
@@ -7,12 +11,10 @@
         <a href="/">For The Records.</a>
       </h2>
 
-      <div class="text-gray-900 flex items-center text-sm font-medium">
+      <div class="text-gray-900 flex items-center gap-10 text-sm font-medium">
         <a href="/records" class="font-mono tracking-tight">Records</a>
-        <a href="/artists" class="ml-8 font-mono tracking-tight">Artists</a>
-        <div v-if="user" class="relative">
-          <!-- <UserModal :user="user" /> -->
-        </div>
+        <a href="/artists" class="font-mono tracking-tight">Artists</a>
+        <ThemeToggle />
       </div>
     </nav>
   </div>

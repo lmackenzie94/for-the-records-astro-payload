@@ -34,7 +34,10 @@ export const getRecordsByArtist = async (id: string) => {
   ).docs as Record[];
 };
 
-export const getRecordsBySimilarGenre = async (record: Record) => {
+export const getRecordsBySimilarGenre = async (
+  record: Record,
+  limit: number = 3
+) => {
   const { id, genres: genresArray } = record;
 
   const genres = genresArray?.map((genre) => genre.id).join(',');
@@ -45,7 +48,7 @@ export const getRecordsBySimilarGenre = async (record: Record) => {
     const similarRecords = (
       await (
         await fetch(
-          `${URL}/api/records?where[genres][in]=${genres}&where[id][not_equals]=${id}`
+          `${URL}/api/records?where[genres][in]=${genres}&where[id][not_equals]=${id}&limit=${limit}`
         )
       ).json()
     ).docs;

@@ -11,6 +11,7 @@ import type {
 } from '@/types';
 import Artist from '@/components/Artist.astro';
 import Record from '@/components/Record.astro';
+import Content from '@/components/Content.astro';
 
 // TODO: how to get type hints...?
 
@@ -42,11 +43,10 @@ const similarRecords = await getRecordsBySimilarGenre(record);
 ---
 
 <Layout title={record.title}>
-  <section class="grid grid-cols-12 gap-4">
-    <div class="col-span-full flex flex-col md:col-span-10">
+  <section class="grid grid-cols-12 items-start gap-20">
+    <div class="col-span-full flex flex-col md:col-span-9">
       <h1
-        class="relative z-10 -mb-6 ml-4 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion"
-        transition:name={`heading`}
+        class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#dcdcdc] mix-blend-exclusion dark:text-[#d9bfff]"
       >
         {record.title}
       </h1>
@@ -100,8 +100,7 @@ const similarRecords = await getRecordsBySimilarGenre(record);
         </div>
       </div>
 
-      <div class="max-w-[70ch]">
-        <h2 class="mb-3 text-2xl font-bold text-armyGreen">About</h2>
+      <Content>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
           veritatis repudiandae id eos laborum sint quod. Quae quas ea
@@ -117,34 +116,42 @@ const similarRecords = await getRecordsBySimilarGenre(record);
           tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
           fugit unde itaque eveniet reprehenderit!
         </p>
-      </div>
+      </Content>
+
+      {
+        artists.length && (
+          <section class="mt-16">
+            <div class="grid grid-cols-12 gap-4">
+              {artists.map((artist) => (
+                <div class="col-span-3 md:col-span-2">
+                  <Artist artist={artist} />
+                </div>
+              ))}
+            </div>
+          </section>
+        )
+      }
     </div>
 
-    <aside class="col-span-full md:col-span-2">
-      <!-- <h2 class="mb-3 text-2xl font-bold text-gray-light">Records</h2> -->
-      <div class="flex gap-5 md:flex-col md:items-end">
-        {
-          artists.length &&
-            artists.map((artist) => (
-              <Artist artist={artist} class="max-w-[9rem] flex-1" />
-            ))
-        }
-      </div>
+    <aside
+      class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3"
+    >
+      <h2
+        class="mb-6 text-center text-xl font-bold text-armyGreen dark:text-[#bb84ff]"
+      >
+        Similar Records
+      </h2>
+      {
+        similarRecords?.length > 0 && (
+          <div class="flex gap-5 md:flex-col md:items-center">
+            {similarRecords.map((record) => (
+              <div class="col-span-3 md:col-span-2">
+                <Record record={record} class="flex-1" />
+              </div>
+            ))}
+          </div>
+        )
+      }
     </aside>
   </section>
-
-  {
-    similarRecords?.length > 0 && (
-      <section class="mt-16">
-        <h2 class="mb-3 text-2xl font-bold text-armyGreen">Similar Records</h2>
-        <div class="grid grid-cols-12 gap-4">
-          {similarRecords.map((record) => (
-            <div class="col-span-3 md:col-span-2">
-              <Record record={record} />
-            </div>
-          ))}
-        </div>
-      </section>
-    )
-  }
 </Layout>

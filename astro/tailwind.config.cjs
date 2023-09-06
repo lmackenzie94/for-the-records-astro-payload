@@ -3,7 +3,7 @@ const plugin = require('tailwindcss/plugin');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  darkMode: 'class',
+  darkMode: 'class', // toggle dark mode manually instead of relying on the operating system preference
   theme: {
     container: {
       center: true
@@ -19,10 +19,11 @@ module.exports = {
       blackFull: '#000',
       whiteFull: '#fff',
       black: '#272727',
-      white: '#fff',
+      white: '#fbfbfb',
       armyGreen: '#5d6436',
       gray: {
         DEFAULT: '#374151',
+        medium: '#6b7280',
         light: '#9ca3af'
       }
     },

@@ -77,6 +77,7 @@ export interface Artist {
   id: string;
   name: string;
   slug?: string;
+  genres?: string[] | Genre[];
   image: string | Media;
   content?: {
     [k: string]: unknown;

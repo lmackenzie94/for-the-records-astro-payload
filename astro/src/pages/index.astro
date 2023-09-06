@@ -7,8 +7,7 @@ const records = await getRecords();
 
 <Layout title="For The Records.">
   <h1
-    class="relative z-10 -mb-[.4em] animate-fade-in-drop-down text-6xl font-black text-[#dcdcdc] opacity-0 mix-blend-exclusion md:text-center md:text-8xl"
-    transition:name={`heading`}
+    class="relative z-10 -mb-[.3em] animate-fade-in-drop-down text-6xl font-black text-[#dcdcdc] opacity-0 mix-blend-exclusion dark:text-[#d9bfff] md:text-center md:text-8xl"
   >
     For The Records
   </h1>
@@ -36,7 +35,9 @@ const records = await getRecords();
         })
     }
     <div class="mt-6 w-full text-right font-mono tracking-tighter">
-      <a href="/records" class="text-armyGreen">View all >></a>
+      <a href="/records" class="text-armyGreen dark:text-[#d9bfff]"
+        >View all >></a
+      >
     </div>
   </section>
 </Layout>

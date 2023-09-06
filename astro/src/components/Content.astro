@@ -1,4 +1,17 @@
 ---
+interface Props {
+  heading?: string;
+}
+
+const { heading = 'About' } = Astro.props;
+---
+
+<div class="max-w-[70ch]">
+  <h2 class="text-gray-medium mb-3 text-2xl font-bold">{heading}</h2>
+  <slot />
+</div>
+
+<!-- ---
 import { getContentArray } from '@/utils/helpers';
 import { getImageSrc } from '@/utils/payload/image';
 import { Image } from 'astro:assets';
@@ -24,4 +37,4 @@ const contentArray = getContentArray(content);
       }
     })
   }
-</div>
+</div> -->

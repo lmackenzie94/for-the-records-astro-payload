@@ -13,7 +13,7 @@ export const status: Field = {
       label: 'Published'
     }
   ],
-  defaultValue: 'draft',
+  defaultValue: 'published',
   admin: {
     position: 'sidebar'
   }

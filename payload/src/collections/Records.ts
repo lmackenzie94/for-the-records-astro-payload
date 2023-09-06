@@ -30,7 +30,7 @@ const isAdminOrCreatedBy = ({ req: { user } }) => {
 const Records: CollectionConfig = {
   slug: 'records',
   admin: {
-    // defaultColumns: ["title", "author", "status"],
+    defaultColumns: ['title', 'artist', 'createdBy', 'status'],
     useAsTitle: 'title'
   },
   access: {
@@ -47,6 +47,38 @@ const Records: CollectionConfig = {
             data.createdBy = req.user.id;
             return data;
           }
+        }
+      },
+      async ({ req, operation, data }) => {
+        if (operation === 'create') {
+          // confirm "title" + "artist" combo is unique
+          const { title, artist } = data;
+
+          const existingRecord = await req.payload.find({
+            collection: 'records',
+            where: {
+              title,
+              artist,
+              and: [
+                {
+                  title: {
+                    equals: title
+                  },
+                  artist: {
+                    equals: artist
+                  }
+                }
+              ]
+            }
+          });
+
+          if (existingRecord?.totalDocs > 0) {
+            throw new Error(
+              `A record with the same title and artist already exists.`
+            );
+          }
+
+          return data;
         }
       }
     ],

@@ -51,6 +51,13 @@ const Artists: CollectionConfig = {
     },
     slug('name'),
     {
+      name: 'genres',
+      label: 'Genre(s)',
+      relationTo: 'genres',
+      type: 'relationship',
+      hasMany: true
+    },
+    {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
