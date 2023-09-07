@@ -11,7 +11,7 @@ export default defineConfig({
     inlineStylesheets: 'auto'
   },
   image: {
-    domains: ['payload'],
+    domains: ['payload']
   },
   integrations: [
     tailwind({

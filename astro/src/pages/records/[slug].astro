@@ -134,17 +134,12 @@ const similarRecords = await getRecordsBySimilarGenre(record);
       }
     </div>
 
-    
-      {
-        similarRecords?.length > 0 && (
-        <aside
-      class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3"
-    >
-      <h2
-        class="mb-6 text-center text-xl font-bold text-armyGreen dark:text-[#bb84ff]"
-      >
-        Similar Records
-      </h2>
+    {
+      similarRecords?.length > 0 && (
+        <aside class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3">
+          <h2 class="mb-6 text-center text-xl font-bold text-armyGreen dark:text-[#bb84ff]">
+            Similar Records
+          </h2>
           <div class="flex gap-5 md:flex-col md:items-center">
             {similarRecords.map((record) => (
               <div class="col-span-3 md:col-span-2">
@@ -153,10 +148,7 @@ const similarRecords = await getRecordsBySimilarGenre(record);
             ))}
           </div>
         </aside>
-        )
-      }
-
-</section>
-
-    
+      )
+    }
+  </section>
 </Layout>

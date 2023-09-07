@@ -28,9 +28,13 @@ export const getRecordBySlug = async (slug: string) => {
   ).json();
 };
 
-export const getRecordsByArtist = async (id: string) => {
+export const getRecordsByArtist = async (id: string, limit: number = 3) => {
   return (
-    await (await fetch(`${URL}/api/records?where[artist][equals]=${id}`)).json()
+    await (
+      await fetch(
+        `${URL}/api/records?where[artist][equals]=${id}&limit=${limit}`
+      )
+    ).json()
   ).docs as Record[];
 };
 
