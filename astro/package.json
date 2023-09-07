@@ -14,7 +14,7 @@
     "@astrojs/sitemap": "^3.0.0",
     "@astrojs/tailwind": "^5.0.0",
     "@slate-serializers/html": "^2.0.0",
-    "astro": "^3.0.8",
+    "astro": "^3.0.10",
     "css-select": "5.1.0",
     "qs": "^6.11.2",
     "sharp": "^0.32.5",
