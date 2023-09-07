@@ -25,7 +25,8 @@ module.exports = {
         DEFAULT: '#374151',
         medium: '#6b7280',
         light: '#9ca3af',
-        lighter: '#ccd1d9'
+        lighter: '#ccd1d9',
+        lightest: '#f3f4f6'
       }
     },
     extend: {

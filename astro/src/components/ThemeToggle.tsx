@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useState } from 'react'
 import { IoSunny, IoMoon } from 'react-icons/io5/index.js'
 
 const themes = ['light', 'dark']
@@ -43,7 +43,7 @@ export default function ThemeToggle() {
   }, [])
 
   return isMounted ? (
-    <div className="inline-flex items-center p-[1px] rounded-3xl bg-gray-lighter dark:bg-[#d6b8ff1a]">
+    <div className="inline-flex items-center p-[1px] rounded-3xl bg-armyGreen/10 dark:bg-[#d6b8ff1a]">
       {themes.map(t => {
         const checked = t === theme
         return (
@@ -61,6 +61,6 @@ export default function ThemeToggle() {
       })}
     </div>
   ) : (
-    <div className="w-[62px] h-[32px]"/>
+    <div className="p-[1px] rounded-3xl bg-armyGreen/10 dark:bg-[#d6b8ff1a] w-[62px] h-[32px]" />
   )
 }
