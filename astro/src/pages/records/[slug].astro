@@ -12,6 +12,7 @@ import type {
 import Artist from '@/components/Artist.astro';
 import Record from '@/components/Record.astro';
 import Content from '@/components/Content.astro';
+import PayloadImage from '@/components/PayloadImage.astro';
 
 // TODO: how to get type hints...?
 
@@ -56,9 +57,9 @@ const similarRecords = await getRecordsBySimilarGenre(record);
             class="overflow-hidden rounded-sm"
             transition:name={`record-${record.id}`}
           >
-            <img
-              src={record.image.url}
-              alt="Record Cover"
+            <PayloadImage
+              src={record.image}
+              alt={`${record.title} album cover`}
               class="aspect-square w-full object-cover"
             />
           </div>
@@ -133,7 +134,10 @@ const similarRecords = await getRecordsBySimilarGenre(record);
       }
     </div>
 
-    <aside
+    
+      {
+        similarRecords?.length > 0 && (
+        <aside
       class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3"
     >
       <h2
@@ -141,8 +145,6 @@ const similarRecords = await getRecordsBySimilarGenre(record);
       >
         Similar Records
       </h2>
-      {
-        similarRecords?.length > 0 && (
           <div class="flex gap-5 md:flex-col md:items-center">
             {similarRecords.map((record) => (
               <div class="col-span-3 md:col-span-2">
@@ -150,8 +152,11 @@ const similarRecords = await getRecordsBySimilarGenre(record);
               </div>
             ))}
           </div>
+        </aside>
         )
       }
-    </aside>
-  </section>
+
+</section>
+
+    
 </Layout>

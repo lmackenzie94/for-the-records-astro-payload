@@ -1,5 +1,7 @@
 ---
+import PayloadImage from '@/components/PayloadImage.astro';
 import Layout from '@/layouts/Layout.astro';
+import { getImageSrc } from '@/utils/payload/image';
 import { getRecords } from '@/utils/payload/record';
 
 const records = await getRecords();
@@ -23,11 +25,7 @@ const records = await getRecords();
             >
               <a href={`/records/${record.slug}`}>
                 <div class="overflow-hidden">
-                  <img
-                    src={record.image.url}
-                    alt="Record Cover"
-                    class="aspect-square h-full w-full object-cover transition-all duration-500"
-                  />
+                  <PayloadImage src={record.image} class="aspect-square h-full w-full object-cover transition-all duration-500" />
                 </div>
               </a>
             </div>

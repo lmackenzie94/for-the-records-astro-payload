@@ -42,8 +42,6 @@ export const getRecordsBySimilarGenre = async (
 
   const genres = genresArray?.map((genre) => genre.id).join(',');
 
-  console.log('GENRESSSS, ', genres);
-
   try {
     const similarRecords = (
       await (

@@ -7,6 +7,7 @@ import type { InferGetStaticParamsType } from 'astro';
 import type { Artist as ArtistType } from '@/types';
 import { getRecordsByArtist } from '@/utils/payload/record';
 import Content from '@/components/Content.astro';
+import PayloadImage from '@/components/PayloadImage.astro';
 
 // TODO: how to get type hints...?
 
@@ -46,9 +47,9 @@ const records = await getRecordsByArtist(artist.id);
       <div class="mb-8 flex gap-6">
         <div class="w-1/4 flex-grow-0">
           <div class="overflow-hidden rounded-sm">
-            <img
-              src={artist.image.url}
-              alt="Artist Image"
+            <PayloadImage
+              src={artist.image}
+              alt={artist.name}
               class="aspect-square w-full object-cover"
               transition:name={`artist-${artist.id}`}
             />

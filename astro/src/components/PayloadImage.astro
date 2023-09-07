@@ -1,0 +1,29 @@
+---
+import type { Media } from "@/types";
+import { getImageSrc } from "@/utils/payload/image";
+import { Image } from "astro:assets";
+
+interface Props {
+  src: Media;
+  alt?: string;
+  class?: string; 
+  [key: string]: any;
+}
+
+const {src, alt, class: className, ...rest} = Astro.props;
+
+if (!src.filename) {
+  throw new Error("Image filename is required");
+}
+
+---
+
+<Image
+  src={getImageSrc(src.filename)}
+  alt={alt || src.alt || ''}
+  class={className}
+  width={src.width}
+  height={src.height}
+  quality='high'
+  {...rest}
+/>

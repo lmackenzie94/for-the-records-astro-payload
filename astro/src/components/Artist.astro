@@ -1,5 +1,6 @@
 ---
 import type { Artist } from '@/types';
+import PayloadImage from './PayloadImage.astro';
 
 interface Props {
   artist: Artist;
@@ -14,8 +15,8 @@ const { artist, class: className } = Astro.props;
     href={`/artists/${artist.slug}`}
     class="glossy-hover mb-2 block rounded-sm"
   >
-    <img
-      src={artist.image.url}
+    <PayloadImage
+      src={artist.image}
       alt={artist.name}
       class="aspect-square h-full w-full object-cover"
       transition:name={`artist-${artist.id}`}

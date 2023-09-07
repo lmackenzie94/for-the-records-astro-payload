@@ -62,7 +62,7 @@ module.exports = {
       },
       animation: {
         'fade-in-scale': 'fade-in-scale 0.2s ease-out forwards',
-        'fade-in-drop-down': 'fade-in-drop-down 1.2s ease-out 0.2s forwards'
+        'fade-in-drop-down': 'fade-in-drop-down 1s ease-out 0.2s forwards'
       }
     }
   },

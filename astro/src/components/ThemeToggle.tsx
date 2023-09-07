@@ -1,51 +1,49 @@
-import { useEffect, useState } from 'react'
-import { IoSunny, IoMoon } from 'react-icons/io5/index.js'
+import { useEffect, useState } from 'react';
+import { IoSunny, IoMoon } from 'react-icons/io5/index.js';
 
-const themes = ['light', 'dark']
+const themes = ['light', 'dark'];
 
 export default function ThemeToggle() {
-
-  const [isMounted, setIsMounted] = useState(false)
+  const [isMounted, setIsMounted] = useState(false);
 
   const [theme, setTheme] = useState(() => {
-
     if (import.meta.env.SSR) {
-      return undefined
+      return undefined;
     }
 
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme')
+      return localStorage.getItem('theme');
     }
 
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark'
+      return 'dark';
     }
 
-    return 'light'
-  })
+    return 'light';
+  });
   const toggleTheme = () => {
-    const t = theme === 'light' ? 'dark' : 'light'
-    localStorage.setItem('theme', t)
-    setTheme(t)
-  }
+    const t = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', t);
+    setTheme(t);
+  };
 
   useEffect(() => {
-    const root = document.documentElement
+    const root = document.documentElement;
     if (theme === 'light') {
-      root.classList.remove('dark')
+      root.classList.remove('dark');
     } else {
-      root.classList.add('dark')
+      root.classList.add('dark');
     }
-  }, [theme])
+  }, [theme]);
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
   return isMounted ? (
-    <div className="inline-flex items-center p-[1px] rounded-3xl bg-armyGreen/10 dark:bg-[#d6b8ff1a]">
-      {themes.map(t => {
-        const checked = t === theme
+    <div className="inline-flex items-center rounded-3xl bg-armyGreen/10 p-[1px] dark:bg-[#d6b8ff1a]">
+      {themes.map((t) => {
+        const checked = t === theme;
         return (
           <button
             key={t}
@@ -57,10 +55,10 @@ export default function ThemeToggle() {
           >
             {t === 'light' ? <IoSunny /> : <IoMoon />}
           </button>
-        )
+        );
       })}
     </div>
   ) : (
-    <div className="p-[1px] rounded-3xl bg-armyGreen/10 dark:bg-[#d6b8ff1a] w-[62px] h-[32px]" />
-  )
+    <div className="h-[32px] w-[62px] rounded-3xl bg-armyGreen/10 p-[1px] dark:bg-[#d6b8ff1a]" />
+  );
 }
