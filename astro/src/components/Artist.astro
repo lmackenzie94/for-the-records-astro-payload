@@ -8,6 +8,8 @@ interface Props {
 }
 
 const { artist, class: className } = Astro.props;
+
+const genres: Genere[] = artist?.genres?.map((genre) => genre.title) || [];
 ---
 
 <article class={className}>
@@ -23,4 +25,7 @@ const { artist, class: className } = Astro.props;
     />
   </a>
   <p class="leading-5">{artist.name}</p>
+  <p class="text-xs font-light text-gray-light">
+    {genres.join(', ')}
+  </p>
 </article>

@@ -1,6 +1,6 @@
 ---
 import RecordArtists from '@/components/RecordArtists.astro';
-import type { Genre, Record } from '@/types';
+import type { Record } from '@/types';
 import PayloadImage from './PayloadImage.astro';
 
 interface Props {
@@ -9,8 +9,6 @@ interface Props {
 }
 
 const { record, class: className } = Astro.props;
-
-const genres: Genre[] = record.genres;
 ---
 
 <article class={className}>
@@ -29,7 +27,4 @@ const genres: Genre[] = record.genres;
   <p class="text-xs font-light text-armyGreen dark:text-[#bb84ff]">
     <RecordArtists record={record} class="hocus:underline" />
   </p>
-  <!-- <p class="text-xs font-light text-gray-light">
-    {genres.map((genre) => genre.title).join(', ')}
-  </p> -->
 </article>

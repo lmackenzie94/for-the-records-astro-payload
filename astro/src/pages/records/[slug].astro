@@ -1,18 +1,17 @@
 ---
-import { getRecords, getRecordsBySimilarGenre } from '@/utils/payload/record';
-
-import Layout from '@/layouts/Layout.astro';
-import RecordArtists from '@/components/RecordArtists.astro';
-import type { InferGetStaticParamsType } from 'astro';
-import type {
-  Artist as ArtistType,
-  Record as RecordType,
-  Genre
-} from '@/types';
 import Artist from '@/components/Artist.astro';
-import Record from '@/components/Record.astro';
 import Content from '@/components/Content.astro';
 import PayloadImage from '@/components/PayloadImage.astro';
+import Record from '@/components/Record.astro';
+import RecordArtists from '@/components/RecordArtists.astro';
+import Layout from '@/layouts/Layout.astro';
+import type {
+  Artist as ArtistType,
+  Genre,
+  Record as RecordType
+} from '@/types';
+import { getRecords, getRecordsBySimilarGenre } from '@/utils/payload/record';
+import type { InferGetStaticParamsType } from 'astro';
 
 // TODO: how to get type hints...?
 
@@ -37,8 +36,9 @@ const { slug } = Astro.params as Params;
 const { record } = Astro.props;
 
 const releaseYear = new Date(record.releaseDate).getFullYear();
+
 const artists: ArtistType[] = record.artist;
-const genres: Genre[] = record.genres;
+const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
 const similarRecords = await getRecordsBySimilarGenre(record);
 ---
@@ -93,7 +93,7 @@ const similarRecords = await getRecordsBySimilarGenre(record);
                   <span class="font-mono font-bold tracking-tighter text-gray-light">
                     Genre(s):{' '}
                   </span>
-                  {genres.map((genre) => genre.title).join(', ')}
+                  {genres.join(', ')}
                 </p>
               )
             }
@@ -121,15 +121,13 @@ const similarRecords = await getRecordsBySimilarGenre(record);
 
       {
         artists.length && (
-          <section class="mt-16">
-            <div class="grid grid-cols-12 gap-4">
-              {artists.map((artist) => (
-                <div class="col-span-3 md:col-span-2">
-                  <Artist artist={artist} />
-                </div>
-              ))}
-            </div>
-          </section>
+          <div class="mt-16 grid grid-cols-12 gap-4">
+            {artists.map((artist) => (
+              <div class="col-span-3 md:col-span-2">
+                <Artist artist={artist} />
+              </div>
+            ))}
+          </div>
         )
       }
     </div>

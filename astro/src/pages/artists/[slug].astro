@@ -1,13 +1,13 @@
 ---
-import { getArtists } from '@/utils/payload/artist';
-
-import Record from '@/components/Record.astro';
-import Layout from '@/layouts/Layout.astro';
-import type { InferGetStaticParamsType } from 'astro';
-import type { Artist as ArtistType } from '@/types';
-import { getRecordsByArtist } from '@/utils/payload/record';
+import Artist from '@/components/Artist.astro';
 import Content from '@/components/Content.astro';
 import PayloadImage from '@/components/PayloadImage.astro';
+import Record from '@/components/Record.astro';
+import Layout from '@/layouts/Layout.astro';
+import type { Artist as ArtistType, Genre } from '@/types';
+import { getArtists, getArtistsBySimilarGenre } from '@/utils/payload/artist';
+import { getRecordsByArtist } from '@/utils/payload/record';
+import type { InferGetStaticParamsType } from 'astro';
 
 // TODO: how to get type hints...?
 
@@ -32,10 +32,12 @@ interface Props {
 const { artist } = Astro.props;
 
 const records = await getRecordsByArtist(artist.id);
+const genres: Genre[] = artist.genres?.map((genre) => genre.title) || [];
+const similarArtists = await getArtistsBySimilarGenre(artist);
 ---
 
 <Layout title={artist.name}>
-  <section class="grid grid-cols-12 gap-20 items-start">
+  <section class="grid grid-cols-12 items-start gap-20">
     <div class="col-span-full flex flex-col md:col-span-9">
       <h1
         class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff]"
@@ -53,6 +55,20 @@ const records = await getRecordsByArtist(artist.id);
               class="aspect-square w-full object-cover"
               transition:name={`artist-${artist.id}`}
             />
+          </div>
+        </div>
+        <div class="mt-16 flex flex-col justify-between">
+          <div class="font-mono text-sm">
+            {
+              genres && (
+                <p>
+                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                    Genre(s):{' '}
+                  </span>
+                  {genres.join(', ')}
+                </p>
+              )
+            }
           </div>
         </div>
       </div>
@@ -73,28 +89,34 @@ const records = await getRecordsByArtist(artist.id);
           fugit unde itaque eveniet reprehenderit!
         </p>
       </Content>
+
+      {
+        records.length && (
+          <div class="mt-16 grid grid-cols-12 gap-4">
+            {records.map((record) => (
+              <div class="col-span-3 md:col-span-2">
+                <Record record={record} />
+              </div>
+            ))}
+          </div>
+        )
+      }
     </div>
     {
-      records?.length > 0 && (
-      <aside
-    class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3"
-  >
-    <h2
-      class="mb-6 text-center text-xl font-bold text-armyGreen dark:text-[#bb84ff]"
-    >
-      Records
-    </h2>
-        <div class="flex gap-5 md:flex-col md:items-center">
-          {records.map((record) => (
-            <div class="col-span-3 md:col-span-2">
-              <Record record={record} class="flex-1" />
-            </div>
-          ))}
-        </div>
-      </aside>
+      similarArtists?.length > 0 && (
+        <aside class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3">
+          <h2 class="mb-6 text-center text-xl font-bold text-armyGreen dark:text-[#bb84ff]">
+            Similar Artists
+          </h2>
+          <div class="flex gap-5 md:flex-col md:items-center">
+            {similarArtists.map((artist) => (
+              <div class="col-span-3 md:col-span-2">
+                <Artist artist={artist} class="flex-1" />
+              </div>
+            ))}
+          </div>
+        </aside>
       )
     }
-
-    <!-- SIMILAR ARTISTS... -->
   </section>
 </Layout>
