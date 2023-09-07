@@ -1,9 +1,9 @@
 # TO-DO:
 
-1. Update to Astro v3
-2. Sort out TypeScript / Prettier errors
-3. Add pagination to records and artists pages
-4. Add Prettier and ESLint
+1. Sort out TypeScript / Prettier errors
+2. Add pagination to records and artists pages
+3. Add Prettier
+4. Add ES/TS Lint?
 5. Add tests
 6. Exclude drafts from API response
 7. Remove "genre" field from "Records" collection API response

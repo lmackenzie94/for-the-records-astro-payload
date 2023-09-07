@@ -24,7 +24,8 @@ module.exports = {
       gray: {
         DEFAULT: '#374151',
         medium: '#6b7280',
-        light: '#9ca3af'
+        light: '#9ca3af',
+        lighter: '#ccd1d9'
       }
     },
     extend: {
