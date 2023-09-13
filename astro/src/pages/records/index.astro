@@ -1,9 +1,9 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import Record from '@/components/Record.astro';
-import { getRecords } from '@/utils/payload/record';
 import Grid from '@/components/Grid.astro';
 import GridHeading from '@/components/GridHeading.astro';
+import Record from '@/components/Record.astro';
+import Layout from '@/layouts/Layout.astro';
+import { getRecords } from '@/utils/payload/record';
 
 const records = await getRecords();
 ---
@@ -19,7 +19,7 @@ const records = await getRecords();
         ))}
       </Grid>
     ) : (
-      <p class="text-[#c5b5c9]">No records found.</p>
+      <p class="text-[#c5b5c9] mt-20">No records found.</p>
     )
   }
 </Layout>

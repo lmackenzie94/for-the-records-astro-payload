@@ -1,6 +1,8 @@
 ---
-import ThemeToggleAstro from './ThemeToggle.astro';
+import record from '@/icons/record.svg';
+import { Image } from "astro:assets";
 import ThemeToggleReact from './ThemeToggle.tsx';
+// import ThemeToggleAstro from './ThemeToggle.astro';
 ---
 
 <header class="mb-16 w-full">
@@ -9,7 +11,13 @@ import ThemeToggleReact from './ThemeToggle.tsx';
       <h2
         class="text-gray-900 text-center text-base font-bold tracking-tight md:text-lg"
       >
-        <a href="/">For The Records.</a>
+        <a href="/">
+          <!-- TODO: put an SVG of a vinyl record here  -->
+          <!-- <span class="sr-only">Home</span> -->
+
+          <!-- TODO: make spin animation persist across page changes using ViewTransitions  -->
+          <Image src={record} alt="Home" class="w-8 h-8 animate-[spin_2s_linear_infinite]" />
+        </a>
       </h2>
 
       <div class="text-gray-900 flex items-center gap-10 text-sm font-medium">

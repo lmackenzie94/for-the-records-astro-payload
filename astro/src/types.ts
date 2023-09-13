@@ -8,7 +8,6 @@
 
 export interface Config {
   collections: {
-    posts: Post;
     users: User;
     media: Media;
     records: Record;
@@ -16,18 +15,6 @@ export interface Config {
     genres: Genre;
   };
   globals: {};
-}
-export interface Post {
-  id: string;
-  title?: string;
-  hallo?: string;
-  publishedDate?: string;
-  content?: {
-    [k: string]: unknown;
-  }[];
-  status?: 'draft' | 'published';
-  updatedAt: string;
-  createdAt: string;
 }
 export interface User {
   id: string;

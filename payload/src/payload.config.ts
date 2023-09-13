@@ -1,12 +1,11 @@
 import { buildConfig } from 'payload/config';
 
-import path from 'path';
-import Posts from '@/collections/Posts';
-import Users from '@/collections/Users';
-import Media from '@/collections/Media';
-import Records from '@/collections/Records';
 import Artists from '@/collections/Artists';
 import Genres from '@/collections/Genres';
+import Media from '@/collections/Media';
+import Records from '@/collections/Records';
+import Users from '@/collections/Users';
+import path from 'path';
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_URL,
@@ -23,7 +22,7 @@ export default buildConfig({
       }
     })
   },
-  collections: [Posts, Users, Media, Records, Artists, Genres],
+  collections: [Users, Media, Records, Artists, Genres],
   cors: '*', //TODO: change this
   csrf: [
     // TODO: need this?
