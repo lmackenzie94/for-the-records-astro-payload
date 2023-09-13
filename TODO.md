@@ -19,5 +19,6 @@
 
 1. had to `yarn install` locally to stop errors (... or maybe just had to restart VSCode?)
 2. why do I have to use `sudo` before `yarn` commands?
+   1. also have to delete `"credsStore": "desktop"` from ~/.docker/config.json
 3. Payload "Local API"
 4. Possible to seed DB with initial test/dev data?

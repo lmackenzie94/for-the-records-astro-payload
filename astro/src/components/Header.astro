@@ -1,6 +1,6 @@
 ---
 import record from '@/icons/record.svg';
-import { Image } from "astro:assets";
+import { Image } from 'astro:assets';
 import ThemeToggleReact from './ThemeToggle.tsx';
 // import ThemeToggleAstro from './ThemeToggle.astro';
 ---
@@ -16,7 +16,11 @@ import ThemeToggleReact from './ThemeToggle.tsx';
           <!-- <span class="sr-only">Home</span> -->
 
           <!-- TODO: make spin animation persist across page changes using ViewTransitions  -->
-          <Image src={record} alt="Home" class="w-8 h-8 animate-[spin_2s_linear_infinite] dark:filter dark:invert" />
+          <Image
+            src={record}
+            alt="Home"
+            class="h-8 w-8 animate-[spin_2s_linear_infinite] dark:invert dark:filter"
+          />
         </a>
       </h2>
 
@@ -27,7 +31,7 @@ import ThemeToggleReact from './ThemeToggle.tsx';
         <!-- <ThemeToggleAstro /> -->
 
         <!-- client:load = high priority; load & hydrte component JS immediately on page load -->
-        <ThemeToggleReact client:load/>
+        <ThemeToggleReact client:load />
       </div>
     </nav>
   </div>
