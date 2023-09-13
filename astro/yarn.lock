@@ -598,10 +598,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@slate-serializers/dom@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@slate-serializers/dom/-/dom-2.0.0.tgz#f0f3f6521196e895cd4c55d81ed4725e36564eda"
-  integrity sha512-t1Aja9LGSAHvKYaAlBCUVF+uzX6WyDJbnj7QD2TxeoZvLS9X/FMZHDHjCj6DzVdW3/XNcjEIPE1m8VQxAyL3TQ==
+"@slate-serializers/dom@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@slate-serializers/dom/-/dom-2.0.1.tgz#336362927be91b0ae111e76bd00be76e455ea2d8"
+  integrity sha512-+B4Q4fwjDeD8OrForkJBiW/h+i9QomCS7um9FAjNpyuVFo7QrCIZA4aIZKrqoOt5uQA+JpLLjMVg45QJhYVfiA==
   dependencies:
     "@slate-serializers/utilities" "2.0.0"
     css-select "5.1.0"
@@ -615,12 +615,12 @@
     slate "^0.94.1"
     tslib "2.5.0"
 
-"@slate-serializers/html@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@slate-serializers/html/-/html-2.0.0.tgz#b37cb164334429064b6705c69a8c5d762af95d98"
-  integrity sha512-gVOZGyYbb9KOM9yPBW+XYQBfpT7RcMelykHTajxLztafotR34Xp7PhF/Q70zfGzqb5106iRA30PzltB1C3w1Ww==
+"@slate-serializers/html@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@slate-serializers/html/-/html-2.0.1.tgz#4c5dc872c845cff3b1d1ed73a099d1e09d15f013"
+  integrity sha512-ChmPNdIHagscePo84+GJEktzW6pzttXB0WkRiQR6QAA9Fb4FbWirtS1WcJQQphDkBKZgOXFng009dioadHIO0w==
   dependencies:
-    "@slate-serializers/dom" "2.0.0"
+    "@slate-serializers/dom" "2.0.1"
     "@slate-serializers/utilities" "2.0.0"
     css-select "^5.1.0"
     dom-serializer "^2.0.0"
