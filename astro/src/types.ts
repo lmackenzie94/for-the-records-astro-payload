@@ -14,7 +14,9 @@ export interface Config {
     artists: Artist;
     genres: Genre;
   };
-  globals: {};
+  globals: {
+    'site-settings': SiteSetting;
+  };
 }
 export interface User {
   id: string;
@@ -79,4 +81,12 @@ export interface Genre {
   slug?: string;
   updatedAt: string;
   createdAt: string;
+}
+export interface SiteSetting {
+  id: string;
+  title: string;
+  description: string;
+  logo: string | Media;
+  updatedAt?: string;
+  createdAt?: string;
 }

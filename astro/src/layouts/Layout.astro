@@ -2,28 +2,30 @@
 import Header from '@/components/Header.astro';
 import { ViewTransitions } from 'astro:transitions';
 
-import '../styles/app.css';
 import Footer from '@/components/Footer.astro';
+import { getSiteSettings } from '@/utils/payload/globals';
+import '../styles/app.css';
+
+const { title: siteTitle, description: siteDescription } =
+  await getSiteSettings();
 
 export interface Props {
   title: string;
   description?: string;
 }
 
-const DEFAULT_DESCRIPTION = 'A simple blog built with Astro';
+const { title: pageTitle, description: pageDescription } = Astro.props;
 
-const { title: pageTitle, description } = Astro.props;
-
-const title = `${pageTitle} | For The Records.`;
+const fullTitle = `${pageTitle} | ${siteTitle}`;
 ---
 
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description || DEFAULT_DESCRIPTION} />
+    <meta name="description" content={pageDescription || siteDescription} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <title>{fullTitle}</title>
     <ViewTransitions />
   </head>
 

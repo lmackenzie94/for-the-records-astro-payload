@@ -1,6 +1,6 @@
-import { status } from '@/fields/Status';
 import { content } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
+import { status } from '@/fields/Status';
 
 import { CollectionConfig } from 'payload/types';
 
@@ -31,7 +31,8 @@ const Records: CollectionConfig = {
   slug: 'records',
   admin: {
     defaultColumns: ['title', 'artist', 'createdBy', 'status'],
-    useAsTitle: 'title'
+    useAsTitle: 'title',
+    group: 'Content'
   },
   access: {
     read: () => true,

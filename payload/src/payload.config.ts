@@ -5,7 +5,11 @@ import Genres from '@/collections/Genres';
 import Media from '@/collections/Media';
 import Records from '@/collections/Records';
 import Users from '@/collections/Users';
+import SiteSettings from '@/globals/SiteSettings';
 import path from 'path';
+
+// TODO: add this
+// import seo from '@payloadcms/plugin-seo';
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_URL,
@@ -22,7 +26,14 @@ export default buildConfig({
       }
     })
   },
+  globals: [SiteSettings],
   collections: [Users, Media, Records, Artists, Genres],
+  // plugins: [
+  //   seo({
+  //     collections: ['pages', 'posts'],
+  //     uploadsCollection: 'media',
+  //   }),
+  // ],
   cors: '*', //TODO: change this
   csrf: [
     // TODO: need this?

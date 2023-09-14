@@ -1,8 +1,10 @@
 ---
-import record from '@/icons/record.svg';
-import { Image } from 'astro:assets';
+import { getSiteSettings } from '@/utils/payload/globals';
+import PayloadImage from './PayloadImage.astro';
 import ThemeToggleReact from './ThemeToggle.tsx';
 // import ThemeToggleAstro from './ThemeToggle.astro';
+
+const { logo } = await getSiteSettings();
 ---
 
 <header class="mb-16 w-full">
@@ -16,8 +18,8 @@ import ThemeToggleReact from './ThemeToggle.tsx';
           <!-- <span class="sr-only">Home</span> -->
 
           <!-- TODO: make spin animation persist across page changes using ViewTransitions  -->
-          <Image
-            src={record}
+          <PayloadImage
+            src={logo}
             alt="Home"
             class="h-8 w-8 animate-[spin_2s_linear_infinite] dark:invert dark:filter"
           />

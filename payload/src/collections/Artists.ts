@@ -1,14 +1,15 @@
-import { status } from '@/fields/Status';
 import { content } from '@/fields/Content';
-import { CollectionConfig } from 'payload/types';
 import { slug } from '@/fields/Slug';
+import { status } from '@/fields/Status';
+import { CollectionConfig } from 'payload/types';
 
 const Artists: CollectionConfig = {
   slug: 'artists',
   admin: {
     // TODO: not working...
     defaultColumns: ['name'],
-    useAsTitle: 'name'
+    useAsTitle: 'name',
+    group: 'Content'
   },
   access: {
     read: () => true,

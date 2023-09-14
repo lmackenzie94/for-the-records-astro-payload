@@ -1,16 +1,19 @@
 ---
 import PayloadImage from '@/components/PayloadImage.astro';
 import Layout from '@/layouts/Layout.astro';
+import { getSiteSettings } from '@/utils/payload/globals';
 import { getRecords } from '@/utils/payload/record';
 
 const records = await getRecords();
+
+const { title: siteTitle } = await getSiteSettings();
 ---
 
-<Layout title="For The Records.">
+<Layout title="Home">
   <h1
-    class="relative z-10 -mb-[.3em] animate-fade-in-drop-down text-6xl font-black text-[#c5b5c9] opacity-0 mix-blend-exclusion dark:text-[#d9bfff] md:text-center md:text-8xl heading-text-shadow"
+    class="heading-text-shadow relative z-10 -mb-[.3em] animate-fade-in-drop-down text-6xl font-black text-[#c5b5c9] opacity-0 mix-blend-exclusion dark:text-[#d9bfff] md:text-center md:text-8xl"
   >
-    For The Records.
+    {siteTitle}
   </h1>
 
   <section class="flex flex-wrap justify-center">
