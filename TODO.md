@@ -2,11 +2,11 @@
 
 1. Sort out TypeScript / Prettier errors
 2. Add pagination to records and artists pages
-3. Add Prettier
+3. Add Prettier pre-commit hook
 4. Add ES/TS Lint?
 5. Add tests
 6. Exclude drafts from API response
-7. Remove "genre" field from "Records" collection API response
+7. Remove "genre" field from "Records" collection API response (o)
 8. Add button in the CMS to automatically pull Record and Artist data from music API
 9. Get auth working
 10. Add "tracklist" + "about this track" functionality
