@@ -22,4 +22,3 @@
    1. also have to delete `"credsStore": "desktop"` from ~/.docker/config.json
 3. Payload "Local API"
 4. Possible to seed DB with initial test/dev data?
-5. GitHub "Deploy Keys"
