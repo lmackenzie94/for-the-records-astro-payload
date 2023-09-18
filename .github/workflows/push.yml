@@ -23,7 +23,6 @@ jobs:
               mkdir -p ${{ secrets.PATH }}
               cd ${{ secrets.PATH }}
               git clone git@github.com:lmackenzie94/for-the-records-astro-payload.git .
-              # git clone git@github.com:${{ github.repository }}.git . (<-- WASN'T WORKING)
             fi
 
       - name: Update environment variables
