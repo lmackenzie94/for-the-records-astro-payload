@@ -1,8 +1,12 @@
 import express from 'express';
+import path from 'path';
 import payload from 'payload';
 
 require('dotenv').config();
 const app = express();
+
+// we can serve assets from the same express app as Payload is using...
+app.use('/assets', express.static(path.resolve(__dirname, './assets')));
 
 app.get('/', (_, res) => {
   res.redirect('/admin');

@@ -53,7 +53,9 @@ export interface Record {
   label?: string;
   genres: string[] | Genre[];
   releaseDate?: string;
-  image: string | Media;
+  useCustomImage?: boolean;
+  image?: string | Media;
+  imageUrl?: string;
   createdBy?: string | User;
   content?: {
     [k: string]: unknown;
@@ -67,7 +69,9 @@ export interface Artist {
   name: string;
   slug?: string;
   genres?: string[] | Genre[];
-  image: string | Media;
+  useCustomImage?: boolean;
+  image?: string | Media;
+  imageUrl?: string;
   content?: {
     [k: string]: unknown;
   }[];

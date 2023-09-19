@@ -14,11 +14,13 @@ const artists = await getArtists();
     artists?.length ? (
       <Grid>
         {artists.map((artist) => (
-          <Artist artist={artist} />
+          <div>
+            <Artist artist={artist} />
+          </div>
         ))}
       </Grid>
     ) : (
-      <p class="text-[#c5b5c9] mt-20">No artists found.</p>
+      <p class="mt-20 text-[#c5b5c9]">No artists found.</p>
     )
   }
 </Layout>

@@ -1,7 +1,7 @@
 ---
 import Artist from '@/components/Artist.astro';
+import ArtistImage from '@/components/ArtistImage.astro';
 import Content from '@/components/Content.astro';
-import PayloadImage from '@/components/PayloadImage.astro';
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { Artist as ArtistType, Genre } from '@/types';
@@ -40,7 +40,7 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
   <section class="grid grid-cols-12 items-start gap-20">
     <div class="col-span-full flex flex-col md:col-span-9">
       <h1
-        class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff] heading-text-shadow"
+        class="heading-text-shadow relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff]"
         transition:name={`heading`}
       >
         {artist.name}
@@ -49,10 +49,8 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
       <div class="mb-8 flex gap-6">
         <div class="w-1/4 flex-grow-0">
           <div class="overflow-hidden rounded-sm">
-            <PayloadImage
-              src={artist.image}
-              alt={artist.name}
-              class="aspect-square w-full object-cover"
+            <ArtistImage
+              artist={artist}
               transition:name={`artist-${artist.id}`}
             />
           </div>
@@ -91,7 +89,7 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
       </Content>
 
       {
-        records.length && (
+        records.length > 0 && (
           <div class="mt-16 grid grid-cols-12 gap-4">
             {records.map((record) => (
               <div class="col-span-3 md:col-span-2">

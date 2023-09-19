@@ -1,0 +1,19 @@
+@import '~payload/scss';
+
+// hide Payload logo and title
+.login__brand {
+  display: none !important; // TODO: why need !important?
+}
+
+// :root {
+//   //  override Payload scss variables here
+// }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}

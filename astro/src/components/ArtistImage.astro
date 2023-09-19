@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import PayloadImage from './PayloadImage.astro';
+const { artist, ...rest } = Astro.props;
+
+let imageWidth = 500;
+let imageHeight = 500;
+
+const useCustomImage = artist.image && artist.useCustomImage;
+
+if (!useCustomImage && artist.imageUrl) {
+  const searchParams = new URL(artist.imageUrl).searchParams;
+  imageWidth = parseInt(searchParams.get('imgWidth'));
+  imageHeight = parseInt(searchParams.get('imgHeight'));
+}
+---
+
+{
+  useCustomImage ? (
+    <PayloadImage
+      src={artist.image}
+      alt={artist.name}
+      class="aspect-square h-full w-full object-cover"
+      {...rest}
+    />
+  ) : (
+    <Image
+      src={artist.imageUrl}
+      alt={artist.name}
+      class="aspect-square h-full w-full object-cover"
+      width={imageWidth}
+      height={imageHeight}
+      quality="high"
+      {...rest}
+    />
+  )
+}

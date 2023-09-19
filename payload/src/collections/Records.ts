@@ -1,3 +1,4 @@
+import RecordImages, { RecordImagesCell } from '@/components/RecordImages';
 import { content } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
@@ -142,10 +143,44 @@ const Records: CollectionConfig = {
       type: 'date'
     },
     {
+      name: 'useCustomImage',
+      label: 'Use Custom Record Image?',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          '⚠️ When a custom image is used, selecting an image below will have no effect.'
+      }
+    },
+    {
       name: 'image',
+      label: 'Record Image (Custom)',
       type: 'upload',
       relationTo: 'media',
-      required: true
+      admin: {
+        condition: (_, siblingData) => siblingData.useCustomImage
+      }
+    },
+    {
+      name: 'setImageUrl',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: RecordImages,
+          Cell: RecordImagesCell
+        }
+      }
+    },
+
+    // TODO: shouldn't actually need this - save the image url to the setImageUrl field
+    {
+      name: 'imageUrl',
+      label: 'Image URL',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true
+      }
     },
     {
       name: 'createdBy',

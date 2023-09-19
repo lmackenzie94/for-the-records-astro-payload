@@ -1,3 +1,4 @@
+import ArtistImages, { ArtistImagesCell } from '@/components/ArtistImages';
 import { content } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
@@ -59,11 +60,54 @@ const Artists: CollectionConfig = {
       hasMany: true
     },
     {
+      name: 'useCustomImage',
+      label: 'Use Custom Artist Image?',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          '⚠️ When a custom image is used, selecting an image below will have no effect.'
+      }
+    },
+    {
       name: 'image',
+      label: 'Artist Image (Custom)',
       type: 'upload',
       relationTo: 'media',
-      required: true
+      admin: {
+        condition: (_, siblingData) => siblingData.useCustomImage
+      }
     },
+    {
+      name: 'setImageUrl',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: ArtistImages,
+          Cell: ArtistImagesCell
+        }
+      }
+    },
+
+    // TODO: shouldn't actually need this - save the image url to the setImageUrl field
+    {
+      name: 'imageUrl',
+      label: 'Image URL',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true
+      }
+    },
+    // {
+    //   name: 'discogsId',
+    //   label: 'Discogs ID',
+    //   type: 'text',
+    //   admin: {
+    //     position: 'sidebar',
+    //     readOnly: true
+    //   }
+    // },
     content,
     status
   ]
