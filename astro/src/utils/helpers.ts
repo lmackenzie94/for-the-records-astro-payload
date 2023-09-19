@@ -1,4 +1,4 @@
-import { slateToHtml, payloadSlateToHtmlConfig } from '@slate-serializers/html';
+import { payloadSlateToHtmlConfig, slateToHtml } from '@slate-serializers/html';
 import { Element } from 'domhandler';
 
 export const getContentArray = (content: any) => {
@@ -38,4 +38,14 @@ export const getContentArray = (content: any) => {
     lastIndex = imgEndIndex;
   }
   return htmlImageArray;
+};
+
+// query helpers
+
+export const getLimitQuery = (limit: number) => {
+  return `limit=${limit}`;
+};
+
+export const getStatusQuery = (status: 'published' | 'draft') => {
+  return `where[status][equals]=${status}`;
 };

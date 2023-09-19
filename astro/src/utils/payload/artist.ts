@@ -1,3 +1,4 @@
+import { getLimitQuery, getStatusQuery } from '@/utils/helpers';
 import { URL } from './config';
 
 // use for more complex queries (see payload docs)
@@ -29,7 +30,9 @@ export const getRecordsBySimilarGenre = async (
     const similarRecords = (
       await (
         await fetch(
-          `${URL}/api/records?where[genres][in]=${genres}&where[id][not_equals]=${id}&limit=${limit}`
+          `${URL}/api/records?where[genres][in]=${genres}&where[id][not_equals]=${id}&${getStatusQuery(
+            'published'
+          )}&${getLimitQuery(limit)}`
         )
       ).json()
     ).docs;
@@ -53,7 +56,9 @@ export const getArtistsBySimilarGenre = async (
     const similarArtists = (
       await (
         await fetch(
-          `${URL}/api/artists?where[genres][in]=${genres}&where[id][not_equals]=${id}&limit=${limit}`
+          `${URL}/api/artists?where[genres][in]=${genres}&where[id][not_equals]=${id}&${getStatusQuery(
+            'published'
+          )}&${getLimitQuery(limit)}`
         )
       ).json()
     ).docs;
