@@ -13,6 +13,8 @@
 11. Setup tailwind config properly (add all colors, font, etc.)
 12. Add data and src/media back to .gitignore files
 13. Show thumbnail image in CMS List view for Records and Artists
+14. make imageURL field required if no custom image is set, and vice versa (Records and Artists)
+15. write "fetchArtistName" function in RecordImages.tsx properly (i.e don't hardcode localhost)
 
 # LOOK INTO:
 

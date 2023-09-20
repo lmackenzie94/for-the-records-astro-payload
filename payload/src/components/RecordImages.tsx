@@ -7,7 +7,13 @@ type Props = { path: string };
 const RecordImages: React.FC<Props> = ({ path }) => {
   const { value: currentImageUrl } = useField<Props>({ path: 'imageUrl' });
 
+  const [recordData, setRecordData] = React.useState(null);
+  const [selectedImage, setSelectedImage] = React.useState(null);
   const [error, setError] = React.useState(null);
+
+  useEffect(() => {
+    if (currentImageUrl) setSelectedImage(currentImageUrl);
+  }, []);
 
   // get artist name from Name field
   let dispatch = null;
@@ -21,67 +27,39 @@ const RecordImages: React.FC<Props> = ({ path }) => {
     }
   );
 
-  console.log('RECORD TITLE', recordTitle);
-  console.log('RECORD ARTIST IDs', recordArtistIds); // only returns ID, but I need the name
-
-  const fetchArtistName = async (artistId: string) => {
-    // TODO: don't hardcode localhost
-    const res = await fetch(`http://localhost:3001/api/artists/${artistId}`);
-
-    if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const artistData = await res.json();
-
-    return artistData.name;
-  };
-
   const debouncedRecordTitle = useDebounce(recordTitle, 1000);
 
-  // fetch artist images
   useEffect(() => {
     if (debouncedRecordTitle) {
-      fetchRecordImage(debouncedRecordTitle);
+      getRecordData(debouncedRecordTitle);
     }
-  }, [debouncedRecordTitle]);
-
-  const [recordData, setRecordData] = React.useState(null);
-  const [selectedImage, setSelectedImage] = React.useState(null);
+  }, [debouncedRecordTitle, recordArtistIds]);
 
   // TODO: narrow down based on selected artist (if there is one)
-  const fetchRecordImage = async (recordTitle: string) => {
+  const getRecordData = async (recordTitle: string) => {
     try {
-      const mainArtistId = recordArtistIds[0];
-      let mainArtistName = null;
-      if (mainArtistId) {
-        mainArtistName = await fetchArtistName(mainArtistId);
-      }
-
-      // const discogsToken = process.env.REACT_APP_DISCOGS_TOKEN;  // <-- this doesn't work
-      const discogsToken = 'lvSqsEIAVQNHGbsYiVRDSUwSZHidyBUKGTFdZKYb';
-      let discogsUrl = `https://api.discogs.com/database/search?title=${recordTitle}&type=master&token=${discogsToken}`;
-
-      if (mainArtistName) {
-        discogsUrl += `&artist=${mainArtistName}`;
-      }
-
-      const response = await fetch(discogsUrl);
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-
-      console.log('data', data.results);
-
-      setRecordData(data.results);
+      const mainArtistId = recordArtistIds ? recordArtistIds[0] : null;
+      const recordData = await fetchRecordData(recordTitle, mainArtistId);
+      setRecordData(recordData.results);
     } catch (error) {
       setError(error.message);
     }
   };
 
   const setImageURLField = (imageURL: string) => {
+    // if user clicks on an image that is already selected, unselect it
+    if (selectedImage === imageURL) {
+      setSelectedImage(null);
+
+      dispatch({
+        type: 'UPDATE',
+        path: 'imageUrl',
+        value: ''
+      });
+
+      return;
+    }
+
     setSelectedImage(imageURL);
 
     dispatch({
@@ -115,20 +93,9 @@ const RecordImages: React.FC<Props> = ({ path }) => {
               {error}
             </p>
           )}
-          {/* <p
-            style={{
-              fontSize: '.8rem',
-              color: 'lightgray',
-              marginBottom: '1rem'
-            }}
-          >
-            Discogs Artist Name:{' '}
-            <span style={{ fontWeight: 'bold' }}>{recordData.name}</span>
-          </p> */}
           <RecordImagesGrid
             recordData={recordData}
             selectedImage={selectedImage}
-            currentImageUrl={currentImageUrl}
             onClick={setImageURLField}
           />
         </div>
@@ -153,12 +120,7 @@ const RecordImages: React.FC<Props> = ({ path }) => {
 
 const NUM_RECORDS_TO_DISPLAY = 3;
 
-const RecordImagesGrid = ({
-  recordData,
-  selectedImage,
-  currentImageUrl,
-  onClick
-}) => {
+const RecordImagesGrid = ({ recordData, selectedImage, onClick }) => {
   if (!recordData || recordData.length === 0) {
     return <p>No records found.</p>;
   }
@@ -173,13 +135,11 @@ const RecordImagesGrid = ({
       {recordData?.slice(0, NUM_RECORDS_TO_DISPLAY).map((record) => {
         const { title, cover_image, year, genre, label, country } = record;
 
-        const isSelected =
-          selectedImage === cover_image || currentImageUrl === cover_image;
+        const isSelected = selectedImage === cover_image;
 
         return (
-          <article>
+          <article key={cover_image}>
             <div
-              key={cover_image}
               style={{
                 position: 'relative',
                 width: 100,
@@ -240,4 +200,41 @@ export default RecordImages;
 
 export const RecordImagesCell = () => {
   return <p>[image thumb should go here]</p>;
+};
+
+const fetchRecordData = async (recordTitle: string, mainArtistId: string) => {
+  let mainArtistName = null;
+  if (mainArtistId) {
+    mainArtistName = await fetchArtistName(mainArtistId);
+  }
+
+  // TODO: move discogs request to a function to hide the token??
+  const discogsToken = 'lvSqsEIAVQNHGbsYiVRDSUwSZHidyBUKGTFdZKYb';
+  let discogsUrl = `https://api.discogs.com/database/search?title=${recordTitle}&type=master&token=${discogsToken}`;
+
+  if (mainArtistName) {
+    discogsUrl += `&artist=${mainArtistName}`;
+  }
+
+  const response = await fetch(discogsUrl);
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+const fetchArtistName = async (artistId: string) => {
+  // TODO: don't hardcode localhost
+  const res = await fetch(`http://localhost:3001/api/artists/${artistId}`);
+
+  if (!res.ok) {
+    throw new Error('Network response was not ok');
+  }
+  const artistData = await res.json();
+
+  return artistData.name;
 };

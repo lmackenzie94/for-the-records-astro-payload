@@ -7,7 +7,13 @@ type Props = { path: string };
 const ArtistImages: React.FC<Props> = ({ path }) => {
   const { value: currentImageUrl } = useField<Props>({ path: 'imageUrl' });
 
+  const [artistData, setArtistData] = React.useState(null);
+  const [selectedImage, setSelectedImage] = React.useState(null);
   const [error, setError] = React.useState(null);
+
+  useEffect(() => {
+    if (currentImageUrl) setSelectedImage(currentImageUrl);
+  }, []);
 
   // get artist name from Name field
   let dispatch = null;
@@ -25,9 +31,6 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
     }
   }, [debouncedArtistName]);
 
-  const [artistData, setArtistData] = React.useState(null);
-  const [selectedImage, setSelectedImage] = React.useState(null);
-
   const getArtistData = async (artistName: string) => {
     try {
       const artistData = await fetchArtistData(artistName);
@@ -38,6 +41,19 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
   };
 
   const setImageURLField = (imageURL: string) => {
+    // if user clicks on an image that is already selected, unselect it
+    if (selectedImage === imageURL) {
+      setSelectedImage(null);
+
+      dispatch({
+        type: 'UPDATE',
+        path: 'imageUrl',
+        value: ''
+      });
+
+      return;
+    }
+
     setSelectedImage(imageURL);
 
     dispatch({
@@ -82,7 +98,6 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
           <ArtistImagesGrid
             artistData={artistData}
             selectedImage={selectedImage}
-            currentImageUrl={currentImageUrl}
             onClick={setImageURLField}
           />
         </div>
@@ -107,12 +122,7 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
 
 const NUM_IMAGES_TO_DISPLAY = 4;
 
-const ArtistImagesGrid = ({
-  artistData,
-  selectedImage,
-  currentImageUrl,
-  onClick
-}) => {
+const ArtistImagesGrid = ({ artistData, selectedImage, onClick }) => {
   const { name: artistName, images } = artistData;
 
   if (!images || images.length === 0) {
@@ -127,8 +137,7 @@ const ArtistImagesGrid = ({
       }}
     >
       {images?.slice(0, NUM_IMAGES_TO_DISPLAY).map((image) => {
-        const isSelected =
-          selectedImage === image.uri || currentImageUrl === image.uri;
+        const isSelected = selectedImage === image.uri;
 
         return (
           <div
