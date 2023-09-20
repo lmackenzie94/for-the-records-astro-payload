@@ -1,14 +1,14 @@
 ---
 import Artist from '@/components/Artist.astro';
 import Content from '@/components/Content.astro';
-import PayloadImage from '@/components/PayloadImage.astro';
 import Record from '@/components/Record.astro';
 import RecordArtists from '@/components/RecordArtists.astro';
+import RecordImage from '@/components/RecordImage.astro';
 import Layout from '@/layouts/Layout.astro';
 import type {
-Artist as ArtistType,
-Genre,
-Record as RecordType
+  Artist as ArtistType,
+  Genre,
+  Record as RecordType
 } from '@/types';
 import { getRecords, getRecordsBySimilarGenre } from '@/utils/payload/record';
 import type { InferGetStaticParamsType } from 'astro';
@@ -35,8 +35,6 @@ interface Props {
 // const { slug } = Astro.params as Params;
 const { record } = Astro.props;
 
-const releaseYear = new Date(record.releaseDate).getFullYear();
-
 const artists: ArtistType[] = record.artist;
 const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
@@ -47,20 +45,18 @@ const similarRecords = await getRecordsBySimilarGenre(record);
   <section class="grid grid-cols-12 items-start gap-20">
     <div class="col-span-full flex flex-col md:col-span-9">
       <h1
-        class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff] heading-text-shadow"
+        class="heading-text-shadow relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff]"
+        transition:animate="fade"
       >
         {record.title}
       </h1>
       <div class="mb-8 flex gap-6">
         <div class="w-1/4 flex-grow-0">
-          <div
-            class="overflow-hidden rounded-sm"
-            transition:name={`record-${record.id}`}
-          >
-            <PayloadImage
-              src={record.image}
-              alt={`${record.title} album cover`}
-              class="aspect-square w-full object-cover"
+          <div class="overflow-hidden rounded-sm">
+            <RecordImage
+              id="record-image"
+              record={record}
+              transition:name={`record-${record.id}`}
             />
           </div>
         </div>
@@ -75,7 +71,7 @@ const similarRecords = await getRecordsBySimilarGenre(record);
             <p>
               <span class="font-mono font-bold tracking-tighter text-gray-light"
                 >Year:
-              </span>{releaseYear}
+              </span>{record.releaseYear}
             </p>
             {
               record.label && (

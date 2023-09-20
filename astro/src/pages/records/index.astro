@@ -1,6 +1,5 @@
 ---
 import Grid from '@/components/Grid.astro';
-import GridHeading from '@/components/GridHeading.astro';
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import { getRecords } from '@/utils/payload/record';
@@ -9,8 +8,12 @@ const records = await getRecords();
 ---
 
 <Layout title="Records">
-  <GridHeading heading="Records." />
-
+  <h1
+    class="heading-text-shadow relative z-10 -mb-[.3em] ml-1 text-6xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff] md:text-7xl"
+    transition:animate="fade"
+  >
+    Records.
+  </h1>
   {
     records?.length ? (
       <Grid>
@@ -19,7 +22,7 @@ const records = await getRecords();
         ))}
       </Grid>
     ) : (
-      <p class="text-[#c5b5c9] mt-20">No records found.</p>
+      <p class="mt-20 text-[#c5b5c9]">No records found.</p>
     )
   }
 </Layout>

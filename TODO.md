@@ -8,7 +8,7 @@
 6. Remove "genre" field from "Records" collection API response (o)
 7. Add button in the CMS to automatically pull Record and Artist data from music API
 8. Get auth working
-9. Add "tracklist" + "about this track" functionality
+9. Add "tracklist" + "about this track" functionality (+ "Favourite" functionality?)
 10. Need unique slugs in case records/artists happen to have same name
 11. Setup tailwind config properly (add all colors, font, etc.)
 12. Add data and src/media back to .gitignore files

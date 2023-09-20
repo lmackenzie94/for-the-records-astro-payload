@@ -45,7 +45,6 @@ const RecordImages: React.FC<Props> = ({ path }) => {
     }
   }, [debouncedRecordTitle]);
 
-  const [recordOptions, setRecordOptions] = React.useState([]);
   const [recordData, setRecordData] = React.useState(null);
   const [selectedImage, setSelectedImage] = React.useState(null);
 
@@ -76,23 +75,7 @@ const RecordImages: React.FC<Props> = ({ path }) => {
 
       console.log('data', data.results);
 
-      setRecordOptions(data.results);
-
-      // const topResult = data.results[0];
-
-      // if (topResult) {
-      //   const artistId = topResult.id;
-      //   const artistUrl = `https://api.discogs.com/artists/${artistId}?token=${discogsToken}`;
-      //   const artistResponse = await fetch(artistUrl);
-
-      //   if (!artistResponse.ok) {
-      //     throw new Error('Network response was not ok');
-      //   }
-
-      //   const recordData = await artistResponse.json();
-
-      //   setRecordData(recordData);
-      // }
+      setRecordData(data.results);
     } catch (error) {
       setError(error.message);
     }
@@ -108,11 +91,6 @@ const RecordImages: React.FC<Props> = ({ path }) => {
     });
   };
 
-  // const getRecordImages = (e) => {
-  //   e.preventDefault();
-  //   fetchRecordImage(recordTitle);
-  // };
-
   // TODO: when an album is selected, fetch the album's data from Discogs and populate the form fields
 
   return (
@@ -124,7 +102,7 @@ const RecordImages: React.FC<Props> = ({ path }) => {
       <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem' }}>
         Record Data (from Discogs)
       </h3>
-      {recordOptions ? (
+      {recordData ? (
         <div>
           {error && (
             <p
@@ -148,17 +126,11 @@ const RecordImages: React.FC<Props> = ({ path }) => {
             <span style={{ fontWeight: 'bold' }}>{recordData.name}</span>
           </p> */}
           <RecordImagesGrid
-            recordData={recordOptions}
-            selectedImage={selectedImage}
-            currentImageUrl={currentImageUrl}
-            onClick={setImageURLField}
-          />
-          {/* <RecordImagesGrid
             recordData={recordData}
             selectedImage={selectedImage}
             currentImageUrl={currentImageUrl}
             onClick={setImageURLField}
-          /> */}
+          />
         </div>
       ) : (
         <>
@@ -173,13 +145,6 @@ const RecordImages: React.FC<Props> = ({ path }) => {
               Enter a record name and artist to get images
             </p>
           )}
-          {/* <button
-            disabled={!recordTitle}
-            onClick={getRecordImages}
-            style={{ marginTop: '.5rem' }}
-          >
-            Get Artist Images
-          </button> */}
         </>
       )}
     </div>
@@ -207,10 +172,6 @@ const RecordImagesGrid = ({
     >
       {recordData?.slice(0, NUM_RECORDS_TO_DISPLAY).map((record) => {
         const { title, cover_image, year, genre, label, country } = record;
-
-        // if (imageWidth && imageHeight) {
-        //   imageURL += `?imgWidth=${imageWidth}&imgHeight=${imageHeight}`;
-        // }
 
         const isSelected =
           selectedImage === cover_image || currentImageUrl === cover_image;
@@ -257,13 +218,12 @@ const RecordImagesGrid = ({
               style={{
                 margin: '.5em 0',
                 fontWeight: 'bold',
-                maxWidth: '20ch',
+                maxWidth: '15ch',
                 lineHeight: 1.1
               }}
             >
-              {title}
+              {title} ({year})
             </p>
-            <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{year}</p>
             <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>
               {genre.join(', ')}
             </p>

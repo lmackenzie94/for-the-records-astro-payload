@@ -139,8 +139,11 @@ const Records: CollectionConfig = {
       required: true
     },
     {
-      name: 'releaseDate',
-      type: 'date'
+      name: 'releaseYear',
+      type: 'text',
+      label: 'Release Year',
+      minLength: 4,
+      maxLength: 4
     },
     {
       name: 'useCustomImage',
@@ -170,6 +173,28 @@ const Records: CollectionConfig = {
           Cell: RecordImagesCell
         }
       }
+    },
+
+    {
+      name: 'favouriteTracks',
+      label: 'Favourite Tracks',
+      type: 'array',
+      labels: {
+        singular: 'Track',
+        plural: 'Tracks'
+      },
+
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true
+        },
+        {
+          name: 'notes',
+          type: 'textarea'
+        }
+      ]
     },
 
     // TODO: shouldn't actually need this - save the image url to the setImageUrl field

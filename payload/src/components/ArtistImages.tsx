@@ -18,44 +18,20 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
 
   const debouncedArtistName = useDebounce(artistName, 1000);
 
-  // fetch artist images
+  // fetch artist data from Discogs
   useEffect(() => {
     if (debouncedArtistName) {
-      fetchArtistImage(debouncedArtistName);
+      getArtistData(debouncedArtistName);
     }
   }, [debouncedArtistName]);
 
   const [artistData, setArtistData] = React.useState(null);
   const [selectedImage, setSelectedImage] = React.useState(null);
 
-  const fetchArtistImage = async (artistName: string) => {
+  const getArtistData = async (artistName: string) => {
     try {
-      // const discogsToken = process.env.REACT_APP_DISCOGS_TOKEN;  // <-- this doesn't work
-      const discogsToken = 'lvSqsEIAVQNHGbsYiVRDSUwSZHidyBUKGTFdZKYb';
-      const discogsUrl = `https://api.discogs.com/database/search?title=${artistName}&type=artist&token=${discogsToken}&per_page=3`;
-      const response = await fetch(discogsUrl);
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-
-      const topResult = data.results[0];
-
-      if (topResult) {
-        const artistId = topResult.id;
-        const artistUrl = `https://api.discogs.com/artists/${artistId}?token=${discogsToken}`;
-        const artistResponse = await fetch(artistUrl);
-
-        if (!artistResponse.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const artistData = await artistResponse.json();
-
-        setArtistData(artistData);
-      }
+      const artistData = await fetchArtistData(artistName);
+      setArtistData(artistData);
     } catch (error) {
       setError(error.message);
     }
@@ -70,11 +46,6 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
       value: imageURL
     });
   };
-
-  // const getArtistImages = (e) => {
-  //   e.preventDefault();
-  //   fetchArtistImage(artistName);
-  // };
 
   return (
     <div
@@ -128,13 +99,6 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
               Enter an artist name to get images
             </p>
           )}
-          {/* <button
-            disabled={!artistName}
-            onClick={getArtistImages}
-            style={{ marginTop: '.5rem' }}
-          >
-            Get Artist Images
-          </button> */}
         </>
       )}
     </div>
@@ -163,17 +127,8 @@ const ArtistImagesGrid = ({
       }}
     >
       {images?.slice(0, NUM_IMAGES_TO_DISPLAY).map((image) => {
-        const imageWidth = image.width;
-        const imageHeight = image.height;
-
-        let imageURL = image.uri;
-
-        if (imageWidth && imageHeight) {
-          imageURL += `?imgWidth=${imageWidth}&imgHeight=${imageHeight}`;
-        }
-
         const isSelected =
-          selectedImage === imageURL || currentImageUrl === imageURL;
+          selectedImage === image.uri || currentImageUrl === image.uri;
 
         return (
           <div
@@ -188,7 +143,7 @@ const ArtistImagesGrid = ({
             }}
           >
             <img
-              onClick={() => onClick(imageURL)}
+              onClick={() => onClick(image.uri)}
               style={{
                 width: '100%',
                 height: '100%',
@@ -222,4 +177,33 @@ export default ArtistImages;
 
 export const ArtistImagesCell = () => {
   return <p>[image thumb should go here]</p>;
+};
+
+const fetchArtistData = async (artistName: string) => {
+  // const discogsToken = process.env.REACT_APP_DISCOGS_TOKEN;  // <-- this doesn't work
+  const discogsToken = 'lvSqsEIAVQNHGbsYiVRDSUwSZHidyBUKGTFdZKYb';
+  const discogsUrl = `https://api.discogs.com/database/search?title=${artistName}&type=artist&token=${discogsToken}&per_page=3`;
+  const response = await fetch(discogsUrl);
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  const data = await response.json();
+
+  const topResult = data.results[0];
+
+  if (topResult) {
+    const artistId = topResult.id;
+    const artistUrl = `https://api.discogs.com/artists/${artistId}?token=${discogsToken}`;
+    const artistResponse = await fetch(artistUrl);
+
+    if (!artistResponse.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const artistData = await artistResponse.json();
+
+    return artistData;
+  }
 };

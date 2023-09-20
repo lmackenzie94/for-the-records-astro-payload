@@ -1,5 +1,5 @@
 ---
-import PayloadImage from '@/components/PayloadImage.astro';
+import RecordImage from '@/components/RecordImage.astro';
 import Layout from '@/layouts/Layout.astro';
 import { getSiteSettings } from '@/utils/payload/globals';
 import { getRecords } from '@/utils/payload/record';
@@ -27,8 +27,8 @@ const { title: siteTitle } = await getSiteSettings();
             >
               <a href={`/records/${record.slug}`}>
                 <div class="overflow-hidden">
-                  <PayloadImage
-                    src={record.image}
+                  <RecordImage
+                    record={record}
                     class="aspect-square h-full w-full object-cover transition-all duration-500"
                   />
                 </div>

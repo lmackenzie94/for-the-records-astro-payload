@@ -52,9 +52,14 @@ export interface Record {
   artist: string[] | Artist[];
   label?: string;
   genres: string[] | Genre[];
-  releaseDate?: string;
+  releaseYear?: string;
   useCustomImage?: boolean;
   image?: string | Media;
+  favouriteTracks?: {
+    title: string;
+    notes?: string;
+    id?: string;
+  }[];
   imageUrl?: string;
   createdBy?: string | User;
   content?: {

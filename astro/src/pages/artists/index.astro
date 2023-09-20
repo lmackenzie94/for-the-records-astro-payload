@@ -1,7 +1,6 @@
 ---
 import Artist from '@/components/Artist.astro';
 import Grid from '@/components/Grid.astro';
-import GridHeading from '@/components/GridHeading.astro';
 import Layout from '@/layouts/Layout.astro';
 import { getArtists } from '@/utils/payload/artist';
 
@@ -9,7 +8,12 @@ const artists = await getArtists();
 ---
 
 <Layout title="Artists">
-  <GridHeading heading="Artists." />
+  <h1
+    class="heading-text-shadow relative z-10 -mb-[.3em] ml-1 text-6xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff] md:text-7xl"
+    transition:animate="fade"
+  >
+    Artists.
+  </h1>
   {
     artists?.length ? (
       <Grid>
