@@ -1,31 +1,23 @@
 import { useDebounce } from '@/utils/useDebounce';
-import { useField, useFormFields } from 'payload/components/forms';
+import { useField } from 'payload/components/forms';
 import React, { useEffect } from 'react';
 
 type Props = { path: string };
 
 const RecordImages: React.FC<Props> = ({ path }) => {
-  const { value: currentImageUrl } = useField<Props>({ path: 'imageUrl' });
+  const { value: currentImageUrl, setValue: setCurrentImageUrl } =
+    useField<Props>({ path: 'imageUrl' });
+  const { setValue: setReleaseYear } = useField<Props>({ path: 'releaseYear' });
+  const { setValue: setLabel } = useField<Props>({
+    path: 'label'
+  });
+  const { value: recordTitle } = useField<Props>({ path: 'title' });
+  const { value: recordArtistIds } = useField<Props>({ path: 'artist' });
 
   const [recordData, setRecordData] = React.useState(null);
-  const [selectedImage, setSelectedImage] = React.useState(null);
   const [error, setError] = React.useState(null);
 
-  useEffect(() => {
-    if (currentImageUrl) setSelectedImage(currentImageUrl);
-  }, []);
-
-  // get artist name from Name field
-  let dispatch = null;
-  const { recordTitle, recordArtistIds } = useFormFields(
-    ([fields, dispatchFields]) => {
-      dispatch = dispatchFields;
-      return {
-        recordTitle: fields?.title?.value,
-        recordArtistIds: fields?.artist?.value
-      };
-    }
-  );
+  console.log('RENDER');
 
   const debouncedRecordTitle = useDebounce(recordTitle, 1000);
 
@@ -46,30 +38,29 @@ const RecordImages: React.FC<Props> = ({ path }) => {
     }
   };
 
-  const setImageURLField = (imageURL: string) => {
+  const setFields = (fields: {
+    cover_image: string;
+    year: string;
+    label: string;
+  }) => {
+    const { cover_image: imageURL, year, label } = fields;
+
     // if user clicks on an image that is already selected, unselect it
-    if (selectedImage === imageURL) {
-      setSelectedImage(null);
-
-      dispatch({
-        type: 'UPDATE',
-        path: 'imageUrl',
-        value: ''
-      });
-
+    if (currentImageUrl === imageURL) {
+      setCurrentImageUrl(null);
       return;
     }
 
-    setSelectedImage(imageURL);
+    setCurrentImageUrl(imageURL);
 
-    dispatch({
-      type: 'UPDATE',
-      path: 'imageUrl',
-      value: imageURL
-    });
+    if (year) {
+      setReleaseYear(year);
+    }
+
+    if (label) {
+      setLabel(label);
+    }
   };
-
-  // TODO: when an album is selected, fetch the album's data from Discogs and populate the form fields
 
   return (
     <div
@@ -95,9 +86,27 @@ const RecordImages: React.FC<Props> = ({ path }) => {
           )}
           <RecordImagesGrid
             recordData={recordData}
-            selectedImage={selectedImage}
-            onClick={setImageURLField}
+            currentImageUrl={currentImageUrl}
+            onClick={setFields}
           />
+
+          {currentImageUrl && (
+            <details style={{ marginTop: '1rem' }}>
+              <summary style={{ cursor: 'pointer' }}>
+                Selected Image URL
+              </summary>
+              <a
+                href={currentImageUrl}
+                target="_blank"
+                style={{
+                  wordWrap: 'break-word',
+                  color: '#5d6436'
+                }}
+              >
+                {currentImageUrl}
+              </a>
+            </details>
+          )}
         </div>
       ) : (
         <>
@@ -120,7 +129,7 @@ const RecordImages: React.FC<Props> = ({ path }) => {
 
 const NUM_RECORDS_TO_DISPLAY = 3;
 
-const RecordImagesGrid = ({ recordData, selectedImage, onClick }) => {
+const RecordImagesGrid = ({ recordData, currentImageUrl, onClick }) => {
   if (!recordData || recordData.length === 0) {
     return <p>No records found.</p>;
   }
@@ -135,7 +144,9 @@ const RecordImagesGrid = ({ recordData, selectedImage, onClick }) => {
       {recordData?.slice(0, NUM_RECORDS_TO_DISPLAY).map((record) => {
         const { title, cover_image, year, genre, label, country } = record;
 
-        const isSelected = selectedImage === cover_image;
+        const mainLabel = label[0];
+
+        const isSelected = currentImageUrl === cover_image;
 
         return (
           <article key={cover_image}>
@@ -150,7 +161,13 @@ const RecordImagesGrid = ({ recordData, selectedImage, onClick }) => {
               }}
             >
               <img
-                onClick={() => onClick(cover_image)}
+                onClick={() =>
+                  onClick({
+                    cover_image,
+                    year,
+                    label: mainLabel
+                  })
+                }
                 style={{
                   width: '100%',
                   height: '100%',
@@ -187,7 +204,7 @@ const RecordImagesGrid = ({ recordData, selectedImage, onClick }) => {
             <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>
               {genre.join(', ')}
             </p>
-            <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{label[0]}</p>
+            <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{mainLabel}</p>
             <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{country}</p>
           </article>
         );
@@ -228,8 +245,9 @@ const fetchRecordData = async (recordTitle: string, mainArtistId: string) => {
 };
 
 const fetchArtistName = async (artistId: string) => {
-  // TODO: don't hardcode localhost
-  const res = await fetch(`http://localhost:3001/api/artists/${artistId}`);
+  const res = await fetch(
+    `${process.env.PAYLOAD_PUBLIC_PAYLOAD_URL}/api/artists/${artistId}`
+  );
 
   if (!res.ok) {
     throw new Error('Network response was not ok');

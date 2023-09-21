@@ -204,7 +204,8 @@ const Records: CollectionConfig = {
       type: 'text',
       admin: {
         position: 'sidebar',
-        readOnly: true
+        readOnly: true,
+        hidden: true
       }
     },
     {

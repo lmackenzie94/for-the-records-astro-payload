@@ -1,26 +1,22 @@
 import { useDebounce } from '@/utils/useDebounce';
-import { useField, useFormFields } from 'payload/components/forms';
+import { useField } from 'payload/components/forms';
 import React, { useEffect } from 'react';
 
 type Props = { path: string };
 
 const ArtistImages: React.FC<Props> = ({ path }) => {
-  const { value: currentImageUrl } = useField<Props>({ path: 'imageUrl' });
+  const { value: currentImageUrl, setValue: setCurrentImageUrl } =
+    useField<Props>({ path: 'imageUrl' });
+  const { value: artistName } = useField<Props>({ path: 'name' });
 
   const [artistData, setArtistData] = React.useState(null);
-  const [selectedImage, setSelectedImage] = React.useState(null);
   const [error, setError] = React.useState(null);
 
-  useEffect(() => {
-    if (currentImageUrl) setSelectedImage(currentImageUrl);
-  }, []);
+  console.log('RENDER');
 
-  // get artist name from Name field
-  let dispatch = null;
-  const artistName = useFormFields(([fields, dispatchFields]) => {
-    dispatch = dispatchFields;
-    return fields?.name?.value;
-  });
+  useEffect(() => {
+    if (currentImageUrl) setCurrentImageUrl(currentImageUrl);
+  }, []);
 
   const debouncedArtistName = useDebounce(artistName, 1000);
 
@@ -42,25 +38,12 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
 
   const setImageURLField = (imageURL: string) => {
     // if user clicks on an image that is already selected, unselect it
-    if (selectedImage === imageURL) {
-      setSelectedImage(null);
-
-      dispatch({
-        type: 'UPDATE',
-        path: 'imageUrl',
-        value: ''
-      });
-
+    if (currentImageUrl === imageURL) {
+      setCurrentImageUrl(null);
       return;
     }
 
-    setSelectedImage(imageURL);
-
-    dispatch({
-      type: 'UPDATE',
-      path: 'imageUrl',
-      value: imageURL
-    });
+    setCurrentImageUrl(imageURL);
   };
 
   return (
@@ -97,9 +80,26 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
           </p>
           <ArtistImagesGrid
             artistData={artistData}
-            selectedImage={selectedImage}
+            currentImageUrl={currentImageUrl}
             onClick={setImageURLField}
           />
+          {currentImageUrl && (
+            <details style={{ marginTop: '1rem' }}>
+              <summary style={{ cursor: 'pointer' }}>
+                Selected Image URL
+              </summary>
+              <a
+                href={currentImageUrl}
+                target="_blank"
+                style={{
+                  wordWrap: 'break-word',
+                  color: '#5d6436'
+                }}
+              >
+                {currentImageUrl}
+              </a>
+            </details>
+          )}
         </div>
       ) : (
         <>
@@ -122,7 +122,7 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
 
 const NUM_IMAGES_TO_DISPLAY = 4;
 
-const ArtistImagesGrid = ({ artistData, selectedImage, onClick }) => {
+const ArtistImagesGrid = ({ artistData, currentImageUrl, onClick }) => {
   const { name: artistName, images } = artistData;
 
   if (!images || images.length === 0) {
@@ -137,7 +137,7 @@ const ArtistImagesGrid = ({ artistData, selectedImage, onClick }) => {
       }}
     >
       {images?.slice(0, NUM_IMAGES_TO_DISPLAY).map((image) => {
-        const isSelected = selectedImage === image.uri;
+        const isSelected = currentImageUrl === image.uri;
 
         return (
           <div
@@ -189,7 +189,6 @@ export const ArtistImagesCell = () => {
 };
 
 const fetchArtistData = async (artistName: string) => {
-  // const discogsToken = process.env.REACT_APP_DISCOGS_TOKEN;  // <-- this doesn't work
   const discogsToken = 'lvSqsEIAVQNHGbsYiVRDSUwSZHidyBUKGTFdZKYb';
   const discogsUrl = `https://api.discogs.com/database/search?title=${artistName}&type=artist&token=${discogsToken}&per_page=3`;
   const response = await fetch(discogsUrl);
@@ -200,7 +199,18 @@ const fetchArtistData = async (artistName: string) => {
 
   const data = await response.json();
 
-  const topResult = data.results[0];
+  // loop through results and find "title" that most closely matches artistName, with no extra words or characters
+
+  let topResult = data.results?.[0];
+
+  data?.results?.forEach((result, index) => {
+    const resultTitle = result.title.toLowerCase().trim();
+    const artistNameLower = artistName.toLowerCase().trim();
+
+    if (resultTitle === artistNameLower) {
+      topResult = result;
+    }
+  });
 
   if (topResult) {
     const artistId = topResult.id;

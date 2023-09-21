@@ -96,7 +96,8 @@ const Artists: CollectionConfig = {
       type: 'text',
       admin: {
         position: 'sidebar',
-        readOnly: true
+        readOnly: true,
+        hidden: true
       }
     },
     // {

@@ -40,7 +40,7 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
   <section class="grid grid-cols-12 items-start gap-20">
     <div class="col-span-full flex flex-col md:col-span-9">
       <h1
-        class="heading-text-shadow relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff]"
+        class="heading-text-shadow relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5c5c5] mix-blend-exclusion dark:text-[#d9bfff]"
         transition:animate="fade"
       >
         {artist.name}
@@ -90,20 +90,25 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
 
       {
         records.length > 0 && (
-          <div class="mt-16 grid grid-cols-12 gap-4">
-            {records.map((record) => (
-              <div class="col-span-3 md:col-span-2">
-                <Record record={record} />
-              </div>
-            ))}
-          </div>
+          <>
+            <h2 class="mb-4 mt-16 text-2xl font-bold text-gray-medium">
+              Records in Your Collection
+            </h2>
+            <div class="grid grid-cols-12 gap-4">
+              {records.map((record) => (
+                <div class="col-span-3 md:col-span-2">
+                  <Record record={record} />
+                </div>
+              ))}
+            </div>
+          </>
         )
       }
     </div>
     {
       similarArtists?.length > 0 && (
-        <aside class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3">
-          <h2 class="mb-6 text-center text-xl font-bold text-armyGreen dark:text-[#bb84ff]">
+        <aside class="col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3">
+          <h2 class="mb-6 text-center text-xl font-bold text-black dark:text-[#bb84ff]">
             Similar Artists
           </h2>
           <div class="flex gap-5 md:flex-col md:items-center">

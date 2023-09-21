@@ -16,19 +16,28 @@
     background: #373a2d;
   }
 
+  :root {
+    --gradient-light: #f0f0f0;
+  }
+
   body {
     @apply bg-gradient-light dark:bg-gradient-dark text-black dark:text-white;
   }
 
   *:focus {
-    @apply outline-1 outline-armyGreen;
+    @apply outline-1 outline-black;
   }
 }
 
 @layer utilities {
   .bg-gradient-light {
     background: #f0f0f0;
-    background: linear-gradient(-45deg, #f0f0f0 0%, #f0f0f0 50%, #fafafa 50%);
+    background: linear-gradient(
+      -45deg,
+      var(--gradient-light) 0%,
+      var(--gradient-light) 50%,
+      #fafafa 50%
+    );
   }
 
   .bg-gradient-dark {
@@ -37,7 +46,7 @@
   }
 
   .heading-text-shadow {
-    text-shadow: 0.03em 0.03em #00520e;
+    text-shadow: 0.03em 0.03em #314b13;
   }
 }
 

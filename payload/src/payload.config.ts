@@ -25,7 +25,7 @@ export default buildConfig({
     css: path.resolve(__dirname, './styles/custom.scss'),
     autoLogin: {
       email: 'mackenzieluke94@gmail.com',
-      password: process.env.PAYLOAD_AUTO_LOGIN_PASSWORD, // doesn't work...
+      password: process.env.PAYLOAD_AUTO_LOGIN_PASSWORD, // doesn't work...(might have to make it "PAYLOAD_PUBLIC..." ?)
       prefillOnly: true
     },
     meta: {
