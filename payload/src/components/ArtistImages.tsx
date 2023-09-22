@@ -8,6 +8,9 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
   const { value: currentImageUrl, setValue: setCurrentImageUrl } =
     useField<Props>({ path: 'imageUrl' });
   const { value: artistName } = useField<Props>({ path: 'name' });
+  const { value: artistBio, setValue: setArtistBio } = useField<Props>({
+    path: 'discogsBio'
+  });
 
   const [artistData, setArtistData] = React.useState(null);
   const [error, setError] = React.useState(null);
@@ -31,12 +34,16 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
     try {
       const artistData = await fetchArtistData(artistName);
       setArtistData(artistData);
+
+      if (artistData?.profile && !artistBio) {
+        setArtistBio(artistData.profile);
+      }
     } catch (error) {
       setError(error.message);
     }
   };
 
-  const setImageURLField = (imageURL: string) => {
+  const setFields = ({ imageURL, profile }) => {
     // if user clicks on an image that is already selected, unselect it
     if (currentImageUrl === imageURL) {
       setCurrentImageUrl(null);
@@ -44,6 +51,10 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
     }
 
     setCurrentImageUrl(imageURL);
+
+    if (profile && !artistBio) {
+      setArtistBio(profile);
+    }
   };
 
   return (
@@ -81,7 +92,7 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
           <ArtistImagesGrid
             artistData={artistData}
             currentImageUrl={currentImageUrl}
-            onClick={setImageURLField}
+            onClick={setFields}
           />
           {currentImageUrl && (
             <details style={{ marginTop: '1rem' }}>
@@ -123,6 +134,7 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
 const NUM_IMAGES_TO_DISPLAY = 4;
 
 const ArtistImagesGrid = ({ artistData, currentImageUrl, onClick }) => {
+  console.log(artistData);
   const { name: artistName, images } = artistData;
 
   if (!images || images.length === 0) {
@@ -142,6 +154,7 @@ const ArtistImagesGrid = ({ artistData, currentImageUrl, onClick }) => {
         return (
           <div
             key={image.uri}
+            className={`artistImage ${isSelected ? 'selected' : ''}`}
             style={{
               position: 'relative',
               width: 100,
@@ -152,7 +165,12 @@ const ArtistImagesGrid = ({ artistData, currentImageUrl, onClick }) => {
             }}
           >
             <img
-              onClick={() => onClick(image.uri)}
+              onClick={() =>
+                onClick({
+                  imageURL: image.uri,
+                  profile: artistData.profile
+                })
+              }
               style={{
                 width: '100%',
                 height: '100%',

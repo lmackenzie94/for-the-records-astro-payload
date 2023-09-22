@@ -46,46 +46,33 @@ const similarRecords = await getRecordsBySimilarGenre(record);
 <!-- TODO: why doesn't this re-run on each page? -->
 <script is:inline>
   // when document is ready
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   const recordImage = document.getElementById('record-image');
+  //   const recordImageSrc = recordImage.src;
+  //   colorjs.average(recordImageSrc).then((color) => {
+  //     console.log(color); // [241, 221, 63]
 
-  console.log('document ready');
+  //     const rgba = `rgba(${color[0]}, ${color[1]}, ${color[2]}, .2)`;
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const recordImage = document.getElementById('record-image');
-    console.log(recordImage);
-    const recordImageSrc = recordImage.src;
-    colorjs.average(recordImageSrc).then((color) => {
-      console.log(color); // [241, 221, 63]
+  //     // set --gradient-light variable
+  //     document.documentElement.style.setProperty('--gradient-light', rgba);
 
-      const rgba = `rgba(${color[0]}, ${color[1]}, ${color[2]}, .2)`;
-
-      // set --gradient-light variable
-      document.documentElement.style.setProperty('--gradient-light', rgba);
-
-      // colors.forEach((color) => {
-      //   const colorEl = document.createElement('div');
-      //   colorEl.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-      //   colorEl.style.width = '50px';
-      //   colorEl.style.height = '50px';
-      //   colorsEl.appendChild(colorEl);
-      // });
-    });
-  });
-
-  // const recordImage = document.getElementById('record-image');
-  // console.log(recordImage);
-
-  // const canvas = document.querySelector('canvas');
-  // canvas.width = recordImage.width;
-  // canvas.height = recordImage.height;
-  // const ctx = canvas.getContext('2d');
-  // ctx.drawImage(recordImage, 0, 0, recordImage.width, recordImage.height);
+  //     // colors.forEach((color) => {
+  //     //   const colorEl = document.createElement('div');
+  //     //   colorEl.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+  //     //   colorEl.style.width = '50px';
+  //     //   colorEl.style.height = '50px';
+  //     //   colorsEl.appendChild(colorEl);
+  //     // });
+  //   });
+  // });
 </script>
 
 <Layout title={record.title}>
   <section class="grid grid-cols-12 items-start gap-20">
     <div class="col-span-full flex flex-col md:col-span-9">
       <h1
-        class="heading-text-shadow relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5c5c5] mix-blend-exclusion dark:text-[#d9bfff]"
+        class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5c5c5] mix-blend-exclusion dark:text-[#f8f8f8]"
         transition:animate="fade"
       >
         {record.title}
@@ -137,7 +124,8 @@ const similarRecords = await getRecordsBySimilarGenre(record);
         </div>
       </div>
 
-      <Content>
+      <!-- <Content>
+        <h2 class="mb-3 text-2xl font-bold">About</h2>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
           veritatis repudiandae id eos laborum sint quod. Quae quas ea
@@ -153,7 +141,7 @@ const similarRecords = await getRecordsBySimilarGenre(record);
           tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
           fugit unde itaque eveniet reprehenderit!
         </p>
-      </Content>
+      </Content> -->
 
       {
         artists.length && (
@@ -170,8 +158,8 @@ const similarRecords = await getRecordsBySimilarGenre(record);
 
     {
       similarRecords?.length > 0 && (
-        <aside class="col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3">
-          <h2 class="mb-6 text-center text-xl font-bold text-black dark:text-[#bb84ff]">
+        <aside class="col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/10 md:col-span-3">
+          <h2 class="mb-6 text-center text-xl font-bold text-black dark:text-[#f8f8f8]">
             Similar Records
           </h2>
           <div class="flex gap-5 md:flex-col md:items-center">

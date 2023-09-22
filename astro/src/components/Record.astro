@@ -19,7 +19,7 @@ const { record, class: className } = Astro.props;
     <RecordImage record={record} transition:name={`record-${record.id}`} />
   </a>
   <p class="leading-5">{record.title}</p>
-  <p class="text-xs font-light text-black dark:text-[#bb84ff]">
+  <p class="text-xs font-light text-black dark:text-[#f8f8f8]">
     <RecordArtists record={record} class="hocus:underline" />
   </p>
 </article>

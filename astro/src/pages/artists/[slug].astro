@@ -1,7 +1,6 @@
 ---
 import Artist from '@/components/Artist.astro';
 import ArtistImage from '@/components/ArtistImage.astro';
-import Content from '@/components/Content.astro';
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { Artist as ArtistType, Genre } from '@/types';
@@ -34,13 +33,38 @@ const { artist } = Astro.props;
 const records = await getRecordsByArtist(artist.id);
 const genres: Genre[] = artist.genres?.map((genre) => genre.title) || [];
 const similarArtists = await getArtistsBySimilarGenre(artist);
+
+function invertHex(hexCode: string) {
+  const hex = hexCode.replace('#', '');
+  const invertedHex = (Number(`0x1${hex}`) ^ 0xffffff)
+    .toString(16)
+    .substr(1)
+    .toUpperCase();
+  return `#${invertedHex}`;
+}
+
+const themeColor = artist.themeColor || '#454545';
+const invertedThemeColor = invertHex(themeColor);
+const formatLinks = (bio, color) => {
+  if (!bio) return;
+  // convert links to anchor tags (ex. [url=http://www.discogs.com/artist/John+Mayall+%26+The+Bluesbreakers]Bluesbreakers[/url])
+
+  const regex = /\[url=(.+?)\](.+?)\[\/url\]/g;
+  const subst = `<a href="$1" style="color: ${color}" target="_blank" rel="noopener noreferrer">$2</a>`;
+  const result = bio.replace(regex, subst);
+
+  return result;
+};
+
+const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
 ---
 
 <Layout title={artist.name}>
   <section class="grid grid-cols-12 items-start gap-20">
     <div class="col-span-full flex flex-col md:col-span-9">
       <h1
-        class="heading-text-shadow relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5c5c5] mix-blend-exclusion dark:text-[#d9bfff]"
+        style={`color: ${themeColor};`}
+        class="relative z-10 -mb-6 ml-1 text-7xl font-black mix-blend-exclusion"
         transition:animate="fade"
       >
         {artist.name}
@@ -48,7 +72,10 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
 
       <div class="mb-8 flex gap-6">
         <div class="w-1/4 flex-grow-0">
-          <div class="overflow-hidden rounded-sm">
+          <div
+            class="overflow-hidden rounded-sm"
+            style={`background-color: ${themeColor}`}
+          >
             <ArtistImage
               artist={artist}
               transition:name={`artist-${artist.id}`}
@@ -70,28 +97,30 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
           </div>
         </div>
       </div>
-      <Content>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-          veritatis repudiandae id eos laborum sint quod. Quae quas ea
-          architecto, quam totam exercitationem aliquam reiciendis obcaecati
-          corporis at officia quod est non modi! Libero culpa accusamus
-          necessitatibus, quae doloribus totam minima veritatis mollitia illum
-          recusandae quas reiciendis nisi eos provident obcaecati.
-        </p><p>
-          Sapiente mollitia ad dolores non debitis necessitatibus velit amet,
-          reprehenderit, quasi magnam labore eaque, pariatur eligendi facere
-          cumque obcaecati optio vero. Aliquid atque accusamus voluptatem nisi
-          pariatur neque labore. Ex quibusdam praesentium illum, voluptate hic
-          tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
-          fugit unde itaque eveniet reprehenderit!
-        </p>
-      </Content>
+
+      <!-- <Content>
+        <pre>
+          {JSON.stringify(artist.content, null, 2)}
+        </pre>
+      </Content> -->
+      {
+        discogsBio && (
+          <>
+            <h2 class="mb-3 text-2xl font-bold" style={`color: ${themeColor}`}>
+              Discogs Bio
+            </h2>
+            <p set:html={discogsBio} />
+          </>
+        )
+      }
 
       {
         records.length > 0 && (
           <>
-            <h2 class="mb-4 mt-16 text-2xl font-bold text-gray-medium">
+            <h2
+              class="mb-4 mt-16 text-2xl font-bold"
+              style={`color: ${themeColor}`}
+            >
               Records in Your Collection
             </h2>
             <div class="grid grid-cols-12 gap-4">
@@ -107,8 +136,8 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
     </div>
     {
       similarArtists?.length > 0 && (
-        <aside class="col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3">
-          <h2 class="mb-6 text-center text-xl font-bold text-black dark:text-[#bb84ff]">
+        <aside class="col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/10 md:col-span-3">
+          <h2 class="mb-6 text-center text-xl font-bold text-black dark:text-[#f8f8f8]">
             Similar Artists
           </h2>
           <div class="flex gap-5 md:flex-col md:items-center">

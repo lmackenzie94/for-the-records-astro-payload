@@ -77,6 +77,8 @@ export interface Artist {
   useCustomImage?: boolean;
   image?: string | Media;
   imageUrl?: string;
+  themeColor?: string;
+  discogsBio?: string;
   content?: {
     [k: string]: unknown;
   }[];

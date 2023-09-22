@@ -41,7 +41,7 @@ export default function ThemeToggle() {
   }, []);
 
   return isMounted ? (
-    <div className="inline-flex items-center rounded-3xl bg-black/10 p-[1px] dark:bg-[#d6b8ff1a]">
+    <div className="inline-flex items-center rounded-3xl bg-black/10 p-[1px] dark:bg-white/10">
       {themes.map((t) => {
         const checked = t === theme;
         return (
@@ -59,6 +59,6 @@ export default function ThemeToggle() {
       })}
     </div>
   ) : (
-    <div className="h-[32px] w-[62px] rounded-3xl bg-black/10 p-[1px] dark:bg-[#d6b8ff1a]" />
+    <div className="h-[32px] w-[62px] rounded-3xl bg-black/10 p-[1px] dark:bg-white/10" />
   );
 }

@@ -1,4 +1,5 @@
 import ArtistImages, { ArtistImagesCell } from '@/components/ArtistImages';
+import ColorPicker from '@/components/ColorPicker';
 import { content } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
@@ -100,15 +101,30 @@ const Artists: CollectionConfig = {
         hidden: true
       }
     },
-    // {
-    //   name: 'discogsId',
-    //   label: 'Discogs ID',
-    //   type: 'text',
-    //   admin: {
-    //     position: 'sidebar',
-    //     readOnly: true
-    //   }
-    // },
+    {
+      name: 'themeColor',
+      label: 'Theme Color',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'Use the colour picker below OR enter a hex value.'
+      }
+    },
+    {
+      name: 'colorPicker',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: ColorPicker
+        }
+      }
+    },
+    {
+      name: 'discogsBio',
+      label: 'Discogs Bio',
+      type: 'textarea'
+    },
     content,
     status
   ]
