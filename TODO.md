@@ -15,6 +15,7 @@
 13. make imageURL field required if no custom image is set, and vice versa (Records and Artists)
 14. write "fetchArtistName" function in RecordImages.tsx properly (i.e don't hardcode localhost)
 15. mobile styling
+16. try container queries for Record and Artist components
 
 # LOOK INTO:
 

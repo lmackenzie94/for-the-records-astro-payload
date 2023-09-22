@@ -44,7 +44,10 @@ function invertHex(hexCode: string) {
 }
 
 const themeColor = artist.themeColor || '#454545';
+const themeColorFaded = `${themeColor}15`;
 const invertedThemeColor = invertHex(themeColor);
+const invertedThemeColorFaded = `${invertedThemeColor}15`;
+
 const formatLinks = (bio, color) => {
   if (!bio) return;
   // convert links to anchor tags (ex. [url=http://www.discogs.com/artist/John+Mayall+%26+The+Bluesbreakers]Bluesbreakers[/url])
@@ -59,11 +62,45 @@ const formatLinks = (bio, color) => {
 const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
 ---
 
+<style
+  define:vars={{
+    themeColor,
+    themeColorFaded,
+    invertedThemeColor,
+    invertedThemeColorFaded
+  }}
+>
+  h1 {
+    color: var(--themeColor);
+    /* text-shadow: 0 0.08em var(--invertedThemeColor); */
+    text-shadow: 0.05em 0 var(--invertedThemeColor);
+  }
+  h2:not(.similar-artists-heading),
+  h3,
+  h4 {
+    color: var(--themeColor);
+  }
+
+  .similar-artists-heading {
+    color: var(--invertedThemeColor);
+  }
+
+  .similar-artists-container {
+    background-color: var(--invertedThemeColorFaded);
+
+    /* border: 1px solid var(--themeColor); */
+    /* outline: px solid var(--invertedThemeColor); */
+  }
+
+  span.label {
+    color: var(--themeColor);
+  }
+</style>
+
 <Layout title={artist.name}>
-  <section class="grid grid-cols-12 items-start gap-20">
-    <div class="col-span-full flex flex-col md:col-span-9">
+  <section class="grid grid-cols-12 items-start">
+    <div class="col-span-full flex flex-col md:col-span-10">
       <h1
-        style={`color: ${themeColor};`}
         class="relative z-10 -mb-6 ml-1 text-7xl font-black mix-blend-exclusion"
         transition:animate="fade"
       >
@@ -72,10 +109,7 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
 
       <div class="mb-8 flex gap-6">
         <div class="w-1/4 flex-grow-0">
-          <div
-            class="overflow-hidden rounded-sm"
-            style={`background-color: ${themeColor}`}
-          >
+          <div class="overflow-hidden rounded-sm">
             <ArtistImage
               artist={artist}
               transition:name={`artist-${artist.id}`}
@@ -87,7 +121,7 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
             {
               genres && (
                 <p>
-                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                  <span class="label font-mono font-bold tracking-tighter text-gray-light">
                     Genre(s):{' '}
                   </span>
                   {genres.join(', ')}
@@ -103,24 +137,12 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
           {JSON.stringify(artist.content, null, 2)}
         </pre>
       </Content> -->
-      {
-        discogsBio && (
-          <>
-            <h2 class="mb-3 text-2xl font-bold" style={`color: ${themeColor}`}>
-              Discogs Bio
-            </h2>
-            <p set:html={discogsBio} />
-          </>
-        )
-      }
+      {discogsBio && <p class="w-full sm:w-[85%]" set:html={discogsBio} />}
 
       {
         records.length > 0 && (
           <>
-            <h2
-              class="mb-4 mt-16 text-2xl font-bold"
-              style={`color: ${themeColor}`}
-            >
+            <h2 class="mb-4 mt-16 text-2xl font-bold">
               Records in Your Collection
             </h2>
             <div class="grid grid-cols-12 gap-4">
@@ -136,11 +158,11 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
     </div>
     {
       similarArtists?.length > 0 && (
-        <aside class="col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/10 md:col-span-3">
-          <h2 class="mb-6 text-center text-xl font-bold text-black dark:text-[#f8f8f8]">
+        <aside class="similar-artists-container col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/5 md:col-span-2">
+          <h2 class="similar-artists-heading mb-4 text-center font-bold">
             Similar Artists
           </h2>
-          <div class="flex gap-5 md:flex-col md:items-center">
+          <div class="flex gap-7 md:flex-col md:items-center">
             {similarArtists.map((artist) => (
               <div class="col-span-3 md:col-span-2">
                 <Artist artist={artist} class="flex-1" />

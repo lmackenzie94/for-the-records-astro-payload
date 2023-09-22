@@ -69,8 +69,8 @@ const similarRecords = await getRecordsBySimilarGenre(record);
 </script>
 
 <Layout title={record.title}>
-  <section class="grid grid-cols-12 items-start gap-20">
-    <div class="col-span-full flex flex-col md:col-span-9">
+  <section class="grid grid-cols-12 items-start">
+    <div class="col-span-full flex flex-col md:col-span-10">
       <h1
         class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5c5c5] mix-blend-exclusion dark:text-[#f8f8f8]"
         transition:animate="fade"
@@ -126,7 +126,7 @@ const similarRecords = await getRecordsBySimilarGenre(record);
 
       <!-- <Content>
         <h2 class="mb-3 text-2xl font-bold">About</h2>
-        <p>
+        <p class="w-full sm:w-[85%]">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
           veritatis repudiandae id eos laborum sint quod. Quae quas ea
           architecto, quam totam exercitationem aliquam reiciendis obcaecati
@@ -158,8 +158,8 @@ const similarRecords = await getRecordsBySimilarGenre(record);
 
     {
       similarRecords?.length > 0 && (
-        <aside class="col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/10 md:col-span-3">
-          <h2 class="mb-6 text-center text-xl font-bold text-black dark:text-[#f8f8f8]">
+        <aside class="col-span-full rounded-lg bg-black/5 px-6 py-4 dark:bg-white/5 md:col-span-2">
+          <h2 class="mb-4 text-center font-bold text-black dark:text-[#f8f8f8]">
             Similar Records
           </h2>
           <div class="flex gap-5 md:flex-col md:items-center">
