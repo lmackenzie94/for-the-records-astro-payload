@@ -6,15 +6,15 @@
 4. Add ES/TS Lint?
 5. Add tests
 6. Remove "genre" field from "Records" collection API response (o)
-7. Add button in the CMS to automatically pull Record and Artist data from music API
-8. Get auth working
-9. Add "tracklist" + "about this track" functionality (+ "Favourite" functionality?)
-10. Need unique slugs in case records/artists happen to have same name
-11. Setup tailwind config properly (add all colors, font, etc.)
-12. Add data and src/media back to .gitignore files
-13. Show thumbnail image in CMS List view for Records and Artists
-14. make imageURL field required if no custom image is set, and vice versa (Records and Artists)
-15. write "fetchArtistName" function in RecordImages.tsx properly (i.e don't hardcode localhost)
+7. Get auth working
+8. Add "tracklist" + "about this track" functionality (+ "Favourite" functionality?)
+9. Need unique slugs in case records/artists happen to have same name
+10. Setup tailwind config properly (add all colors, font, etc.)
+11. Add data and src/media back to .gitignore files
+12. Show thumbnail image in CMS List view for Records and Artists
+13. make imageURL field required if no custom image is set, and vice versa (Records and Artists)
+14. write "fetchArtistName" function in RecordImages.tsx properly (i.e don't hardcode localhost)
+15. mobile styling
 
 # LOOK INTO:
 
