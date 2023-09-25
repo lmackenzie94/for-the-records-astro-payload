@@ -5,10 +5,10 @@ import Content from '@/components/Content.astro';
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { Artist as ArtistType, Genre } from '@/types';
+import { getThemeColors } from '@/utils/helpers';
 import { getArtists, getArtistsBySimilarGenre } from '@/utils/payload/artist';
 import { getRecordsByArtist } from '@/utils/payload/record';
 import type { InferGetStaticParamsType } from 'astro';
-
 // TODO: how to get type hints...?
 
 export async function getStaticPaths() {
@@ -35,19 +35,12 @@ const records = await getRecordsByArtist(artist.id);
 const genres: Genre[] = artist.genres?.map((genre) => genre.title) || [];
 const similarArtists = await getArtistsBySimilarGenre(artist);
 
-function invertHex(hexCode: string) {
-  const hex = hexCode.replace('#', '');
-  const invertedHex = (Number(`0x1${hex}`) ^ 0xffffff)
-    .toString(16)
-    .substr(1)
-    .toUpperCase();
-  return `#${invertedHex}`;
-}
-
-const themeColor = artist.themeColor || '#454545';
-const themeColorFaded = `${themeColor}15`;
-const invertedThemeColor = invertHex(themeColor);
-const invertedThemeColorFaded = `${invertedThemeColor}15`;
+const {
+  themeColor,
+  themeColorFaded,
+  invertedThemeColor,
+  invertedThemeColorFaded
+} = getThemeColors(artist.themeColor, '#454545');
 
 const formatLinks = (bio, color) => {
   if (!bio) return;
@@ -74,7 +67,7 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
   h1 {
     color: var(--themeColor);
     /* text-shadow: 0 0.08em var(--invertedThemeColor); */
-    text-shadow: 0.05em 0 var(--invertedThemeColor);
+    /* text-shadow: 0.05em 0 var(--invertedThemeColor); */
   }
   h2:not(.similar-artists-heading),
   h3,
@@ -122,7 +115,7 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
             {
               genres && (
                 <p>
-                  <span class="label font-mono font-bold tracking-tighter text-gray-light">
+                  <span class="label font-mono font-bold tracking-tighter">
                     Genre(s):{' '}
                   </span>
                   {genres.join(', ')}

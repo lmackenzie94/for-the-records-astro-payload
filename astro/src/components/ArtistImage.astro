@@ -22,7 +22,7 @@ if (!useCustomImage && artist.imageUrl) {
     <PayloadImage
       src={artist.image}
       alt={artist.name}
-      class="aspect-square h-full w-full object-cover"
+      class="artist-image aspect-square h-full w-full object-cover"
       {...rest}
     />
   )
@@ -33,7 +33,7 @@ if (!useCustomImage && artist.imageUrl) {
     <Image
       src={artist.imageUrl || ''}
       alt={artist.name}
-      class="aspect-square h-full w-full object-cover"
+      class="artist-image aspect-square h-full w-full object-cover"
       width={imageWidth}
       height={imageHeight}
       quality="high"

@@ -22,7 +22,7 @@ if (!useCustomImage) {
     <PayloadImage
       src={record.image}
       alt={record.title}
-      class="aspect-square h-full w-full object-cover"
+      class="record-image aspect-square h-full w-full object-cover"
       {...rest}
     />
   )
@@ -33,7 +33,7 @@ if (!useCustomImage) {
     <Image
       src={record.imageUrl || ''}
       alt={record.title}
-      class="aspect-square h-full w-full object-cover"
+      class="record-image aspect-square h-full w-full object-cover"
       width={imageWidth}
       height={imageHeight}
       quality="high"

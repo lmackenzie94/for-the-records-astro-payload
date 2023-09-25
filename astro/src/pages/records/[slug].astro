@@ -10,6 +10,7 @@ import type {
   Genre,
   Record as RecordType
 } from '@/types';
+import { getThemeColors, invertHex } from '@/utils/helpers';
 import { getRecords, getRecordsBySimilarGenre } from '@/utils/payload/record';
 import type { InferGetStaticParamsType } from 'astro';
 
@@ -40,12 +41,15 @@ const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
 const similarRecords = await getRecordsBySimilarGenre(record);
 
-console.log('CONTENT', record.content);
+const {
+  themeColor,
+  themeColorFaded,
+  invertedThemeColor,
+  invertedThemeColorFaded
+} = getThemeColors(record.themeColor, '#cbcbcb');
 ---
 
-<script is:inline src="https://unpkg.com/color.js@1.2.0/dist/color.js"></script>
-
-<!-- TODO: why doesn't this re-run on each page? -->
+<!-- <script is:inline src="https://unpkg.com/color.js@1.2.0/dist/color.js"></script> --><!-- TODO: why doesn't this re-run on each page? -->
 <script is:inline>
   // when document is ready
   // document.addEventListener('DOMContentLoaded', () => {
@@ -70,11 +74,46 @@ console.log('CONTENT', record.content);
   // });
 </script>
 
+<style
+  define:vars={{
+    themeColor,
+    themeColorFaded,
+    invertedThemeColor,
+    invertedThemeColorFaded
+  }}
+>
+  h1 {
+    color: var(--themeColor);
+    /* text-shadow: 0 0.08em var(--invertedThemeColor); */
+    /* text-shadow: 0.05em 0 var(--invertedThemeColor); */
+  }
+  h2:not(.similar-records-heading),
+  h3,
+  h4 {
+    color: var(--themeColor);
+  }
+
+  .similar-records-heading {
+    color: var(--invertedThemeColor);
+  }
+
+  .similar-records-container {
+    background-color: var(--invertedThemeColorFaded);
+
+    /* border: 1px solid var(--themeColor); */
+    /* outline: px solid var(--invertedThemeColor); */
+  }
+
+  span.label {
+    color: var(--themeColor);
+  }
+</style>
+
 <Layout title={record.title}>
   <section class="grid grid-cols-12 items-start">
     <div class="col-span-full flex flex-col md:col-span-10">
       <h1
-        class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5c5c5] mix-blend-exclusion dark:text-[#f8f8f8]"
+        class="relative z-10 -mb-6 ml-1 text-7xl font-black mix-blend-exclusion"
         transition:animate="fade"
       >
         {record.title}
@@ -83,7 +122,6 @@ console.log('CONTENT', record.content);
         <div class="w-1/4 flex-grow-0">
           <div class="overflow-hidden rounded-sm">
             <RecordImage
-              id="record-image"
               record={record}
               transition:name={`record-${record.id}`}
             />
@@ -92,20 +130,20 @@ console.log('CONTENT', record.content);
         <div class="mt-16 flex flex-col justify-between">
           <div class="font-mono text-sm">
             <p>
-              <span class="font-mono font-bold tracking-tighter text-gray-light"
+              <span class="label font-mono font-bold tracking-tighter"
                 >Artist:
               </span>
               <RecordArtists record={record} class="hocus:underline" />
             </p>
             <p>
-              <span class="font-mono font-bold tracking-tighter text-gray-light"
+              <span class="label font-mono font-bold tracking-tighter"
                 >Year:
               </span>{record.releaseYear}
             </p>
             {
               record.label && (
                 <p>
-                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                  <span class="label font-mono font-bold tracking-tighter">
                     Label:{' '}
                   </span>
                   {record.label}
@@ -115,7 +153,7 @@ console.log('CONTENT', record.content);
             {
               genres && (
                 <p>
-                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                  <span class="label font-mono font-bold tracking-tighter">
                     Genre(s):{' '}
                   </span>
                   {genres.join(', ')}
@@ -144,11 +182,11 @@ console.log('CONTENT', record.content);
 
     {
       similarRecords?.length > 0 && (
-        <aside class="col-span-full rounded-lg bg-black/5 px-6 py-4 dark:bg-white/5 md:col-span-2">
-          <h2 class="mb-4 text-center font-bold text-black dark:text-[#f8f8f8]">
+        <aside class="similar-records-container col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/5 md:col-span-2">
+          <h2 class="similar-records-heading mb-4 text-center font-bold">
             Similar Records
           </h2>
-          <div class="flex gap-5 md:flex-col md:items-center">
+          <div class="flex gap-7 md:flex-col md:items-center">
             {similarRecords.map((record) => (
               <div class="col-span-3 md:col-span-2">
                 <Record record={record} class="flex-1" />

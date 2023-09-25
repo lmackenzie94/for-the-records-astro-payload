@@ -111,7 +111,7 @@ const Artists: CollectionConfig = {
       }
     },
     {
-      name: 'colorPicker',
+      name: 'colorPickerArtists',
       type: 'ui',
       admin: {
         position: 'sidebar',

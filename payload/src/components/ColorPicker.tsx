@@ -5,7 +5,10 @@ import useEyeDropper from 'use-eye-dropper';
 let initialWidth;
 let initialHeight;
 
-const ColorPicker = () => {
+const ColorPicker = ({ name }) => {
+  // TODO: better way to re-use this component for both records and artists?
+  const collectionKey = name === 'colorPickerRecords' ? 'record' : 'artist';
+
   const { open, close, isSupported } = useEyeDropper();
   const [color, setColor] = useState(null);
   const [error, setError] = useState();
@@ -19,8 +22,8 @@ const ColorPicker = () => {
     path: 'imageUrl'
   });
 
-  const { value: artistName } = useField({
-    path: 'name'
+  const { value: headingForPreview } = useField({
+    path: collectionKey === 'record' ? 'title' : 'name'
   });
 
   // useEffect(() => {
@@ -31,22 +34,24 @@ const ColorPicker = () => {
   // }, []);
 
   useEffect(() => {
-    const selectedArtistImage = document.querySelector('.artistImage.selected');
+    const selectedImage = document.querySelector(
+      `.${collectionKey}Image.selected`
+    );
 
-    if (!selectedArtistImage) return;
+    if (!selectedImage) return;
 
     // TODO: better way to do this?
     if (!initialWidth || !initialHeight) {
-      initialWidth = selectedArtistImage.style.width;
-      initialHeight = selectedArtistImage.style.height;
+      initialWidth = selectedImage.style.width;
+      initialHeight = selectedImage.style.height;
     }
 
     if (isSelecting) {
-      selectedArtistImage.style.width = `calc(${initialWidth} + 150px)`;
-      selectedArtistImage.style.height = `calc(${initialHeight} + 150px)`;
+      selectedImage.style.width = `calc(${initialWidth} + 150px)`;
+      selectedImage.style.height = `calc(${initialHeight} + 150px)`;
     } else {
-      selectedArtistImage.style.width = initialWidth;
-      selectedArtistImage.style.height = initialHeight;
+      selectedImage.style.width = initialWidth;
+      selectedImage.style.height = initialHeight;
     }
   }, [isSelecting]);
 
@@ -105,7 +110,7 @@ const ColorPicker = () => {
 
       <Preview
         color={themeColor}
-        artistName={artistName}
+        heading={headingForPreview}
         selectedImageUrl={selectedImageUrl}
       />
 
@@ -121,7 +126,7 @@ const ColorPicker = () => {
 
 export default ColorPicker;
 
-function Preview({ color, artistName, selectedImageUrl }) {
+function Preview({ color, heading, selectedImageUrl }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   return (
@@ -130,7 +135,7 @@ function Preview({ color, artistName, selectedImageUrl }) {
         margin: '20px 0'
       }}
     >
-      <summary>Theme Color Preview 👀</summary>
+      <summary>Theme Colour Preview 👀</summary>
       <div
         style={{
           position: 'relative',
@@ -151,7 +156,7 @@ function Preview({ color, artistName, selectedImageUrl }) {
             color: color ? color : '#000'
           }}
         >
-          {artistName}
+          {heading}
         </p>
         <img
           src={selectedImageUrl}

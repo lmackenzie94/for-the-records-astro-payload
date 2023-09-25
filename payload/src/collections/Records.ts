@@ -1,3 +1,4 @@
+import ColorPicker from '@/components/ColorPicker';
 import RecordImages, { RecordImagesCell } from '@/components/RecordImages';
 import { content } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
@@ -220,6 +221,25 @@ const Records: CollectionConfig = {
         position: 'sidebar',
         // hide from admin UI until there's a value...
         condition: (data) => Boolean(data?.createdBy)
+      }
+    },
+    {
+      name: 'themeColor',
+      label: 'Theme Color',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'Use the colour picker below OR enter a hex value.'
+      }
+    },
+    {
+      name: 'colorPickerRecords',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: ColorPicker
+        }
       }
     },
     content,

@@ -25,6 +25,7 @@
 3. Payload "Local API"
 4. Possible to seed DB with initial test/dev data?
 5. Cloudinary plugin
+6. why are so many images being created during build?
 
 # Deploy Process Notes
 

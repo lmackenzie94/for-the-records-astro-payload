@@ -62,6 +62,7 @@ export interface Record {
   }[];
   imageUrl?: string;
   createdBy?: string | User;
+  themeColor?: string;
   content?: {
     [k: string]: unknown;
   }[];

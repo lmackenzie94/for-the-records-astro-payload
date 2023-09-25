@@ -41,6 +41,29 @@ export const getContentArray = (content: any) => {
   return htmlImageArray;
 };
 
+export const invertHex = (hexCode: string) => {
+  const hex = hexCode.replace('#', '');
+  const invertedHex = (Number(`0x1${hex}`) ^ 0xffffff)
+    .toString(16)
+    .substr(1)
+    .toUpperCase();
+  return `#${invertedHex}`;
+};
+
+export const getThemeColors = (hexCode: string, defaultColor: string) => {
+  const themeColor = hexCode || defaultColor;
+  const themeColorFaded = `${themeColor}15`;
+  const invertedThemeColor = invertHex(themeColor);
+  const invertedThemeColorFaded = `${invertedThemeColor}15`;
+
+  return {
+    themeColor,
+    themeColorFaded,
+    invertedThemeColor,
+    invertedThemeColorFaded
+  };
+};
+
 // query helpers
 
 export const getLimitQuery = (limit: number) => {

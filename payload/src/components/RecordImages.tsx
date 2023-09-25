@@ -151,6 +151,7 @@ const RecordImagesGrid = ({ recordData, currentImageUrl, onClick }) => {
         return (
           <article key={cover_image}>
             <div
+              className={`recordImage ${isSelected ? 'selected' : ''}`}
               style={{
                 position: 'relative',
                 width: 100,
