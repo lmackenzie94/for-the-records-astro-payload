@@ -14,7 +14,8 @@ export const getContentArray = (content: any) => {
           height: `${node.value.height}`
         })
     }
-  }).replaceAll('<p></p>', '<p>&nbsp;</p>');
+  });
+  // .replaceAll('<p></p>', '<p>&nbsp;</p>');
   const htmlImageArray: (
     | string
     | { src: string; width: number; height: number }

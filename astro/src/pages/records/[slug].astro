@@ -39,6 +39,8 @@ const artists: ArtistType[] = record.artist;
 const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
 const similarRecords = await getRecordsBySimilarGenre(record);
+
+console.log('CONTENT', record.content);
 ---
 
 <script is:inline src="https://unpkg.com/color.js@1.2.0/dist/color.js"></script>
@@ -124,24 +126,8 @@ const similarRecords = await getRecordsBySimilarGenre(record);
         </div>
       </div>
 
-      <!-- <Content>
-        <h2 class="mb-3 text-2xl font-bold">About</h2>
-        <p class="w-full sm:w-[85%]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-          veritatis repudiandae id eos laborum sint quod. Quae quas ea
-          architecto, quam totam exercitationem aliquam reiciendis obcaecati
-          corporis at officia quod est non modi! Libero culpa accusamus
-          necessitatibus, quae doloribus totam minima veritatis mollitia illum
-          recusandae quas reiciendis nisi eos provident obcaecati.
-        </p><p>
-          Sapiente mollitia ad dolores non debitis necessitatibus velit amet,
-          reprehenderit, quasi magnam labore eaque, pariatur eligendi facere
-          cumque obcaecati optio vero. Aliquid atque accusamus voluptatem nisi
-          pariatur neque labore. Ex quibusdam praesentium illum, voluptate hic
-          tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
-          fugit unde itaque eveniet reprehenderit!
-        </p>
-      </Content> -->
+      <!-- {record.content && <Content heading="About" content={record.content} />} -->
+      {record.content && <Content content={record.content} />}
 
       {
         artists.length && (

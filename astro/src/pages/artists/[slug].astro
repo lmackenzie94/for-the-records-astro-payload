@@ -1,6 +1,7 @@
 ---
 import Artist from '@/components/Artist.astro';
 import ArtistImage from '@/components/ArtistImage.astro';
+import Content from '@/components/Content.astro';
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { Artist as ArtistType, Genre } from '@/types';
@@ -138,6 +139,8 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
         </pre>
       </Content> -->
       {discogsBio && <p class="w-full sm:w-[85%]" set:html={discogsBio} />}
+
+      {artist.content && <Content content={artist.content} />}
 
       {
         records.length > 0 && (

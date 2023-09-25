@@ -1,24 +1,20 @@
 ---
-interface Props {
-  heading?: string;
-}
-
-const { heading = 'About' } = Astro.props;
----
-
-<div class="max-w-[70ch]">
-  <slot />
-</div>
-
-<!-- ---
 import { getContentArray } from '@/utils/helpers';
 import { getImageSrc } from '@/utils/payload/image';
 import { Image } from 'astro:assets';
-const { content } = Astro.props;
+const { heading, content, ...rest } = Astro.props;
 const contentArray = getContentArray(content);
+
+interface Props {
+  heading?: string;
+  content?: {
+    [k: string]: unknown;
+  }[];
+}
 ---
 
-<div>
+<div class={`prose`} {...rest}>
+  {heading && <h2>{heading}</h2>}
   {
     contentArray.map((value) => {
       if (typeof value === 'string') {
@@ -30,10 +26,10 @@ const contentArray = getContentArray(content);
             width={value.width}
             height={value.height}
             format="webp"
-            alt="hallo"
+            alt=""
           />
         );
       }
     })
   }
-</div> -->
+</div>
