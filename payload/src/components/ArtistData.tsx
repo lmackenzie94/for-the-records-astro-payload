@@ -1,10 +1,11 @@
+import { fetchArtistData } from '@/utils/discogs';
 import { useDebounce } from '@/utils/useDebounce';
 import { useField } from 'payload/components/forms';
 import React, { useEffect } from 'react';
 
 type Props = { path: string };
 
-const ArtistImages: React.FC<Props> = ({ path }) => {
+const ArtistData: React.FC<Props> = ({ path }) => {
   const { value: currentImageUrl, setValue: setCurrentImageUrl } =
     useField<Props>({ path: 'imageUrl' });
   const { value: artistName } = useField<Props>({ path: 'name' });
@@ -14,8 +15,6 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
 
   const [artistData, setArtistData] = React.useState(null);
   const [error, setError] = React.useState(null);
-
-  console.log('RENDER');
 
   useEffect(() => {
     if (currentImageUrl) setCurrentImageUrl(currentImageUrl);
@@ -35,8 +34,8 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
       const artistData = await fetchArtistData(artistName);
       setArtistData(artistData);
 
-      if (artistData?.profile && !artistBio) {
-        setArtistBio(artistData.profile);
+      if (artistData?.profile_html && !artistBio) {
+        setArtistBio(artistData.profile_html);
       }
     } catch (error) {
       setError(error.message);
@@ -89,7 +88,7 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
             Discogs Artist Name:{' '}
             <span style={{ fontWeight: 'bold' }}>{artistData.name}</span>
           </p>
-          <ArtistImagesGrid
+          <ArtistImages
             artistData={artistData}
             currentImageUrl={currentImageUrl}
             onClick={setFields}
@@ -133,8 +132,7 @@ const ArtistImages: React.FC<Props> = ({ path }) => {
 
 const NUM_IMAGES_TO_DISPLAY = 4;
 
-const ArtistImagesGrid = ({ artistData, currentImageUrl, onClick }) => {
-  console.log(artistData);
+const ArtistImages = ({ artistData, currentImageUrl, onClick }) => {
   const { name: artistName, images } = artistData;
 
   if (!images || images.length === 0) {
@@ -168,7 +166,7 @@ const ArtistImagesGrid = ({ artistData, currentImageUrl, onClick }) => {
               onClick={() =>
                 onClick({
                   imageURL: image.uri,
-                  profile: artistData.profile
+                  profile: artistData.profile_html
                 })
               }
               style={{
@@ -200,47 +198,8 @@ const ArtistImagesGrid = ({ artistData, currentImageUrl, onClick }) => {
   );
 };
 
-export default ArtistImages;
-
-export const ArtistImagesCell = () => {
+export const ArtistDataCell = () => {
   return <p>[image thumb should go here]</p>;
 };
 
-const fetchArtistData = async (artistName: string) => {
-  const discogsToken = 'lvSqsEIAVQNHGbsYiVRDSUwSZHidyBUKGTFdZKYb';
-  const discogsUrl = `https://api.discogs.com/database/search?title=${artistName}&type=artist&token=${discogsToken}&per_page=3`;
-  const response = await fetch(discogsUrl);
-
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-
-  const data = await response.json();
-
-  // loop through results and find "title" that most closely matches artistName, with no extra words or characters
-
-  let topResult = data.results?.[0];
-
-  data?.results?.forEach((result, index) => {
-    const resultTitle = result.title.toLowerCase().trim();
-    const artistNameLower = artistName.toLowerCase().trim();
-
-    if (resultTitle === artistNameLower) {
-      topResult = result;
-    }
-  });
-
-  if (topResult) {
-    const artistId = topResult.id;
-    const artistUrl = `https://api.discogs.com/artists/${artistId}?token=${discogsToken}`;
-    const artistResponse = await fetch(artistUrl);
-
-    if (!artistResponse.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const artistData = await artistResponse.json();
-
-    return artistData;
-  }
-};
+export default ArtistData;

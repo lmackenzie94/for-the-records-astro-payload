@@ -9,8 +9,7 @@ const ColorPicker = ({ name }) => {
   // TODO: better way to re-use this component for both records and artists?
   const collectionKey = name === 'colorPickerRecords' ? 'record' : 'artist';
 
-  const { open, close, isSupported } = useEyeDropper();
-  const [color, setColor] = useState(null);
+  const { open } = useEyeDropper();
   const [error, setError] = useState();
   const [isSelecting, setIsSelecting] = useState(false);
 
@@ -21,17 +20,13 @@ const ColorPicker = ({ name }) => {
   const { value: selectedImageUrl } = useField({
     path: 'imageUrl'
   });
+  // const { value: customImageUrl } = useField({
+  //   path: 'image'
+  // });
 
   const { value: headingForPreview } = useField({
     path: collectionKey === 'record' ? 'title' : 'name'
   });
-
-  // useEffect(() => {
-  //   if (themeColor) {
-  //     setColor(themeColor);
-
-  //   }
-  // }, []);
 
   useEffect(() => {
     const selectedImage = document.querySelector(
@@ -147,13 +142,16 @@ function Preview({ color, heading, selectedImageUrl }) {
       >
         <p
           style={{
-            margin: '1rem 0 -0.6rem 0.2rem',
+            margin: '1rem 0 -1.3rem 0.2rem',
             fontFamily:
               'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
             fontWeight: 900,
-            fontSize: '3.3rem',
+            fontSize: '3.8rem',
             mixBlendMode: 'exclusion',
-            color: color ? color : '#000'
+            color: color ? color : '#000',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            lineHeight: '1'
           }}
         >
           {heading}

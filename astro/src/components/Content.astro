@@ -2,7 +2,7 @@
 import { getContentArray } from '@/utils/helpers';
 import { getImageSrc } from '@/utils/payload/image';
 import { Image } from 'astro:assets';
-const { heading, content, ...rest } = Astro.props;
+const { heading, content, class: className, ...rest } = Astro.props;
 const contentArray = getContentArray(content);
 
 interface Props {
@@ -10,10 +10,12 @@ interface Props {
   content?: {
     [k: string]: unknown;
   }[];
+  class?: string;
+  [k: string]: unknown;
 }
 ---
 
-<div class={`prose`} {...rest}>
+<div class={`prose ${className}`} {...rest}>
   {heading && <h2>{heading}</h2>}
   {
     contentArray.map((value) => {

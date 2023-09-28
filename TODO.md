@@ -5,7 +5,7 @@
 3. Add Prettier pre-commit hook
 4. Add ES/TS Lint?
 5. Add tests
-6. Remove "genre" field from "Records" collection API response (o)
+6. Remove "genre" field from "Records" collection API response (old field)
 7. Get auth working
 8. Add "tracklist" + "about this track" functionality (+ "Favourite" functionality?)
 9. Need unique slugs in case records/artists happen to have same name
@@ -16,6 +16,9 @@
 14. write "fetchArtistName" function in RecordImages.tsx properly (i.e don't hardcode localhost)
 15. mobile styling
 16. try container queries for Record and Artist components
+17. Fix color preview if custom record image is used
+18. Limit homepage to 8 records (random?)
+19. add clear visual indication in CMS list view of which records/artists were created by the user vs other users
 
 # LOOK INTO:
 

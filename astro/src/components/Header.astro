@@ -7,6 +7,32 @@ import ThemeToggleReact from './ThemeToggle.tsx';
 const { logo } = await getSiteSettings();
 ---
 
+<!-- <script>
+  const loginButton = document.getElementById('login');
+
+  // login by fetch payload API with username and password
+
+  loginButton?.addEventListener('click', () => {
+    fetch('http://localhost:3001/api/users/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: 'mackenzieluke94@gmail.com',
+        password: 'Rusty321!'
+      })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          window.location.reload();
+        }
+      });
+  });
+</script> -->
 <header class="mb-16 w-full">
   <div class="container">
     <nav class="flex items-center justify-between py-6">
@@ -34,6 +60,7 @@ const { logo } = await getSiteSettings();
 
         <!-- client:load = high priority; load & hydrte component JS immediately on page load -->
         <ThemeToggleReact client:load />
+        <!-- <button id="login" class="font-mono tracking-tight"> Login</button> -->
       </div>
     </nav>
   </div>

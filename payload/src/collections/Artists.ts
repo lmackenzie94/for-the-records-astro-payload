@@ -1,9 +1,30 @@
-import ArtistImages, { ArtistImagesCell } from '@/components/ArtistImages';
+import ArtistData, { ArtistDataCell } from '@/components/ArtistData';
 import ColorPicker from '@/components/ColorPicker';
 import { content } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
 import { CollectionConfig } from 'payload/types';
+
+const isAdminOrCreatedBy = ({ req: { user } }) => {
+  // TODO: comment back in to allow "admins" to view/edit/etc all records (in the CMS)
+  // Scenario #1 - Check if user has the 'admin' role
+  if (user && user.role === 'admin') {
+    return true;
+  }
+
+  // Scenario #2 - Allow only documents with the current user set to the 'createdBy' field
+  if (user) {
+    // Will return access for only documents that were created by the current user
+    return {
+      createdBy: {
+        equals: user.id
+      }
+    };
+  }
+
+  // Scenario #3 - Disallow all others
+  return false;
+};
 
 const Artists: CollectionConfig = {
   slug: 'artists',
@@ -14,9 +35,18 @@ const Artists: CollectionConfig = {
     group: 'Content'
   },
   access: {
+    // TODO: doesn't work on front-end - req.user is undefined
+    // read: ({ req }) => {
+    //   // any authenticated user can read (i.e. see) all artists, even those created by others
+    //   if (req.user) {
+    //     return true;
+    //   }
+
+    //   return false;
+    // },
     read: () => true,
-    create: () => true,
-    update: () => true
+    update: isAdminOrCreatedBy,
+    delete: isAdminOrCreatedBy
   },
   hooks: {
     afterChange: [
@@ -84,8 +114,8 @@ const Artists: CollectionConfig = {
       type: 'ui',
       admin: {
         components: {
-          Field: ArtistImages,
-          Cell: ArtistImagesCell
+          Field: ArtistData,
+          Cell: ArtistDataCell
         }
       }
     },

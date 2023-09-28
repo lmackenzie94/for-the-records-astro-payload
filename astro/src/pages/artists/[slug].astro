@@ -41,19 +41,6 @@ const {
   invertedThemeColor,
   invertedThemeColorFaded
 } = getThemeColors(artist.themeColor, '#454545');
-
-const formatLinks = (bio, color) => {
-  if (!bio) return;
-  // convert links to anchor tags (ex. [url=http://www.discogs.com/artist/John+Mayall+%26+The+Bluesbreakers]Bluesbreakers[/url])
-
-  const regex = /\[url=(.+?)\](.+?)\[\/url\]/g;
-  const subst = `<a href="$1" style="color: ${color}" target="_blank" rel="noopener noreferrer">$2</a>`;
-  const result = bio.replace(regex, subst);
-
-  return result;
-};
-
-const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
 ---
 
 <style
@@ -88,6 +75,14 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
 
   span.label {
     color: var(--themeColor);
+  }
+
+  .bio :global(a),
+  .content :global(a) {
+    /* NOTE: only works with :global() because otherwise Astro appends a data-attribute to the selector, which the a elements in the bio don't have */
+    color: var(--invertedThemeColor);
+    text-decoration: underline;
+    font-weight: bolder;
   }
 </style>
 
@@ -131,9 +126,13 @@ const discogsBio = formatLinks(artist.discogsBio, invertedThemeColor);
           {JSON.stringify(artist.content, null, 2)}
         </pre>
       </Content> -->
-      {discogsBio && <p class="w-full sm:w-[85%]" set:html={discogsBio} />}
+      {
+        artist.discogsBio && (
+          <p class="bio w-full sm:w-[85%]" set:html={artist.discogsBio} />
+        )
+      }
 
-      {artist.content && <Content content={artist.content} />}
+      {artist.content && <Content class="content" content={artist.content} />}
 
       {
         records.length > 0 && (

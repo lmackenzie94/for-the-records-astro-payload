@@ -55,12 +55,12 @@ export interface Record {
   releaseYear?: string;
   useCustomImage?: boolean;
   image?: string | Media;
+  imageUrl?: string;
   favouriteTracks?: {
     title: string;
     notes?: string;
     id?: string;
   }[];
-  imageUrl?: string;
   createdBy?: string | User;
   themeColor?: string;
   content?: {

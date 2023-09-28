@@ -1,10 +1,11 @@
+import { fetchRecordData } from '@/utils/discogs';
 import { useDebounce } from '@/utils/useDebounce';
 import { useField } from 'payload/components/forms';
 import React, { useEffect } from 'react';
 
 type Props = { path: string };
 
-const RecordImages: React.FC<Props> = ({ path }) => {
+const RecordData: React.FC<Props> = ({ path }) => {
   const { value: currentImageUrl, setValue: setCurrentImageUrl } =
     useField<Props>({ path: 'imageUrl' });
   const { setValue: setReleaseYear } = useField<Props>({ path: 'releaseYear' });
@@ -16,8 +17,6 @@ const RecordImages: React.FC<Props> = ({ path }) => {
 
   const [recordData, setRecordData] = React.useState(null);
   const [error, setError] = React.useState(null);
-
-  console.log('RENDER');
 
   const debouncedRecordTitle = useDebounce(recordTitle, 1000);
 
@@ -84,7 +83,7 @@ const RecordImages: React.FC<Props> = ({ path }) => {
               {error}
             </p>
           )}
-          <RecordImagesGrid
+          <RecordImagesAndInfo
             recordData={recordData}
             currentImageUrl={currentImageUrl}
             onClick={setFields}
@@ -129,7 +128,7 @@ const RecordImages: React.FC<Props> = ({ path }) => {
 
 const NUM_RECORDS_TO_DISPLAY = 3;
 
-const RecordImagesGrid = ({ recordData, currentImageUrl, onClick }) => {
+const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
   if (!recordData || recordData.length === 0) {
     return <p>No records found.</p>;
   }
@@ -214,46 +213,8 @@ const RecordImagesGrid = ({ recordData, currentImageUrl, onClick }) => {
   );
 };
 
-export default RecordImages;
-
-export const RecordImagesCell = () => {
+export const RecordDataCell = () => {
   return <p>[image thumb should go here]</p>;
 };
 
-const fetchRecordData = async (recordTitle: string, mainArtistId: string) => {
-  let mainArtistName = null;
-  if (mainArtistId) {
-    mainArtistName = await fetchArtistName(mainArtistId);
-  }
-
-  // TODO: move discogs request to a function to hide the token??
-  const discogsToken = 'lvSqsEIAVQNHGbsYiVRDSUwSZHidyBUKGTFdZKYb';
-  let discogsUrl = `https://api.discogs.com/database/search?title=${recordTitle}&type=master&token=${discogsToken}`;
-
-  if (mainArtistName) {
-    discogsUrl += `&artist=${mainArtistName}`;
-  }
-
-  const response = await fetch(discogsUrl);
-
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-
-  const data = await response.json();
-
-  return data;
-};
-
-const fetchArtistName = async (artistId: string) => {
-  const res = await fetch(
-    `${process.env.PAYLOAD_PUBLIC_PAYLOAD_URL}/api/artists/${artistId}`
-  );
-
-  if (!res.ok) {
-    throw new Error('Network response was not ok');
-  }
-  const artistData = await res.json();
-
-  return artistData.name;
-};
+export default RecordData;

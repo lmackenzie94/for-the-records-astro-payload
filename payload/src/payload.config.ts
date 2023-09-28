@@ -23,11 +23,14 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     css: path.resolve(__dirname, './styles/custom.scss'),
-    autoLogin: {
-      email: 'mackenzieluke94@gmail.com',
-      password: process.env.PAYLOAD_AUTO_LOGIN_PASSWORD, // doesn't work...(might have to make it "PAYLOAD_PUBLIC..." ?)
-      prefillOnly: true
-    },
+    autoLogin:
+      process.env.PAYLOAD_PUBLIC_ENABLE_AUTOLOGIN === 'true'
+        ? {
+            email: 'mackenzieluke94@gmail.com',
+            password: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_PASSWORD, // doesn't work...
+            prefillOnly: true
+          }
+        : false,
     meta: {
       titleSuffix: '| For The Records.'
       // NOTE: /assets would work because of the config in server.ts
@@ -60,13 +63,15 @@ export default buildConfig({
   //     uploadsCollection: 'media',
   //   }),
   // ],
-  cors: '*', //TODO: change this
+  cors: ['http://localhost:3000'],
   csrf: [
     // TODO: need this?
     // whitelist of domains to allow cookie auth from
     'payload:3001',
     'http://localhost:3001',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'localhost',
+    'localhost:3000'
   ].filter(Boolean),
   typescript: {
     outputFile: path.resolve('/', 'types.ts')

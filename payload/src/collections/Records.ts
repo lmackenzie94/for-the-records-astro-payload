@@ -1,5 +1,5 @@
 import ColorPicker from '@/components/ColorPicker';
-import RecordImages, { RecordImagesCell } from '@/components/RecordImages';
+import RecordData, { RecordDataCell } from '@/components/RecordData';
 import { content } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
@@ -9,11 +9,11 @@ import { CollectionConfig } from 'payload/types';
 const isAdminOrCreatedBy = ({ req: { user } }) => {
   console.log('USER ', user);
 
-  // TODO: comment back in to allow "admins" to view/edit/etc all records
+  // TODO: comment back in to allow "admins" to view/edit/etc all records (in the CMS)
   // Scenario #1 - Check if user has the 'admin' role
-  // if (user && user.role === 'admin') {
-  //   return true;
-  // }
+  if (user && user.role === 'admin') {
+    return true;
+  }
 
   // Scenario #2 - Allow only documents with the current user set to the 'createdBy' field
   if (user) {
@@ -37,6 +37,16 @@ const Records: CollectionConfig = {
     group: 'Content'
   },
   access: {
+    // TODO: doesn't work on front-end - req.user is undefined
+    // read: ({ req }) => {
+    //   console.log('USER: ', req.user);
+    //   // any authenticated user can read (i.e. see) all records, even those created by others
+    //   if (req.user) {
+    //     return true;
+    //   }
+
+    //   return false;
+    // },
     read: () => true,
     // read: isAdminOrCreatedBy, // TODO: doesn't work unless JWT is set in header (see utils/payload/records.ts)
     update: isAdminOrCreatedBy,
@@ -165,17 +175,29 @@ const Records: CollectionConfig = {
         condition: (_, siblingData) => siblingData.useCustomImage
       }
     },
+
+    // TODO: why is this component editable for users who didn't create the record - should be greyed out
     {
       name: 'setImageUrl',
       type: 'ui',
       admin: {
         components: {
-          Field: RecordImages,
-          Cell: RecordImagesCell
+          Field: RecordData,
+          Cell: RecordDataCell
         }
       }
     },
-
+    // TODO: shouldn't actually need this - save the image url to the setImageUrl field
+    {
+      name: 'imageUrl',
+      label: 'Image URL',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        hidden: true
+      }
+    },
     {
       name: 'favouriteTracks',
       label: 'Favourite Tracks',
@@ -196,18 +218,6 @@ const Records: CollectionConfig = {
           type: 'textarea'
         }
       ]
-    },
-
-    // TODO: shouldn't actually need this - save the image url to the setImageUrl field
-    {
-      name: 'imageUrl',
-      label: 'Image URL',
-      type: 'text',
-      admin: {
-        position: 'sidebar',
-        readOnly: true,
-        hidden: true
-      }
     },
     {
       name: 'createdBy',
