@@ -7,7 +7,18 @@ export const fetchRecordData = async (
 ) => {
   let mainArtistName = null;
   if (mainArtistId) {
-    mainArtistName = await fetchArtistName(mainArtistId);
+    // use the main artist ID to get the artist name via the Payload API
+    const res = await fetch(
+      `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/api/artists/${mainArtistId}`
+    );
+
+    if (!res.ok) {
+      throw new Error('Error fetching artist name...');
+    }
+
+    const artistData = await res.json();
+
+    mainArtistName = artistData.name;
   }
 
   // TODO: move discogs request to a function to hide the token??
@@ -26,20 +37,6 @@ export const fetchRecordData = async (
   const data = await response.json();
 
   return data;
-};
-
-// !NOTE: this function actually fetches from Payload API, not Discogs
-const fetchArtistName = async (artistId: string) => {
-  const res = await fetch(
-    `${process.env.PAYLOAD_PUBLIC_PAYLOAD_URL}/api/artists/${artistId}`
-  );
-
-  if (!res.ok) {
-    throw new Error('Error fetching artist name...');
-  }
-  const artistData = await res.json();
-
-  return artistData.name;
 };
 
 export const fetchArtistData = async (

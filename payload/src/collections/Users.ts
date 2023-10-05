@@ -9,6 +9,14 @@ import { CollectionConfig } from 'payload/types';
 // Once enabled, each document that is created within the Collection can be thought of as a user...
 // ...who can make use of commonly required authentication functions such as logging in / out, resetting their password, and more.
 
+const isAdmin = ({ req: { user } }) => {
+  if (user && user.role === 'admin') {
+    return true;
+  }
+
+  return false;
+};
+
 const Users: CollectionConfig = {
   slug: 'users',
   auth: {
@@ -23,14 +31,17 @@ const Users: CollectionConfig = {
   },
   access: {
     read: () => true,
-    // TODO: change this to "admin" only or something...
-    create: () => true
+    // by default, create is allowed for authenticated users
+    // we'll override this below to allow only admins to create new users
+    create: isAdmin
   },
   fields: [
     // Email added by default
     {
       name: 'name',
       type: 'text'
+      // saveToJWT tells Payload to include the field data to the JSON web token used to authenticate users
+      // saveToJWT: true,
     },
     {
       name: 'role',

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { fetchRecordData } from '@/utils/discogs';
 import { useDebounce } from '@/utils/useDebounce';
 import { useField } from 'payload/components/forms';

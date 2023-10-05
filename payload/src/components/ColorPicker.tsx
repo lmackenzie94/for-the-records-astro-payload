@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useField } from 'payload/components/forms';
 import React, { useCallback, useEffect, useState } from 'react';
 import useEyeDropper from 'use-eye-dropper';
