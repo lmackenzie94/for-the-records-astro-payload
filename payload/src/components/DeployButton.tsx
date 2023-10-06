@@ -11,7 +11,10 @@ export default function DeployButton() {
     const buddyWebhook = process.env.REACT_APP_BUDDY_WEBHOOK;
     console.log('BUDDY WEBHOOK', buddyWebhook);
 
-    const response = await fetch(buddyWebhook);
+    // const response = await fetch(buddyWebhook);
+    const response = await fetch(
+      'https://app.buddy.works/lukes-personal-workspace/for-the-records-astro-payload/pipelines/pipeline/469266/trigger-webhook?token=e1cdc98bec1cfc0886f4ee33c5d410a00abc220c46d8bfda6ce72655f52245a5c6985e61c24d32a464441b7d46525402'
+    );
     console.log(response);
   };
 
