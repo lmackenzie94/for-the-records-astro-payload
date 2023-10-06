@@ -6,6 +6,7 @@ import Media from '@/collections/Media';
 import Records from '@/collections/Records';
 import Users from '@/collections/Users';
 import BeforeLogin from '@/components/BeforeLogin';
+import DeployButton from '@/components/DeployButton';
 import Icon from '@/components/Icon/Icon';
 import SiteSettings from '@/globals/SiteSettings';
 import dotenv from 'dotenv';
@@ -19,15 +20,23 @@ dotenv.config({
 });
 
 export default buildConfig({
-  serverURL: process.env.PAYLOAD_URL,
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   admin: {
     user: Users.slug,
     css: path.resolve(__dirname, './styles/custom.scss'),
     autoLogin:
-      process.env.PAYLOAD_PUBLIC_ENABLE_AUTOLOGIN === 'true'
+      process.env.PAYLOAD_PUBLIC_ENABLE_AUTOLOGIN === 'true' &&
+      process.env.NODE_ENV === 'development'
         ? {
-            email: 'mackenzieluke94@gmail.com',
-            password: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_PASSWORD, // doesn't work...
+            email: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_EMAIL,
+            password: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_PASSWORD, // doesn't seem to work
+            prefillOnly: true
+          }
+        : process.env.PAYLOAD_PUBLIC_ENABLE_AUTOLOGIN === 'true' &&
+          process.env.NODE_ENV === 'production'
+        ? {
+            email: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_EMAIL,
+            password: '',
             prefillOnly: true
           }
         : false,
@@ -39,6 +48,7 @@ export default buildConfig({
     },
     components: {
       beforeLogin: [BeforeLogin],
+      afterNavLinks: [DeployButton],
       graphics: {
         // Logo, // Image component to be displayed as the logo on the Sign Up / Login view.
         Icon // Image component displayed above the Nav in the admin panel, often a condensed version of a full logo.

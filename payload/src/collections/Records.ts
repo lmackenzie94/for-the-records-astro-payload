@@ -7,7 +7,7 @@ import { status } from '@/fields/Status';
 import { CollectionConfig } from 'payload/types';
 
 const isAdminOrCreatedBy = ({ req: { user } }) => {
-  console.log('USER ', user);
+  console.log('CURRENT USER ', user);
 
   // TODO: comment back in to allow "admins" to view/edit/etc all records (in the CMS)
   // Scenario #1 - Check if user has the 'admin' role
@@ -98,27 +98,31 @@ const Records: CollectionConfig = {
     afterChange: [
       async () => {
         console.log(process.env.TOKEN);
+        console.log('GIT HUB TOKEN: ', process.env.TOKEN);
+        console.log('REPOSITORY: ', process.env.REPOSITORY);
 
-        try {
-          process.env.NODE_ENV !== 'development' &&
-            console.log(
-              await fetch(
-                `https://api.github.com/repos/${process.env.REPOSITORY}/dispatches`,
-                {
-                  method: 'POST',
-                  headers: {
-                    Accept: 'application/vnd.github.everest-preview+json',
-                    Authorization: `token ${process.env.TOKEN}`
-                  },
-                  body: JSON.stringify({
-                    event_type: 'payload_update'
-                  })
-                }
-              )
-            );
-        } catch (e) {
-          console.log(e);
-        }
+        // try {
+        //   // process.env.NODE_ENV !== 'development' &&
+
+        //   const res = await fetch(
+        //     `https://api.github.com/repos/${process.env.REPOSITORY}/dispatches`,
+        //     {
+        //       method: 'POST',
+        //       headers: {
+        //         Accept: 'application/vnd.github.everest-preview+json',
+        //         Authorization: `token ${process.env.TOKEN}`
+        //       },
+        //       body: JSON.stringify({
+        //         event_type: 'payload_update'
+        //       })
+        //     }
+        //   );
+
+        //   const data = await res.json();
+        //   console.log('GITHUB DISPATCH RESPONSE: ', data);
+        // } catch (e) {
+        //   console.log(e);
+        // }
       }
     ]
   },
