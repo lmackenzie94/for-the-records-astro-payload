@@ -1,22 +1,18 @@
 import React from 'react';
 
 export default function DeployButton() {
-  const [deploying, setDeploying] = React.useState(false);
-
   const IS_DEV = process.env.NODE_ENV === 'development';
   console.log('IS DEV', IS_DEV);
   console.log('NODE ENV', process.env.NODE_ENV);
 
-  const triggerDeployWebhook = async () => {
+  const triggerDeployWebhook = async (e) => {
+    e.preventDefault();
     // get buddy webhook from env
     const buddyWebhook = process.env.REACT_APP_BUDDY_WEBHOOK;
+    console.log('BUDDY WEBHOOK', buddyWebhook);
 
-    // log node env
-    console.log(process.env.NODE_ENV);
-    setDeploying(true);
     const response = await fetch(buddyWebhook);
     console.log(response);
-    setDeploying(false);
   };
 
   return (
@@ -26,7 +22,7 @@ export default function DeployButton() {
         alt="Buddy CI badge"
       />
       <button
-        disabled={deploying || IS_DEV}
+        disabled={IS_DEV}
         style={{
           border: `2px solid #4b5320`,
           backgroundColor: `#4b532022`,
@@ -37,11 +33,11 @@ export default function DeployButton() {
           marginTop: '1rem',
           width: '100%',
           cursor: 'pointer',
-          opacity: deploying || IS_DEV ? 0.4 : 1
+          opacity: IS_DEV ? 0.4 : 1
         }}
         onClick={triggerDeployWebhook}
       >
-        {deploying ? 'Deploying...' : 'Deploy'}
+        Deploy
       </button>
       {IS_DEV && (
         <p style={{ fontSize: '0.7rem', lineHeight: 1.1, marginTop: '0.5rem' }}>
