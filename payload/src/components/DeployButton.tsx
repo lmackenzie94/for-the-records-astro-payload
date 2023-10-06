@@ -41,11 +41,13 @@ export default function DeployButton() {
         }}
         onClick={triggerDeployWebhook}
       >
-        Deploy
+        {deploying ? 'Deploying...' : 'Deploy'}
       </button>
-      <p style={{ fontSize: '0.7rem', lineHeight: 1.1, marginTop: '0.5rem' }}>
-        This button is disabled in dev mode.
-      </p>
+      {IS_DEV && (
+        <p style={{ fontSize: '0.7rem', lineHeight: 1.1, marginTop: '0.5rem' }}>
+          This button is disabled in dev mode.
+        </p>
+      )}
     </article>
   );
 }
