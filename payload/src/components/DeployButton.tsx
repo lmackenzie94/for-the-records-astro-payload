@@ -4,6 +4,8 @@ export default function DeployButton() {
   const [deploying, setDeploying] = React.useState(false);
 
   const IS_DEV = process.env.NODE_ENV === 'development';
+  console.log('IS DEV', IS_DEV);
+  console.log('NODE ENV', process.env.NODE_ENV);
 
   const triggerDeployWebhook = async () => {
     // get buddy webhook from env
