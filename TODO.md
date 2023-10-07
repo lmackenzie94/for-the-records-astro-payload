@@ -13,12 +13,15 @@
 11. Add data and src/media back to .gitignore files
 12. Show thumbnail image in CMS List view for Records and Artists
 13. make imageURL field required if no custom image is set, and vice versa (Records and Artists)
-14. write "fetchArtistName" function in RecordImages.tsx properly (i.e don't hardcode localhost)
-15. mobile styling
-16. try container queries for Record and Artist components
-17. Fix color preview if custom record image is used
-18. Limit homepage to 8 records (random?)
-19. add clear visual indication in CMS list view of which records/artists were created by the user vs other users
+14. mobile styling
+15. try container queries for Record and Artist components
+16. Fix color preview if custom record image is used
+17. Limit homepage to 8 records (random?)
+18. add clear visual indication in CMS list view of which records/artists were created by the user vs other users
+19. make this a PWA
+20. remove // @ts-nocheck where used
+21. try re-adding John Mayer - discogs images don't show up
+22. set up on personal laptop
 
 # LOOK INTO:
 
@@ -26,7 +29,7 @@
 2. why do I have to use `sudo` before `yarn` commands?
    1. also have to delete `"credsStore": "desktop"` from ~/.docker/config.json
 3. Payload "Local API"
-4. Possible to seed DB with initial test/dev data?
+4. Possible to seed DB with initial test/dev data? (https://github.com/payloadcms/public-demo/blob/master/src/cron/reset.ts)
 5. Cloudinary plugin
 6. why are so many images being created during build?
 

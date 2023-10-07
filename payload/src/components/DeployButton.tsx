@@ -7,7 +7,7 @@ export default function DeployButton() {
 
   const triggerDeployWebhook = async (e) => {
     e.preventDefault();
-    // get buddy webhook from env
+    // TODO: get buddy webhook from env - wasn't working in prod
     const buddyWebhook = process.env.REACT_APP_BUDDY_WEBHOOK;
     console.log('BUDDY WEBHOOK', buddyWebhook);
 
@@ -27,9 +27,9 @@ export default function DeployButton() {
       <button
         disabled={IS_DEV}
         style={{
-          border: `2px solid #4b5320`,
-          backgroundColor: `#4b532022`,
-          color: `#4b5320`,
+          border: `none`,
+          backgroundColor: `darkslategray`,
+          color: `white`,
           padding: '.5rem 1rem',
           borderRadius: '5px',
           fontWeight: 'bold',
