@@ -22,7 +22,8 @@ export const fetchRecordData = async (
   }
 
   // TODO: move discogs request to a function to hide the token??
-  let discogsUrl = `${DISCOGS_BASE_URL}/database/search?title=${recordTitle}&type=master&token=${DISCOGS_TOKEN}`;
+  // NOTE: sort=have sorts by Discog "Most Collected" (desc) which seems to be better than the default (Relevance)
+  let discogsUrl = `${DISCOGS_BASE_URL}/database/search?sort=have&title=${recordTitle}&type=master&token=${DISCOGS_TOKEN}`;
 
   if (mainArtistName) {
     discogsUrl += `&artist=${mainArtistName}`;
@@ -43,7 +44,7 @@ export const fetchArtistData = async (
   artistName: string,
   numToFetch: number = 3
 ) => {
-  const url = `${DISCOGS_BASE_URL}/database/search?title=${artistName}&type=artist&token=${DISCOGS_TOKEN}&per_page=${numToFetch}`;
+  const url = `${DISCOGS_BASE_URL}/database/search?sort=have&title=${artistName}&type=artist&token=${DISCOGS_TOKEN}&per_page=${numToFetch}`;
   const response = await fetch(url);
 
   if (!response.ok) {
