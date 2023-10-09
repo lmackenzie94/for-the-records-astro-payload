@@ -22,6 +22,7 @@
 20. remove // @ts-nocheck where used
 21. try re-adding John Mayer - discogs images don't show up
 22. set up on personal laptop
+23. Resize / compress uploaded images
 
 # LOOK INTO:
 

@@ -196,6 +196,7 @@ Logging in to the CMS at /login creates a cookie called "payload-token"
     - `pm2 startup systemd`
     - see docs for more info
 - **Set up Nginx as a Reverse Proxy Server:**
+  - `Reverse proxy server`: is a kind of server that listens to client requests and forward or relays the requests to the relevant web application. At the same time, it responds to the client with the web application’s response.
   - just follow the [docs](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-20-04#step-4-setting-up-nginx-as-a-reverse-proxy-server).
   - **NOTE:** you can add multiple `location` blocks to the server block in `/etc/nginx/sites-available/for-the-records.com` to serve multiple Node.js apps on the same server.
   - serve Payload CMS from `/admin` directory:
@@ -242,7 +243,64 @@ Logging in to the CMS at /login creates a cookie called "payload-token"
 
 - `sudo mkdir -p /var/www/for-the-records.com/html/admin`
 - `sudo chown -R $USER:$USER /var/www/for-the-records.com/html/admin`
-- build Payload CMS locally
+- build Payload CMS locally (`yarn build`)
+  - `dist`: server code
+  - `build`: built admin panel
 - copy contents of `build` folder to `/var/www/for-the-records.com/html/admin`
 - **TODO:** figure out what to do from here ...
 - going to /admin loads the simple Node app I created earlier... (line 216 above)
+  - which is running via PM2 `index` process
+
+Might be helpful -> https://payloadcms.com/community-help/discord/suggestions-for-syncing-local-prod-databases (see `ecosystem.config.js`)
+
+This tutorial helped get things working: https://www.showwcase.com/show/18570/how-to-deploy-payloadcms-to-digitialocean-and-connect-to-s3-bucket
+
+`cd /var/www/for-the-records.com/html/admin`
+
+#### Figure this out:
+
+`sudo nano /etc/nginx/sites-available/for-the-records.com`
+`sudo systemctl restart nginx`
+
+// why does changing /admin to /cms not work?
+// also, I don't think I should have to add all these...
+location /admin {
+proxy_pass http://localhost:3001;
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection 'upgrade';
+proxy_set_header Host $host;
+proxy_cache_bypass $http_upgrade;
+}
+location /api {
+proxy_pass http://localhost:3001;
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection 'upgrade';
+proxy_set_header Host $host;
+proxy_cache_bypass $http_upgrade;
+}
+location /assets {
+proxy_pass http://localhost:3001;
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection 'upgrade';
+proxy_set_header Host $host;
+proxy_cache_bypass $http_upgrade;
+}
+location /media {
+proxy_pass http://localhost:3001;
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection 'upgrade';
+proxy_set_header Host $host;
+proxy_cache_bypass $http_upgrade;
+}
+
+pm2 didn't seem to work with `yarn`...
+
+#### Questions:
+
+- why do I need node_modules in production when running `yarn serve` (in home/luke/payload folder)
+  - ended up running build directly on the server to generate node_modules folder
+  - then in Buddy pipeline, ignore node_modules folder (otherwise the copy would take forever)
