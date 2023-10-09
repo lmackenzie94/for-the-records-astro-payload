@@ -1,27 +1,27 @@
+import type { Artist } from '@/types';
 import { getLimitQuery, getStatusQuery } from '@/utils/helpers';
-import { URL } from './config';
+import { URL, apiFetch } from './api';
 
 // use for more complex queries (see payload docs)
 // import qs from 'qs';
 
-import type { Artist } from '@/types';
-
-const customFetch = async (url: string) => {
-  const res = await fetch(url);
-  return await res.json();
-};
-
+// GET ALL ARTISTS
 export const getArtists = async () =>
-  (await customFetch(`${URL}/api/artists`)).docs as Artist[];
+  (await apiFetch(`${URL}/api/artists`)).docs as Artist[];
 
+// GET ARTIST BY ID
 export const getArtistById = async (id: string) =>
-  (await customFetch(`${URL}/api/artists/${id}`)) as Artist;
+  (await apiFetch(`${URL}/api/artists/${id}`)) as Artist;
 
+// GET ARTIST BY SLUG
 export const getArtistBySlug = async (slug: string) => {
-  return await customFetch(`${URL}/api/artists?where[slug][equals]=${slug}`);
+  return (await apiFetch(
+    `${URL}/api/artists?where[slug][equals]=${slug}`
+  )) as Artist;
 };
 
-export const getArtistsBySimilarGenre = async (
+// GET SIMILAR ARTISTS BY GENRE
+export const getSimilarArtistsByGenre = async (
   artist: Artist,
   limit: number = 3
 ) => {
@@ -31,7 +31,7 @@ export const getArtistsBySimilarGenre = async (
 
   try {
     const similarArtists = (
-      await customFetch(
+      await apiFetch(
         `${URL}/api/artists?where[genres][in]=${genres}&where[id][not_equals]=${id}&${getStatusQuery(
           'published'
         )}&${getLimitQuery(limit)}`

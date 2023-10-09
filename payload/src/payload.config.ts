@@ -32,13 +32,6 @@ export default buildConfig({
             password: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_PASSWORD, // doesn't seem to work
             prefillOnly: true
           }
-        : process.env.PAYLOAD_PUBLIC_ENABLE_AUTOLOGIN === 'true' &&
-          process.env.NODE_ENV === 'production'
-        ? {
-            email: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_EMAIL,
-            password: '',
-            prefillOnly: true
-          }
         : false,
     meta: {
       titleSuffix: '| For The Records.'
@@ -77,13 +70,12 @@ export default buildConfig({
   csrf: [
     // TODO: need this?
     // whitelist of domains to allow cookie auth from
-    'payload:3001',
     'http://localhost:3001',
     'http://localhost:3000',
     'localhost',
     'localhost:3000'
   ].filter(Boolean),
   typescript: {
-    outputFile: path.resolve('../astro/src', 'types.ts')
+    outputFile: path.resolve(__dirname, 'types.ts')
   }
 });

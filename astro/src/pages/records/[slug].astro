@@ -11,7 +11,7 @@ import type {
   Record as RecordType
 } from '@/types';
 import { getThemeColors, invertHex } from '@/utils/helpers';
-import { getRecords, getRecordsBySimilarGenre } from '@/utils/payload/record';
+import { getRecords, getSimilarRecordsByGenre } from '@/utils/payload/record';
 import type { InferGetStaticParamsType } from 'astro';
 
 // TODO: how to get type hints...?
@@ -39,7 +39,7 @@ const { record } = Astro.props;
 const artists: ArtistType[] = record.artist;
 const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
-const similarRecords = await getRecordsBySimilarGenre(record);
+const similarRecords = await getSimilarRecordsByGenre(record);
 
 const {
   themeColor,

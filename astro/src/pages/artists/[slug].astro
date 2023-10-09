@@ -6,7 +6,7 @@ import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { Artist as ArtistType, Genre } from '@/types';
 import { getThemeColors } from '@/utils/helpers';
-import { getArtists, getArtistsBySimilarGenre } from '@/utils/payload/artist';
+import { getArtists, getSimilarArtistsByGenre } from '@/utils/payload/artist';
 import { getRecordsByArtist } from '@/utils/payload/record';
 import type { InferGetStaticParamsType } from 'astro';
 // TODO: how to get type hints...?
@@ -33,7 +33,7 @@ const { artist } = Astro.props;
 
 const records = await getRecordsByArtist(artist.id);
 const genres: Genre[] = artist.genres?.map((genre) => genre.title) || [];
-const similarArtists = await getArtistsBySimilarGenre(artist);
+const similarArtists = await getSimilarArtistsByGenre(artist);
 
 const {
   themeColor,

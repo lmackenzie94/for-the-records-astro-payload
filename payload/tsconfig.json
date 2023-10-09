@@ -11,6 +11,8 @@
     },
     "jsx": "react"
   },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "build"],
   "ts-node": {
     "transpileOnly": true,
     "require": ["tsconfig-paths/register"]

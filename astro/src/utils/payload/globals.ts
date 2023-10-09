@@ -1,4 +1,4 @@
-import { URL } from './config';
+import { URL } from './api';
 
 import type { SiteSetting } from '@/types';
 

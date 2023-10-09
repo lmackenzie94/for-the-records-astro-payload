@@ -23,16 +23,14 @@
 21. try re-adding John Mayer - discogs images don't show up
 22. set up on personal laptop
 23. Resize / compress uploaded images
+24. clean up node modules / package.json; remove unused packages
 
 # LOOK INTO:
 
-1. had to `yarn install` locally to stop errors (... or maybe just had to restart VSCode?)
-2. why do I have to use `sudo` before `yarn` commands?
-   1. also have to delete `"credsStore": "desktop"` from ~/.docker/config.json
-3. Payload "Local API"
-4. Possible to seed DB with initial test/dev data? (https://github.com/payloadcms/public-demo/blob/master/src/cron/reset.ts)
-5. Cloudinary plugin
-6. why are so many images being created during build?
+1. Payload "Local API"
+2. Possible to seed DB with initial test/dev data? (https://github.com/payloadcms/public-demo/blob/master/src/cron/reset.ts)
+3. Cloudinary plugin
+4. why are so many images being created during build?
 
 # Deploy Process Notes
 

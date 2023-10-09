@@ -2,16 +2,16 @@
 import RecordImage from '@/components/RecordImage.astro';
 import Layout from '@/layouts/Layout.astro';
 import { getSiteSettings } from '@/utils/payload/globals';
-import { getRecords } from '@/utils/payload/record';
+import { getRandomRecords } from '@/utils/payload/record';
 
-const records = await getRecords();
+const records = await getRandomRecords();
 
 const { title: siteTitle } = await getSiteSettings();
 ---
 
 <Layout title="Home">
   <h1
-    class="text-center sm:text-left heading-text-shadow relative z-10 -mb-[.3em] animate-fade-in-drop-down text-6xl font-black text-[#d5d5d5] opacity-0 mix-blend-exclusion dark:text-[#f8f8f8] md:text-center md:text-8xl"
+    class="heading-text-shadow relative z-10 -mb-[.3em] animate-fade-in-drop-down text-center text-6xl font-black text-[#d5d5d5] opacity-0 mix-blend-exclusion dark:text-[#f8f8f8] sm:text-left md:text-center md:text-8xl"
     transition:animate="fade"
   >
     {siteTitle}
@@ -20,7 +20,7 @@ const { title: siteTitle } = await getSiteSettings();
   <section class="flex flex-wrap justify-center">
     {
       records?.length > 0 &&
-        records.map((record, idx) => {
+        records.map((record) => {
           return (
             <div
               class="record w-1/2 flex-grow-0 animate-fade-in-scale opacity-0 md:w-1/4"
@@ -38,7 +38,9 @@ const { title: siteTitle } = await getSiteSettings();
           );
         })
     }
-    <div class="text-center mt-8 w-full sm:text-right font-mono tracking-tighter">
+    <div
+      class="mt-8 w-full text-center font-mono tracking-tighter sm:text-right"
+    >
       <a href="/records" class="text-black dark:text-[#f8f8f8]">View all >></a>
     </div>
   </section>

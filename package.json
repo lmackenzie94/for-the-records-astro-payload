@@ -1,8 +1,8 @@
 {
-  "name": "astroad",
-  "description": "A pre-configured setup for easy website development with Astro and Payload CMS using Docker.",
+  "name": "for-the-records",
+  "description": "My record collection, digitalized.",
   "license": "MIT",
-  "version": "1.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "concurrently \"cd astro && yarn dev\" \"cd payload && yarn dev\"",
     "format": "cd astro && yarn format && cd .. && cd payload && yarn format && cd .."
