@@ -128,7 +128,10 @@ const {
       </Content> -->
       {
         artist.discogsBio && (
-          <p class="bio w-full sm:w-[85%]" set:html={artist.discogsBio} />
+          <details class="w-full sm:w-[85%]">
+            <summary class="font-bold">Discogs Bio</summary>
+            <p class="bio mt-2" set:html={artist.discogsBio} />
+          </details>
         )
       }
 

@@ -3,3 +3,5 @@ yarn-error.log*
 data/**/*
 
 .env
+
+node_modules

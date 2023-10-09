@@ -2,7 +2,9 @@ import express from 'express';
 import path from 'path';
 import payload from 'payload';
 
-require('dotenv').config();
+require('dotenv').config({
+  path: path.resolve(__dirname, '../../.env')
+});
 const app = express();
 
 // we can serve assets from the same express app as Payload is using...

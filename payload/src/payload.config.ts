@@ -16,7 +16,7 @@ import path from 'path';
 // import seo from '@payloadcms/plugin-seo';
 
 dotenv.config({
-  path: path.resolve(__dirname, '../.env')
+  path: path.resolve(__dirname, '../../.env')
 });
 
 export default buildConfig({
@@ -84,6 +84,6 @@ export default buildConfig({
     'localhost:3000'
   ].filter(Boolean),
   typescript: {
-    outputFile: path.resolve('/', 'types.ts')
+    outputFile: path.resolve('../astro/src', 'types.ts')
   }
 });
