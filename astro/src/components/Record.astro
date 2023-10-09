@@ -1,7 +1,7 @@
 ---
 import RecordArtists from '@/components/RecordArtists.astro';
+import RecordImage from '@/components/RecordImage.astro';
 import type { Record } from '@/types';
-import PayloadImage from './PayloadImage.astro';
 
 interface Props {
   record: Record;
@@ -16,15 +16,10 @@ const { record, class: className } = Astro.props;
     href={`/records/${record.slug}`}
     class="glossy-hover mb-2 block rounded-sm"
   >
-    <PayloadImage
-      src={record.image}
-      alt={`${record.title} album cover`}
-      class="aspect-square h-full w-full object-cover"
-      transition:name={`record-${record.id}`}
-    />
+    <RecordImage record={record} transition:name={`record-${record.id}`} />
   </a>
-  <p class="leading-5">{record.title}</p>
-  <p class="text-xs font-light text-armyGreen dark:text-[#bb84ff]">
+  <p class="font-medium leading-5">{record.title}</p>
+  <p class="text-xs text-gray-medium dark:text-gray-light">
     <RecordArtists record={record} class="hocus:underline" />
   </p>
 </article>

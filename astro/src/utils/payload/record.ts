@@ -1,3 +1,4 @@
+import { getLimitQuery, getStatusQuery } from '@/utils/helpers';
 import { URL } from './config';
 
 import type { Record } from '@/types';
@@ -16,15 +17,24 @@ const fetchWithCredentials = async (url: string, options?: RequestInit) => {
 };
 
 export const getRecords = async () =>
-  (await (await fetchWithCredentials(`${URL}/api/records`)).json())
-    .docs as Record[];
+  (
+    await (
+      await fetchWithCredentials(
+        `${URL}/api/records?${getStatusQuery('published')}`
+      )
+    ).json()
+  ).docs as Record[];
 
 export const getRecordById = async (id: string) =>
   (await (await fetch(`${URL}/api/records/${id}`)).json()) as Record;
 
 export const getRecordBySlug = async (slug: string) => {
   return await (
-    await fetch(`${URL}/api/records?where[slug][equals]=${slug}`)
+    await fetch(
+      `${URL}/api/records?where[slug][equals]=${slug}&${getStatusQuery(
+        'published'
+      )}`
+    )
   ).json();
 };
 
@@ -32,7 +42,9 @@ export const getRecordsByArtist = async (id: string, limit: number = 3) => {
   return (
     await (
       await fetch(
-        `${URL}/api/records?where[artist][equals]=${id}&limit=${limit}`
+        `${URL}/api/records?where[artist][equals]=${id}&${getLimitQuery(
+          limit
+        )}&${getStatusQuery('published')}`
       )
     ).json()
   ).docs as Record[];
@@ -50,7 +62,9 @@ export const getRecordsBySimilarGenre = async (
     const similarRecords = (
       await (
         await fetch(
-          `${URL}/api/records?where[genres][in]=${genres}&where[id][not_equals]=${id}&limit=${limit}`
+          `${URL}/api/records?where[genres][in]=${genres}&where[id][not_equals]=${id}&${getLimitQuery(
+            limit
+          )}&${getStatusQuery('published')}`
         )
       ).json()
     ).docs;

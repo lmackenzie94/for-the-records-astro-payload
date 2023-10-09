@@ -1,14 +1,14 @@
 ---
 import Artist from '@/components/Artist.astro';
+import ArtistImage from '@/components/ArtistImage.astro';
 import Content from '@/components/Content.astro';
-import PayloadImage from '@/components/PayloadImage.astro';
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { Artist as ArtistType, Genre } from '@/types';
+import { getThemeColors } from '@/utils/helpers';
 import { getArtists, getArtistsBySimilarGenre } from '@/utils/payload/artist';
 import { getRecordsByArtist } from '@/utils/payload/record';
 import type { InferGetStaticParamsType } from 'astro';
-
 // TODO: how to get type hints...?
 
 export async function getStaticPaths() {
@@ -34,14 +34,64 @@ const { artist } = Astro.props;
 const records = await getRecordsByArtist(artist.id);
 const genres: Genre[] = artist.genres?.map((genre) => genre.title) || [];
 const similarArtists = await getArtistsBySimilarGenre(artist);
+
+const {
+  themeColor,
+  themeColorFaded,
+  invertedThemeColor,
+  invertedThemeColorFaded
+} = getThemeColors(artist.themeColor, '#454545');
 ---
 
+<style
+  define:vars={{
+    themeColor,
+    themeColorFaded,
+    invertedThemeColor,
+    invertedThemeColorFaded
+  }}
+>
+  h1 {
+    color: var(--themeColor);
+    /* text-shadow: 0 0.08em var(--invertedThemeColor); */
+    /* text-shadow: 0.05em 0 var(--invertedThemeColor); */
+  }
+  h2:not(.similar-artists-heading),
+  h3,
+  h4 {
+    color: var(--themeColor);
+  }
+
+  .similar-artists-heading {
+    color: var(--invertedThemeColor);
+  }
+
+  .similar-artists-container {
+    background-color: var(--invertedThemeColorFaded);
+
+    /* border: 1px solid var(--themeColor); */
+    /* outline: px solid var(--invertedThemeColor); */
+  }
+
+  span.label {
+    color: var(--themeColor);
+  }
+
+  .bio :global(a),
+  .content :global(a) {
+    /* NOTE: only works with :global() because otherwise Astro appends a data-attribute to the selector, which the a elements in the bio don't have */
+    color: var(--invertedThemeColor);
+    text-decoration: underline;
+    font-weight: bolder;
+  }
+</style>
+
 <Layout title={artist.name}>
-  <section class="grid grid-cols-12 items-start gap-20">
-    <div class="col-span-full flex flex-col md:col-span-9">
+  <section class="grid grid-cols-12 items-start">
+    <div class="col-span-full flex flex-col md:col-span-10">
       <h1
-        class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff] heading-text-shadow"
-        transition:name={`heading`}
+        class="relative z-10 -mb-6 ml-1 text-7xl font-black mix-blend-exclusion"
+        transition:animate="fade"
       >
         {artist.name}
       </h1>
@@ -49,10 +99,8 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
       <div class="mb-8 flex gap-6">
         <div class="w-1/4 flex-grow-0">
           <div class="overflow-hidden rounded-sm">
-            <PayloadImage
-              src={artist.image}
-              alt={artist.name}
-              class="aspect-square w-full object-cover"
+            <ArtistImage
+              artist={artist}
               transition:name={`artist-${artist.id}`}
             />
           </div>
@@ -62,7 +110,7 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
             {
               genres && (
                 <p>
-                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                  <span class="label font-mono font-bold tracking-tighter">
                     Genre(s):{' '}
                   </span>
                   {genres.join(', ')}
@@ -72,43 +120,44 @@ const similarArtists = await getArtistsBySimilarGenre(artist);
           </div>
         </div>
       </div>
-      <Content>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-          veritatis repudiandae id eos laborum sint quod. Quae quas ea
-          architecto, quam totam exercitationem aliquam reiciendis obcaecati
-          corporis at officia quod est non modi! Libero culpa accusamus
-          necessitatibus, quae doloribus totam minima veritatis mollitia illum
-          recusandae quas reiciendis nisi eos provident obcaecati.
-        </p><p>
-          Sapiente mollitia ad dolores non debitis necessitatibus velit amet,
-          reprehenderit, quasi magnam labore eaque, pariatur eligendi facere
-          cumque obcaecati optio vero. Aliquid atque accusamus voluptatem nisi
-          pariatur neque labore. Ex quibusdam praesentium illum, voluptate hic
-          tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
-          fugit unde itaque eveniet reprehenderit!
-        </p>
-      </Content>
+
+      <!-- <Content>
+        <pre>
+          {JSON.stringify(artist.content, null, 2)}
+        </pre>
+      </Content> -->
+      {
+        artist.discogsBio && (
+          <p class="bio w-full sm:w-[85%]" set:html={artist.discogsBio} />
+        )
+      }
+
+      {artist.content && <Content class="content" content={artist.content} />}
 
       {
-        records.length && (
-          <div class="mt-16 grid grid-cols-12 gap-4">
-            {records.map((record) => (
-              <div class="col-span-3 md:col-span-2">
-                <Record record={record} />
-              </div>
-            ))}
-          </div>
+        records.length > 0 && (
+          <>
+            <h2 class="mb-4 mt-16 text-2xl font-bold">
+              Records in Your Collection
+            </h2>
+            <div class="grid grid-cols-12 gap-4">
+              {records.map((record) => (
+                <div class="col-span-3 md:col-span-2">
+                  <Record record={record} />
+                </div>
+              ))}
+            </div>
+          </>
         )
       }
     </div>
     {
       similarArtists?.length > 0 && (
-        <aside class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3">
-          <h2 class="mb-6 text-center text-xl font-bold text-armyGreen dark:text-[#bb84ff]">
+        <aside class="similar-artists-container col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/5 md:col-span-2">
+          <h2 class="similar-artists-heading mb-4 text-center font-bold">
             Similar Artists
           </h2>
-          <div class="flex gap-5 md:flex-col md:items-center">
+          <div class="flex gap-7 md:flex-col md:items-center">
             {similarArtists.map((artist) => (
               <div class="col-span-3 md:col-span-2">
                 <Artist artist={artist} class="flex-1" />

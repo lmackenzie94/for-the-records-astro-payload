@@ -1,15 +1,16 @@
 ---
 import Artist from '@/components/Artist.astro';
 import Content from '@/components/Content.astro';
-import PayloadImage from '@/components/PayloadImage.astro';
 import Record from '@/components/Record.astro';
 import RecordArtists from '@/components/RecordArtists.astro';
+import RecordImage from '@/components/RecordImage.astro';
 import Layout from '@/layouts/Layout.astro';
 import type {
-Artist as ArtistType,
-Genre,
-Record as RecordType
+  Artist as ArtistType,
+  Genre,
+  Record as RecordType
 } from '@/types';
+import { getThemeColors, invertHex } from '@/utils/helpers';
 import { getRecords, getRecordsBySimilarGenre } from '@/utils/payload/record';
 import type { InferGetStaticParamsType } from 'astro';
 
@@ -35,52 +36,114 @@ interface Props {
 // const { slug } = Astro.params as Params;
 const { record } = Astro.props;
 
-const releaseYear = new Date(record.releaseDate).getFullYear();
-
 const artists: ArtistType[] = record.artist;
 const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
 const similarRecords = await getRecordsBySimilarGenre(record);
+
+const {
+  themeColor,
+  themeColorFaded,
+  invertedThemeColor,
+  invertedThemeColorFaded
+} = getThemeColors(record.themeColor, '#cbcbcb');
 ---
 
+<!-- <script is:inline src="https://unpkg.com/color.js@1.2.0/dist/color.js"></script> --><!-- TODO: why doesn't this re-run on each page? -->
+<script is:inline>
+  // when document is ready
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   const recordImage = document.getElementById('record-image');
+  //   const recordImageSrc = recordImage.src;
+  //   colorjs.average(recordImageSrc).then((color) => {
+  //     console.log(color); // [241, 221, 63]
+
+  //     const rgba = `rgba(${color[0]}, ${color[1]}, ${color[2]}, .2)`;
+
+  //     // set --gradient-light variable
+  //     document.documentElement.style.setProperty('--gradient-light', rgba);
+
+  //     // colors.forEach((color) => {
+  //     //   const colorEl = document.createElement('div');
+  //     //   colorEl.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+  //     //   colorEl.style.width = '50px';
+  //     //   colorEl.style.height = '50px';
+  //     //   colorsEl.appendChild(colorEl);
+  //     // });
+  //   });
+  // });
+</script>
+
+<style
+  define:vars={{
+    themeColor,
+    themeColorFaded,
+    invertedThemeColor,
+    invertedThemeColorFaded
+  }}
+>
+  h1 {
+    color: var(--themeColor);
+    /* text-shadow: 0 0.08em var(--invertedThemeColor); */
+    /* text-shadow: 0.05em 0 var(--invertedThemeColor); */
+  }
+  h2:not(.similar-records-heading),
+  h3,
+  h4 {
+    color: var(--themeColor);
+  }
+
+  .similar-records-heading {
+    color: var(--invertedThemeColor);
+  }
+
+  .similar-records-container {
+    background-color: var(--invertedThemeColorFaded);
+
+    /* border: 1px solid var(--themeColor); */
+    /* outline: px solid var(--invertedThemeColor); */
+  }
+
+  span.label {
+    color: var(--themeColor);
+  }
+</style>
+
 <Layout title={record.title}>
-  <section class="grid grid-cols-12 items-start gap-20">
-    <div class="col-span-full flex flex-col md:col-span-9">
+  <section class="grid grid-cols-12 items-start">
+    <div class="col-span-full flex flex-col md:col-span-10">
       <h1
-        class="relative z-10 -mb-6 ml-1 text-7xl font-black text-[#c5b5c9] mix-blend-exclusion dark:text-[#d9bfff] heading-text-shadow"
+        class="relative z-10 -mb-6 ml-1 text-7xl font-black mix-blend-exclusion"
+        transition:animate="fade"
       >
         {record.title}
       </h1>
       <div class="mb-8 flex gap-6">
         <div class="w-1/4 flex-grow-0">
-          <div
-            class="overflow-hidden rounded-sm"
-            transition:name={`record-${record.id}`}
-          >
-            <PayloadImage
-              src={record.image}
-              alt={`${record.title} album cover`}
-              class="aspect-square w-full object-cover"
+          <div class="overflow-hidden rounded-sm">
+            <RecordImage
+              record={record}
+              transition:name={`record-${record.id}`}
             />
           </div>
         </div>
         <div class="mt-16 flex flex-col justify-between">
           <div class="font-mono text-sm">
             <p>
-              <span class="font-mono font-bold tracking-tighter text-gray-light"
+              <span class="label font-mono font-bold tracking-tighter"
                 >Artist:
               </span>
               <RecordArtists record={record} class="hocus:underline" />
             </p>
             <p>
-              <span class="font-mono font-bold tracking-tighter text-gray-light"
+              <span class="label font-mono font-bold tracking-tighter"
                 >Year:
-              </span>{releaseYear}
+              </span>{record.releaseYear}
             </p>
             {
               record.label && (
                 <p>
-                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                  <span class="label font-mono font-bold tracking-tighter">
                     Label:{' '}
                   </span>
                   {record.label}
@@ -90,7 +153,7 @@ const similarRecords = await getRecordsBySimilarGenre(record);
             {
               genres && (
                 <p>
-                  <span class="font-mono font-bold tracking-tighter text-gray-light">
+                  <span class="label font-mono font-bold tracking-tighter">
                     Genre(s):{' '}
                   </span>
                   {genres.join(', ')}
@@ -101,23 +164,8 @@ const similarRecords = await getRecordsBySimilarGenre(record);
         </div>
       </div>
 
-      <Content>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-          veritatis repudiandae id eos laborum sint quod. Quae quas ea
-          architecto, quam totam exercitationem aliquam reiciendis obcaecati
-          corporis at officia quod est non modi! Libero culpa accusamus
-          necessitatibus, quae doloribus totam minima veritatis mollitia illum
-          recusandae quas reiciendis nisi eos provident obcaecati.
-        </p><p>
-          Sapiente mollitia ad dolores non debitis necessitatibus velit amet,
-          reprehenderit, quasi magnam labore eaque, pariatur eligendi facere
-          cumque obcaecati optio vero. Aliquid atque accusamus voluptatem nisi
-          pariatur neque labore. Ex quibusdam praesentium illum, voluptate hic
-          tenetur unde. Dolores, laboriosam esse! Iusto excepturi placeat ut
-          fugit unde itaque eveniet reprehenderit!
-        </p>
-      </Content>
+      <!-- {record.content && <Content heading="About" content={record.content} />} -->
+      {record.content && <Content content={record.content} />}
 
       {
         artists.length && (
@@ -134,11 +182,11 @@ const similarRecords = await getRecordsBySimilarGenre(record);
 
     {
       similarRecords?.length > 0 && (
-        <aside class="col-span-full rounded-lg bg-armyGreen/10 px-6 py-4 dark:bg-[#d6b8ff1a] md:col-span-3">
-          <h2 class="mb-6 text-center text-xl font-bold text-armyGreen dark:text-[#bb84ff]">
+        <aside class="similar-records-container col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/5 md:col-span-2">
+          <h2 class="similar-records-heading mb-4 text-center font-bold">
             Similar Records
           </h2>
-          <div class="flex gap-5 md:flex-col md:items-center">
+          <div class="flex gap-7 md:flex-col md:items-center">
             {similarRecords.map((record) => (
               <div class="col-span-3 md:col-span-2">
                 <Record record={record} class="flex-1" />

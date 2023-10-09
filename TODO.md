@@ -5,15 +5,24 @@
 3. Add Prettier pre-commit hook
 4. Add ES/TS Lint?
 5. Add tests
-6. Exclude drafts from API response
-7. Remove "genre" field from "Records" collection API response (o)
-8. Add button in the CMS to automatically pull Record and Artist data from music API
-9. Get auth working
-10. Add "tracklist" + "about this track" functionality
-11. Need unique slugs in case records/artists happen to have same name
-12. Setup tailwind config properly (add all colors, font, etc.)
-13. Add data and src/media back to .gitignore files
-14. Add global site settings to CMS
+6. Remove "genre" field from "Records" collection API response (old field)
+7. Get auth working
+8. Add "tracklist" + "about this track" functionality (+ "Favourite" functionality?)
+9. Need unique slugs in case records/artists happen to have same name
+10. Setup tailwind config properly (add all colors, font, etc.)
+11. Add data and src/media back to .gitignore files
+12. Show thumbnail image in CMS List view for Records and Artists
+13. make imageURL field required if no custom image is set, and vice versa (Records and Artists)
+14. mobile styling
+15. try container queries for Record and Artist components
+16. Fix color preview if custom record image is used
+17. Limit homepage to 8 records (random?)
+18. add clear visual indication in CMS list view of which records/artists were created by the user vs other users
+19. make this a PWA
+20. remove // @ts-nocheck where used
+21. try re-adding John Mayer - discogs images don't show up
+22. set up on personal laptop
+23. Resize / compress uploaded images
 
 # LOOK INTO:
 
@@ -21,4 +30,17 @@
 2. why do I have to use `sudo` before `yarn` commands?
    1. also have to delete `"credsStore": "desktop"` from ~/.docker/config.json
 3. Payload "Local API"
-4. Possible to seed DB with initial test/dev data?
+4. Possible to seed DB with initial test/dev data? (https://github.com/payloadcms/public-demo/blob/master/src/cron/reset.ts)
+5. Cloudinary plugin
+6. why are so many images being created during build?
+
+# Deploy Process Notes
+
+- had to geneate new SSH keys within the droplet with `sudo ssh-keygen`
+- copied the new public key to Github
+- manually cloned the repo to the droplet with `git clone`
+- install node on the droplet with `sudo apt update` && `sudo apt install nodejs`
+- install npm on the droplet with `sudo apt install npm`
+- install yarn on the droplet with `sudo npm install -g yarn`
+
+curl "https://api.discogs.com/database/search?q=Nirvana&type=artist&token=lvSqsEIAVQNHGbsYiVRDSUwSZHidyBUKGTFdZKYb"

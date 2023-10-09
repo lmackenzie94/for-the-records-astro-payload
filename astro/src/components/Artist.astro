@@ -1,6 +1,6 @@
 ---
-import type { Artist } from '@/types';
-import PayloadImage from './PayloadImage.astro';
+import ArtistImage from '@/components/ArtistImage.astro';
+import type { Artist, Genre } from '@/types';
 
 interface Props {
   artist: Artist;
@@ -9,7 +9,7 @@ interface Props {
 
 const { artist, class: className } = Astro.props;
 
-const genres: Genere[] = artist?.genres?.map((genre) => genre.title) || [];
+const genres: Genre[] = artist?.genres?.map((genre) => genre.title) || [];
 ---
 
 <article class={className}>
@@ -17,15 +17,10 @@ const genres: Genere[] = artist?.genres?.map((genre) => genre.title) || [];
     href={`/artists/${artist.slug}`}
     class="glossy-hover mb-2 block rounded-sm"
   >
-    <PayloadImage
-      src={artist.image}
-      alt={artist.name}
-      class="aspect-square h-full w-full object-cover"
-      transition:name={`artist-${artist.id}`}
-    />
+    <ArtistImage artist={artist} transition:name={`artist-${artist.id}`} />
   </a>
-  <p class="leading-5">{artist.name}</p>
-  <p class="text-xs font-light text-gray-light">
+  <p class="font-medium leading-5">{artist.name}</p>
+  <p class="text-xs text-gray-medium dark:text-gray-light">
     {genres.join(', ')}
   </p>
 </article>

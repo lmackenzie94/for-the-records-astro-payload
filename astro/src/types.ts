@@ -52,9 +52,17 @@ export interface Record {
   artist: string[] | Artist[];
   label?: string;
   genres: string[] | Genre[];
-  releaseDate?: string;
-  image: string | Media;
+  releaseYear?: string;
+  useCustomImage?: boolean;
+  image?: string | Media;
+  imageUrl?: string;
+  favouriteTracks?: {
+    title: string;
+    notes?: string;
+    id?: string;
+  }[];
   createdBy?: string | User;
+  themeColor?: string;
   content?: {
     [k: string]: unknown;
   }[];
@@ -67,7 +75,11 @@ export interface Artist {
   name: string;
   slug?: string;
   genres?: string[] | Genre[];
-  image: string | Media;
+  useCustomImage?: boolean;
+  image?: string | Media;
+  imageUrl?: string;
+  themeColor?: string;
+  discogsBio?: string;
   content?: {
     [k: string]: unknown;
   }[];

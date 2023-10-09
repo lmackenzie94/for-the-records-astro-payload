@@ -20,7 +20,6 @@ module.exports = {
       whiteFull: '#fff',
       black: '#272727',
       white: '#fbfbfb',
-      armyGreen: '#5d6436',
       gray: {
         DEFAULT: '#374151',
         medium: '#6b7280',
@@ -68,6 +67,7 @@ module.exports = {
   },
   safelist: [],
   plugins: [
+    require('@tailwindcss/typography'),
     plugin(function ({ addVariant }) {
       addVariant('hocus', ['&:hover', '&:focus']);
     })

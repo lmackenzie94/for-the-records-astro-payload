@@ -1,7 +1,30 @@
+import ArtistData, { ArtistDataCell } from '@/components/ArtistData';
+import ColorPicker from '@/components/ColorPicker';
 import { content } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
 import { CollectionConfig } from 'payload/types';
+
+const isAdminOrCreatedBy = ({ req: { user } }) => {
+  // TODO: comment back in to allow "admins" to view/edit/etc all records (in the CMS)
+  // Scenario #1 - Check if user has the 'admin' role
+  if (user && user.role === 'admin') {
+    return true;
+  }
+
+  // Scenario #2 - Allow only documents with the current user set to the 'createdBy' field
+  if (user) {
+    // Will return access for only documents that were created by the current user
+    return {
+      createdBy: {
+        equals: user.id
+      }
+    };
+  }
+
+  // Scenario #3 - Disallow all others
+  return false;
+};
 
 const Artists: CollectionConfig = {
   slug: 'artists',
@@ -12,9 +35,18 @@ const Artists: CollectionConfig = {
     group: 'Content'
   },
   access: {
+    // TODO: doesn't work on front-end - req.user is undefined
+    // read: ({ req }) => {
+    //   // any authenticated user can read (i.e. see) all artists, even those created by others
+    //   if (req.user) {
+    //     return true;
+    //   }
+
+    //   return false;
+    // },
     read: () => true,
-    create: () => true,
-    update: () => true
+    update: isAdminOrCreatedBy,
+    delete: isAdminOrCreatedBy
   },
   hooks: {
     afterChange: [
@@ -59,10 +91,69 @@ const Artists: CollectionConfig = {
       hasMany: true
     },
     {
+      name: 'useCustomImage',
+      label: 'Use Custom Artist Image?',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          '⚠️ When a custom image is used, selecting an image below will have no effect.'
+      }
+    },
+    {
       name: 'image',
+      label: 'Artist Image (Custom)',
       type: 'upload',
       relationTo: 'media',
-      required: true
+      admin: {
+        condition: (_, siblingData) => siblingData.useCustomImage
+      }
+    },
+    {
+      name: 'setImageUrl',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: ArtistData,
+          Cell: ArtistDataCell
+        }
+      }
+    },
+
+    // TODO: shouldn't actually need this - save the image url to the setImageUrl field
+    {
+      name: 'imageUrl',
+      label: 'Image URL',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        hidden: true
+      }
+    },
+    {
+      name: 'themeColor',
+      label: 'Theme Color',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'Use the colour picker below OR enter a hex value.'
+      }
+    },
+    {
+      name: 'colorPickerArtists',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: ColorPicker
+        }
+      }
+    },
+    {
+      name: 'discogsBio',
+      label: 'Discogs Bio',
+      type: 'textarea'
     },
     content,
     status

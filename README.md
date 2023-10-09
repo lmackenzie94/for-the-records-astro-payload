@@ -1,3 +1,9 @@
+Front-end Temporarily Hosted on Netlify: https://for-the-records.netlify.app
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/dd5e3ef0-88e2-428b-bbab-232100a05dfd/deploy-status)](https://app.netlify.com/sites/for-the-records/deploys)
+
+**NOTE:** to run build, use Docker Desktop to click into `astroad-astro` container > `Terminal` > `yarn build`
+
 # Astroad
 
 Astroad is a pre-configured setup for Astro and Payloadcms, designed to make it easy for you to start building your website. With Astroad, you'll have a complete development environment that you can run locally using Docker. This setup simplifies the testing and development of your website before deploying it to a production environment.

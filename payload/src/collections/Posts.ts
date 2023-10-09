@@ -1,5 +1,7 @@
-import { status } from '@/fields/Status';
+// ! NOTE USED: KEEEPING FOR REFERENCE
+
 import { content } from '@/fields/Content';
+import { status } from '@/fields/Status';
 
 import { CollectionConfig } from 'payload/types';
 

@@ -1,4 +1,4 @@
-import { slateToHtml, payloadSlateToHtmlConfig } from '@slate-serializers/html';
+import { payloadSlateToHtmlConfig, slateToHtml } from '@slate-serializers/html';
 import { Element } from 'domhandler';
 
 export const getContentArray = (content: any) => {
@@ -14,7 +14,8 @@ export const getContentArray = (content: any) => {
           height: `${node.value.height}`
         })
     }
-  }).replaceAll('<p></p>', '<p>&nbsp;</p>');
+  });
+  // .replaceAll('<p></p>', '<p>&nbsp;</p>');
   const htmlImageArray: (
     | string
     | { src: string; width: number; height: number }
@@ -38,4 +39,37 @@ export const getContentArray = (content: any) => {
     lastIndex = imgEndIndex;
   }
   return htmlImageArray;
+};
+
+export const invertHex = (hexCode: string) => {
+  const hex = hexCode.replace('#', '');
+  const invertedHex = (Number(`0x1${hex}`) ^ 0xffffff)
+    .toString(16)
+    .substr(1)
+    .toUpperCase();
+  return `#${invertedHex}`;
+};
+
+export const getThemeColors = (hexCode: string, defaultColor: string) => {
+  const themeColor = hexCode || defaultColor;
+  const themeColorFaded = `${themeColor}15`;
+  const invertedThemeColor = invertHex(themeColor);
+  const invertedThemeColorFaded = `${invertedThemeColor}15`;
+
+  return {
+    themeColor,
+    themeColorFaded,
+    invertedThemeColor,
+    invertedThemeColorFaded
+  };
+};
+
+// query helpers
+
+export const getLimitQuery = (limit: number) => {
+  return `limit=${limit}`;
+};
+
+export const getStatusQuery = (status: 'published' | 'draft') => {
+  return `where[status][equals]=${status}`;
 };

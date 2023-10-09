@@ -1,0 +1,52 @@
+---
+import PayloadImage from '@/components/PayloadImage.astro';
+import { Image } from 'astro:assets';
+const { record, ...rest } = Astro.props;
+
+let imageWidth;
+let imageHeight;
+
+const useCustomImage = record.image && record.useCustomImage;
+
+if (!useCustomImage) {
+  // pull width and height from image url (h:583/w:600)
+  // ex url: "https://i.discogs.com/WpuYpr4IADSy49WTIw4r6YW5p_AWCNQVZg6XvaQ0Yw8/rs:fit/g:sm/q:90/h:583/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NDg4/MS0xMTkzMDMzNzU0/LmpwZWc.jpeg"
+
+  imageWidth = record?.imageUrl?.match(/w:(\d+)/)?.[1] || 600;
+  imageHeight = record?.imageUrl?.match(/h:(\d+)/)?.[1] || 600;
+}
+---
+
+{
+  useCustomImage && (
+    <PayloadImage
+      src={record.image}
+      alt={record.title}
+      class="record-image aspect-square h-full w-full object-cover"
+      {...rest}
+    />
+  )
+}
+
+{
+  !useCustomImage && record.imageUrl && (
+    <Image
+      src={record.imageUrl || ''}
+      alt={record.title}
+      class="record-image aspect-square h-full w-full object-cover"
+      width={imageWidth}
+      height={imageHeight}
+      quality="high"
+      {...rest}
+    />
+  )
+}
+
+{
+  !useCustomImage && !record.imageUrl && (
+    <div
+      class="aspect-square h-full w-full bg-gray-lighter object-cover"
+      {...rest}
+    />
+  )
+}
