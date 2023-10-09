@@ -23,7 +23,7 @@
     "use-eye-dropper": "^1.6.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.9",
+    "@types/express": "^4.17.18",
     "copyfiles": "^2.4.1",
     "nodemon": "^3.0.1",
     "prettier": "3.0.3",
