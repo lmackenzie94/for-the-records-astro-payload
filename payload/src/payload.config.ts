@@ -25,14 +25,17 @@ export default buildConfig({
     user: Users.slug,
     css: path.resolve(__dirname, './styles/custom.scss'),
     autoLogin:
-      process.env.PAYLOAD_PUBLIC_ENABLE_AUTOLOGIN === 'true' &&
       process.env.NODE_ENV === 'development'
         ? {
             email: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_EMAIL,
-            password: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_PASSWORD, // doesn't seem to work
+            password: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_PASSWORD,
             prefillOnly: true
           }
-        : false,
+        : {
+            email: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_EMAIL,
+            password: ' ',
+            prefillOnly: true
+          },
     meta: {
       titleSuffix: '| For The Records.'
       // NOTE: /assets would work because of the config in server.ts
