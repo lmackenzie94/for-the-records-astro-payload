@@ -37,7 +37,7 @@ const { logo } = await getSiteSettings();
   <div class="container">
     <nav class="flex items-center justify-between py-6">
       <h2
-        class="text-gray-900 text-center text-base font-bold tracking-tight md:text-lg sm:flex-1"
+        class="text-gray-900 text-center text-base font-bold tracking-tight sm:flex-1 md:text-lg"
       >
         <a href="/">
           <!-- TODO: make spin animation persist across page changes using ViewTransitions  -->
@@ -49,17 +49,18 @@ const { logo } = await getSiteSettings();
         </a>
       </h2>
 
-      <div class="text-gray-900 flex items-center gap-10 text-sm font-medium sm:mr-10">
+      <div
+        class="text-gray-900 flex items-center gap-8 text-sm font-medium sm:gap-10"
+      >
         <a href="/records" class="font-mono tracking-tight">Records</a>
         <a href="/artists" class="font-mono tracking-tight">Artists</a>
         <!-- <button id="login" class="font-mono tracking-tight"> Login</button> -->
+        <!-- TODO: figure out why astro version causes flash when changing pages -->
+        <!-- <ThemeToggleAstro /> -->
+
+        <!-- client:load = high priority; load & hydrte component JS immediately on page load -->
+        <ThemeToggleReact client:load />
       </div>
-
-      <!-- TODO: figure out why astro version causes flash when changing pages -->
-      <!-- <ThemeToggleAstro /> -->
-
-      <!-- client:load = high priority; load & hydrte component JS immediately on page load -->
-      <ThemeToggleReact client:load />
     </nav>
   </div>
 </header>
