@@ -16,7 +16,7 @@ import path from 'path';
 // import seo from '@payloadcms/plugin-seo';
 
 dotenv.config({
-  path: path.resolve(__dirname, '../../.env')
+  path: path.resolve(__dirname, '../.env')
 });
 
 export default buildConfig({

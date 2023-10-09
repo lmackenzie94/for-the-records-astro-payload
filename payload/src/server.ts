@@ -3,7 +3,7 @@ import path from 'path';
 import payload from 'payload';
 
 require('dotenv').config({
-  path: path.resolve(__dirname, '../../.env')
+  path: path.resolve(__dirname, '../.env')
 });
 const app = express();
 
