@@ -1,5 +1,17 @@
-.ftr-icon {
-  display: flex;
-  width: 3rem;
-  animation: spin 3s linear infinite;
+.ftr-icon__container {
+  position: relative;
+
+  .ftr-icon {
+    display: flex;
+    width: 2.5rem;
+    animation: spin 3s linear infinite;
+  }
+
+  span {
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.3rem;
+  }
 }

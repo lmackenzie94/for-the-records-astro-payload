@@ -43,9 +43,9 @@ const similarRecords = await getSimilarRecordsByGenre(record);
 
 const {
   themeColor,
-  themeColorFaded,
   invertedThemeColor,
-  invertedThemeColorFaded
+  lightModeTextColor,
+  darkModeTextColor
 } = getThemeColors(record.themeColor, '#cbcbcb');
 ---
 
@@ -74,12 +74,13 @@ const {
   // });
 </script>
 
+<!-- !REMEMBER: // comments screw up the CSS -->
 <style
   define:vars={{
     themeColor,
-    themeColorFaded,
     invertedThemeColor,
-    invertedThemeColorFaded
+    lightModeTextColor,
+    darkModeTextColor
   }}
 >
   h1 {
@@ -87,39 +88,27 @@ const {
     /* text-shadow: 0 0.08em var(--invertedThemeColor); */
     /* text-shadow: 0.05em 0 var(--invertedThemeColor); */
   }
-  h2:not(.similar-records-heading),
-  h3,
-  h4 {
-    color: var(--themeColor);
+
+  :is(h2:not(.aside-heading), h3, h4, h5, h6, span.label) {
+    color: var(--lightModeTextColor);
   }
 
-  .similar-records-heading {
-    color: var(--invertedThemeColor);
-  }
-
-  .similar-records-container {
-    background-color: var(--invertedThemeColorFaded);
-
-    /* border: 1px solid var(--themeColor); */
-    /* outline: px solid var(--invertedThemeColor); */
-  }
-
-  span.label {
-    color: var(--themeColor);
+  html.dark :is(h2:not(.aside-heading), h3, h4, h5, h6, span.label) {
+    color: var(--darkModeTextColor);
   }
 </style>
 
 <Layout title={record.title}>
-  <section class="grid grid-cols-12 items-start">
-    <div class="col-span-full flex flex-col md:col-span-10">
+  <section class="grid grid-cols-12 items-start gap-2">
+    <div class="col-span-full flex flex-col sm:col-span-9 md:col-span-10">
       <h1
-        class="relative z-10 -mb-6 ml-1 text-7xl font-black mix-blend-exclusion"
+        class="relative z-10 -mb-4 ml-1 text-5xl font-black mix-blend-exclusion sm:-mb-6 md:text-7xl"
         transition:animate="fade"
       >
         {record.title}
       </h1>
-      <div class="mb-8 flex gap-6">
-        <div class="w-1/4 flex-grow-0">
+      <div class="mb-8 flex gap-4 sm:gap-6">
+        <div class="w-1/2 flex-grow-0 md:w-1/4">
           <div class="overflow-hidden rounded-sm">
             <RecordImage
               record={record}
@@ -127,7 +116,7 @@ const {
             />
           </div>
         </div>
-        <div class="mt-16 flex flex-col justify-between">
+        <div class="mt-8 flex flex-col justify-between sm:mt-16">
           <div class="font-mono text-sm">
             <p>
               <span class="label font-mono font-bold tracking-tighter"
@@ -169,27 +158,32 @@ const {
 
       {
         artists.length && (
-          <div class="mt-16 grid grid-cols-12 gap-4">
-            {artists.map((artist) => (
-              <div class="col-span-3 md:col-span-2">
-                <Artist artist={artist} />
-              </div>
-            ))}
-          </div>
+          <>
+            <h2 class="mb-4 mt-16 text-lg font-bold sm:text-xl">
+              Record Artist(s)
+            </h2>
+            <div class="grid grid-cols-12 gap-4">
+              {artists.map((artist) => (
+                <div class="col-span-3 sm:col-span-2">
+                  <Artist small artist={artist} />
+                </div>
+              ))}
+            </div>
+          </>
         )
       }
     </div>
 
     {
       similarRecords?.length > 0 && (
-        <aside class="similar-records-container col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/5 md:col-span-2">
-          <h2 class="similar-records-heading mb-4 text-center font-bold">
+        <aside class="col-span-full mt-8 rounded-lg bg-black/5 px-5 py-4 dark:bg-white/5 sm:col-span-3 sm:mt-0 md:col-span-2">
+          <h2 class="aside-heading mb-4 text-center font-bold">
             Similar Records
           </h2>
-          <div class="flex gap-7 md:flex-col md:items-center">
-            {similarRecords.map((record) => (
-              <div class="col-span-3 md:col-span-2">
-                <Record record={record} class="flex-1" />
+          <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-col sm:items-center sm:gap-7">
+            {similarRecords.map((record, idx) => (
+              <div class={`${idx === 2 && 'hidden sm:block'}`}>
+                <Record small record={record} class="flex-1" />
               </div>
             ))}
           </div>

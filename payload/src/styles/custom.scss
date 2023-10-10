@@ -1,4 +1,25 @@
-@import '~payload/scss';
+@import '../../node_modules/payload/scss';
+
+// add dev styles to body
+body {
+  &.dev {
+    border-top: solid 5px;
+    border-image: repeating-linear-gradient(
+        -75deg,
+        #ded700,
+        #ded700 10px,
+        black 10px,
+        black 20px
+      )
+      20;
+
+    .ftr-icon__container {
+      .ftr-icon {
+        opacity: 0.4;
+      }
+    }
+  }
+}
 
 // hide Payload logo and title
 .login__brand {
@@ -8,6 +29,10 @@
 // :root {
 //   //  override Payload scss variables here
 // }
+
+.step-nav {
+  align-items: center;
+}
 
 @keyframes spin {
   0% {

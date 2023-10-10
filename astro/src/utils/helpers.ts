@@ -1,5 +1,6 @@
 import { payloadSlateToHtmlConfig, slateToHtml } from '@slate-serializers/html';
 import { Element } from 'domhandler';
+import contrast from 'get-contrast';
 
 export const getContentArray = (content: any) => {
   const html = slateToHtml(content, {
@@ -52,14 +53,48 @@ export const invertHex = (hexCode: string) => {
 
 export const getThemeColors = (hexCode: string, defaultColor: string) => {
   const themeColor = hexCode || defaultColor;
-  const themeColorFaded = `${themeColor}15`;
   const invertedThemeColor = invertHex(themeColor);
-  const invertedThemeColorFaded = `${invertedThemeColor}15`;
+
+  const FADE_FACTOR = 20;
+  const themeColorFaded = `${themeColor}${FADE_FACTOR}`;
+  const invertedThemeColorFaded = `${invertedThemeColor}${FADE_FACTOR}`;
+
+  const lightModeBg = '#fbfbfb';
+  const darkModeBg = '#272727';
+
+  let lightModeTextColor = darkModeBg;
+  let darkModeTextColor = lightModeBg;
+
+  // check contrast to determine text color
+  const lightModeThemeColorContrast = contrast.ratio(lightModeBg, themeColor);
+  const lightModeInvertedThemeColorContrast = contrast.ratio(
+    lightModeBg,
+    invertedThemeColor
+  );
+  const darkModeThemeColorContrast = contrast.ratio(darkModeBg, themeColor);
+  const darkModeInvertedThemeColorContrast = contrast.ratio(
+    darkModeBg,
+    invertedThemeColor
+  );
+
+  if (lightModeThemeColorContrast > lightModeInvertedThemeColorContrast) {
+    lightModeTextColor = themeColor;
+  } else {
+    lightModeTextColor = invertedThemeColor;
+  }
+
+  if (darkModeThemeColorContrast > darkModeInvertedThemeColorContrast) {
+    darkModeTextColor = themeColor;
+  } else {
+    darkModeTextColor = invertedThemeColor;
+  }
 
   return {
     themeColor,
-    themeColorFaded,
     invertedThemeColor,
+    lightModeTextColor,
+    darkModeTextColor,
+    themeColorFaded,
     invertedThemeColorFaded
   };
 };

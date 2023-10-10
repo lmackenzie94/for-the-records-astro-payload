@@ -1,3 +1,8 @@
+// import { webpackBundler } from '@payloadcms/bundler-webpack';
+import { viteBundler } from '@payloadcms/bundler-vite';
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
+// import { slateEditor } from '@payloadcms/richtext-slate';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload/config';
 
 import Artists from '@/collections/Artists';
@@ -24,6 +29,30 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     css: path.resolve(__dirname, './styles/custom.scss'),
+    // bundler: viteBundler(),
+    bundler: viteBundler(),
+    // vite: (config) => ({
+    //   ...config,
+    //   resolve: {
+    //     ...config.resolve,
+    //     alias: {
+    //       ...config.resolve.alias,
+    //       '@': path.resolve(__dirname, './')
+    //     }
+    //   }
+    // }),
+    // TODO: change to vite  (didn't work when I tried it)
+    // this works b/c "we have implemented some "compatibility" between Webpack and Vite out-of-the-box." - Payload docs
+    webpack: (config) => ({
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          '@': path.resolve(__dirname, './')
+        }
+      }
+    }),
     autoLogin:
       process.env.NODE_ENV === 'development'
         ? {
@@ -49,18 +78,13 @@ export default buildConfig({
         // Logo, // Image component to be displayed as the logo on the Sign Up / Login view.
         Icon // Image component displayed above the Nav in the admin panel, often a condensed version of a full logo.
       }
-    },
-    webpack: (config) => ({
-      ...config,
-      resolve: {
-        ...config.resolve,
-        alias: {
-          ...config.resolve.alias,
-          '@': path.resolve(__dirname, './')
-        }
-      }
-    })
+    }
   },
+  // editor: slateEditor({}),
+  editor: lexicalEditor({}),
+  db: mongooseAdapter({
+    url: process.env.MONGODB_URI
+  }),
   globals: [SiteSettings],
   collections: [Users, Media, Records, Artists, Genres],
   // plugins: [

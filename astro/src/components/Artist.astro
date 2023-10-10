@@ -4,10 +4,11 @@ import type { Artist, Genre } from '@/types';
 
 interface Props {
   artist: Artist;
+  small?: boolean;
   class?: string;
 }
 
-const { artist, class: className } = Astro.props;
+const { artist, class: className, small } = Astro.props;
 
 const genres: Genre[] = artist?.genres?.map((genre) => genre.title) || [];
 ---
@@ -19,7 +20,13 @@ const genres: Genre[] = artist?.genres?.map((genre) => genre.title) || [];
   >
     <ArtistImage artist={artist} transition:name={`artist-${artist.id}`} />
   </a>
-  <p class="font-medium leading-5">{artist.name}</p>
+  <p
+    class={`font-medium leading-5 ${
+      small ? 'text-xs sm:text-sm' : 'text-sm sm:text-base'
+    }`}
+  >
+    {artist.name}
+  </p>
   <p class="text-xs text-gray-medium dark:text-gray-light">
     {genres.join(', ')}
   </p>

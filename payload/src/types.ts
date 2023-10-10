@@ -13,6 +13,8 @@ export interface Config {
     records: Record;
     artists: Artist;
     genres: Genre;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
   };
   globals: {
     'site-settings': SiteSetting;
@@ -31,7 +33,7 @@ export interface User {
   hash?: string;
   loginAttempts?: number;
   lockUntil?: string;
-  password?: string;
+  password: string;
 }
 export interface Media {
   id: string;
@@ -94,6 +96,32 @@ export interface Genre {
   updatedAt: string;
   createdAt: string;
 }
+export interface PayloadPreference {
+  id: string;
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
+  key?: string;
+  value?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface PayloadMigration {
+  id: string;
+  name?: string;
+  batch?: number;
+  updatedAt: string;
+  createdAt: string;
+}
 export interface SiteSetting {
   id: string;
   title: string;
@@ -101,4 +129,22 @@ export interface SiteSetting {
   logo: string | Media;
   updatedAt?: string;
   createdAt?: string;
+}
+
+
+declare module 'payload' {
+  export interface GeneratedTypes {
+    collections: {
+      'users': User
+      'media': Media
+      'records': Record
+      'artists': Artist
+      'genres': Genre
+      'payload-preferences': PayloadPreference
+      'payload-migrations': PayloadMigration
+    }
+    globals: {
+      'site-settings': SiteSetting
+    }
+  }
 }

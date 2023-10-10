@@ -37,17 +37,22 @@ const similarArtists = await getSimilarArtistsByGenre(artist);
 
 const {
   themeColor,
-  themeColorFaded,
   invertedThemeColor,
+  lightModeTextColor,
+  darkModeTextColor,
+  themeColorFaded,
   invertedThemeColorFaded
 } = getThemeColors(artist.themeColor, '#454545');
 ---
 
+<!-- !REMEMBER: // comments screw up the CSS -->
 <style
   define:vars={{
     themeColor,
-    themeColorFaded,
     invertedThemeColor,
+    lightModeTextColor,
+    darkModeTextColor,
+    themeColorFaded,
     invertedThemeColorFaded
   }}
 >
@@ -56,48 +61,62 @@ const {
     /* text-shadow: 0 0.08em var(--invertedThemeColor); */
     /* text-shadow: 0.05em 0 var(--invertedThemeColor); */
   }
-  h2:not(.similar-artists-heading),
-  h3,
-  h4 {
-    color: var(--themeColor);
+
+  :is(h2:not(.aside-heading), h3, h4, h5, h6, span.label) {
+    color: var(--lightModeTextColor);
   }
 
-  .similar-artists-heading {
-    color: var(--invertedThemeColor);
+  html.dark :is(h2:not(.aside-heading), h3, h4, h5, h6, span.label) {
+    color: var(--darkModeTextColor);
   }
 
-  .similar-artists-container {
+  .bio {
+    background-color: var(--themeColorFaded);
+
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  html.dark .bio {
     background-color: var(--invertedThemeColorFaded);
-
-    /* border: 1px solid var(--themeColor); */
-    /* outline: px solid var(--invertedThemeColor); */
-  }
-
-  span.label {
-    color: var(--themeColor);
   }
 
   .bio :global(a),
   .content :global(a) {
     /* NOTE: only works with :global() because otherwise Astro appends a data-attribute to the selector, which the a elements in the bio don't have */
-    color: var(--invertedThemeColor);
+    color: var(--lightModeTextColor);
     text-decoration: underline;
     font-weight: bolder;
+  }
+
+  html.dark .bio :global(a),
+  html.dark .content :global(a) {
+    color: var(--darkModeTextColor);
+  }
+
+  details summary::-webkit-details-marker,
+  details summary::marker {
+    color: var(--lightModeTextColor);
+  }
+
+  html.dark details summary::-webkit-details-marker,
+  html.dark details summary::marker {
+    color: var(--darkModeTextColor);
   }
 </style>
 
 <Layout title={artist.name}>
-  <section class="grid grid-cols-12 items-start">
-    <div class="col-span-full flex flex-col md:col-span-10">
+  <section class="grid grid-cols-12 items-start gap-2">
+    <div class="col-span-full flex flex-col sm:col-span-9 md:col-span-10">
       <h1
-        class="relative z-10 -mb-6 ml-1 text-7xl font-black mix-blend-exclusion"
+        class="relative z-10 -mb-4 ml-1 text-5xl font-black mix-blend-exclusion sm:-mb-6 md:text-7xl"
         transition:animate="fade"
       >
         {artist.name}
       </h1>
 
-      <div class="mb-8 flex gap-6">
-        <div class="w-1/4 flex-grow-0">
+      <div class="mb-8 flex gap-4 sm:gap-6">
+        <div class="w-1/2 flex-grow-0 md:w-1/4">
           <div class="overflow-hidden rounded-sm">
             <ArtistImage
               artist={artist}
@@ -105,7 +124,7 @@ const {
             />
           </div>
         </div>
-        <div class="mt-16 flex flex-col justify-between">
+        <div class="mt-8 flex flex-col justify-between sm:mt-16">
           <div class="font-mono text-sm">
             {
               genres && (
@@ -140,13 +159,13 @@ const {
       {
         records.length > 0 && (
           <>
-            <h2 class="mb-4 mt-16 text-2xl font-bold">
+            <h2 class="mb-4 mt-16 text-lg font-bold sm:text-xl">
               Records in Your Collection
             </h2>
             <div class="grid grid-cols-12 gap-4">
               {records.map((record) => (
                 <div class="col-span-3 md:col-span-2">
-                  <Record record={record} />
+                  <Record small record={record} />
                 </div>
               ))}
             </div>
@@ -156,14 +175,14 @@ const {
     </div>
     {
       similarArtists?.length > 0 && (
-        <aside class="similar-artists-container col-span-full rounded-lg bg-black/10 px-6 py-4 dark:bg-white/5 md:col-span-2">
-          <h2 class="similar-artists-heading mb-4 text-center font-bold">
+        <aside class="col-span-full mt-8 rounded-lg bg-black/5 px-5 py-4 dark:bg-white/5 sm:col-span-3 sm:mt-0 md:col-span-2">
+          <h2 class="aside-heading mb-4 text-center font-bold">
             Similar Artists
           </h2>
-          <div class="flex gap-7 md:flex-col md:items-center">
-            {similarArtists.map((artist) => (
-              <div class="col-span-3 md:col-span-2">
-                <Artist artist={artist} class="flex-1" />
+          <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-col sm:items-center sm:gap-7">
+            {similarArtists.map((artist, idx) => (
+              <div class={`${idx === 2 && 'hidden sm:block'}`}>
+                <Artist small artist={artist} class="flex-1" />
               </div>
             ))}
           </div>

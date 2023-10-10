@@ -24,6 +24,8 @@
 22. set up on personal laptop
 23. Resize / compress uploaded images
 24. clean up node modules / package.json; remove unused packages
+25. build a custom CMS view for Records and Artists (similar to how they're displayed on the front end)
+26. Commit buddy.yml file
 
 # LOOK INTO:
 

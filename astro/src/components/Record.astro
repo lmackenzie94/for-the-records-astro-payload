@@ -5,10 +5,11 @@ import type { Record } from '@/types';
 
 interface Props {
   record: Record;
+  small?: boolean;
   class?: string;
 }
 
-const { record, class: className } = Astro.props;
+const { record, class: className, small } = Astro.props;
 ---
 
 <article class={className}>
@@ -18,7 +19,13 @@ const { record, class: className } = Astro.props;
   >
     <RecordImage record={record} transition:name={`record-${record.id}`} />
   </a>
-  <p class="font-medium leading-5">{record.title}</p>
+  <p
+    class={`font-medium leading-5 ${
+      small ? 'text-xs sm:text-sm' : 'text-sm sm:text-base'
+    }`}
+  >
+    {record.title}
+  </p>
   <p class="text-xs text-gray-medium dark:text-gray-light">
     <RecordArtists record={record} class="hocus:underline" />
   </p>
