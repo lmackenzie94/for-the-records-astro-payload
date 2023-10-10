@@ -21,11 +21,10 @@
 19. make this a PWA
 20. remove // @ts-nocheck where used
 21. try re-adding John Mayer - discogs images don't show up
-22. set up on personal laptop
-23. Resize / compress uploaded images
-24. clean up node modules / package.json; remove unused packages
-25. build a custom CMS view for Records and Artists (similar to how they're displayed on the front end)
-26. Commit buddy.yml file
+22. Resize / compress uploaded images
+23. clean up node modules / package.json; remove unused packages
+24. build a custom CMS view for Records and Artists (similar to how they're displayed on the front end)
+25. Commit buddy.yml file
 
 # LOOK INTO:
 
