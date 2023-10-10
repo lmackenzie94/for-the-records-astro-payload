@@ -42,7 +42,6 @@ export default function DeployButton() {
       <div
         style={{
           display: 'flex',
-
           alignItems: 'center'
         }}
       >
@@ -71,7 +70,7 @@ export default function DeployButton() {
         disabled={IS_DEV}
         style={{
           border: `none`,
-          backgroundColor: `${IS_DEV ? 'lightgray' : 'darkslategra'}`,
+          backgroundColor: `${IS_DEV ? 'lightgray' : 'darkslateblue'}`,
           color: `white`,
           padding: '.5rem 1rem',
           borderRadius: '5px',
