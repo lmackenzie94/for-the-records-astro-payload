@@ -37,7 +37,7 @@ const BeforeLogin: React.FC = () => {
             style={{
               stroke: 'none',
               fillRule: 'nonzero',
-              fill: '#272727',
+              fill: '#323232',
               fillOpacity: 1,
               transform: 'scale(0.5)',
               transformOrigin: 'center'

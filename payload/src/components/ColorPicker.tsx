@@ -136,7 +136,7 @@ function Preview({ color, heading, selectedImageUrl }) {
       <div
         style={{
           position: 'relative',
-          background: isDarkMode ? '#272727' : '#fbfbfb',
+          background: isDarkMode ? '#323232' : '#fbfbfb',
           transition: 'all 0.3s ease',
           padding: '1rem',
           borderRadius: '5px'
@@ -177,8 +177,8 @@ function Preview({ color, heading, selectedImageUrl }) {
             alignItems: 'center',
             bottom: '1rem',
             right: '1rem',
-            color: isDarkMode ? '#272727' : '#fbfbfb',
-            background: isDarkMode ? '#fbfbfb' : '#272727',
+            color: isDarkMode ? '#323232' : '#fbfbfb',
+            background: isDarkMode ? '#fbfbfb' : '#323232',
             borderRadius: '5px',
             cursor: 'pointer',
             boxShadow: '0 2px 4px 0 rgba(0,0,0,0.30)',

@@ -12,6 +12,15 @@ export const content: Field = {
   type: 'richText',
   // Pass the Lexical editor here and override base settings as necessary
   editor: lexicalEditor({
+    lexical: {
+      namespace: 'payload',
+      theme: {
+        // empty object seems to disable the default theme... 👍
+        // heading: {
+        //   h1: 'heading-1'
+        // }
+      }
+    },
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
       LinkFeature({

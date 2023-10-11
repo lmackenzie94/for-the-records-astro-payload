@@ -32,7 +32,11 @@ const Artists: CollectionConfig = {
     // TODO: not working...
     defaultColumns: ['name'],
     useAsTitle: 'name',
-    group: 'Content'
+    group: 'Content',
+    livePreview: {
+      url: ({ data }) =>
+        `${process.env.PAYLOAD_PUBLIC_SITE_URL}/artists/${data.slug}`
+    }
   },
   access: {
     // TODO: doesn't work on front-end - req.user is undefined
@@ -97,7 +101,7 @@ const Artists: CollectionConfig = {
       defaultValue: false,
       admin: {
         description:
-          '⚠️ When a custom image is used, selecting an image below will have no effect.'
+          '❗️ When a custom image is used, selecting an image below will have no effect. ❗️'
       }
     },
     {

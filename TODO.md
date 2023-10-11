@@ -25,6 +25,11 @@
 23. clean up node modules / package.json; remove unused packages
 24. build a custom CMS view for Records and Artists (similar to how they're displayed on the front end)
 25. Commit buddy.yml file
+26. Images uploaded via production CMS won't show up locally (and vice versa) - what to do about this? 🤔
+27. Somehow allow Lexical editor to use Record/Artist theme colours
+28. Lexical text-alignment wasn't working - had to add logic to the serializer
+    - BUG: if you set alignment to center, you can't undo it without deleting the text and starting over
+29. Lexical inline links not working.
 
 # LOOK INTO:
 

@@ -60,7 +60,7 @@ export const getThemeColors = (hexCode: string, defaultColor: string) => {
   const invertedThemeColorFaded = `${invertedThemeColor}${FADE_FACTOR}`;
 
   const lightModeBg = '#fbfbfb';
-  const darkModeBg = '#272727';
+  const darkModeBg = '#323232';
 
   let lightModeTextColor = darkModeBg;
   let darkModeTextColor = lightModeBg;

@@ -167,7 +167,7 @@ const Records: CollectionConfig = {
       defaultValue: false,
       admin: {
         description:
-          '⚠️ When a custom image is used, selecting an image below will have no effect.'
+          '❗️ When a custom image is used, selecting an image below will have no effect. ❗️'
       }
     },
     {

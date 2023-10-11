@@ -1,7 +1,7 @@
 ---
 import Artist from '@/components/Artist.astro';
 import ArtistImage from '@/components/ArtistImage.astro';
-import Content from '@/components/Content.astro';
+import ContentReact from '@/components/Content.tsx';
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { Artist as ArtistType, Genre } from '@/types';
@@ -70,15 +70,24 @@ const {
     color: var(--darkModeTextColor);
   }
 
-  .bio {
-    background-color: var(--themeColorFaded);
-
+  .bio,
+  .content {
     padding: 1rem;
     border-radius: 0.5rem;
   }
 
+  .bio {
+    background-color: var(--themeColorFaded);
+  }
+  .content {
+    background-color: var(--invertedThemeColorFaded);
+  }
+
   html.dark .bio {
     background-color: var(--invertedThemeColorFaded);
+  }
+  html.dark .content {
+    background-color: var(--themeColorFaded);
   }
 
   .bio :global(a),
@@ -115,7 +124,7 @@ const {
         {artist.name}
       </h1>
 
-      <div class="mb-8 flex gap-4 sm:gap-6">
+      <div class="flex gap-4 sm:gap-6">
         <div class="w-1/2 flex-grow-0 md:w-1/4">
           <div class="overflow-hidden rounded-sm">
             <ArtistImage
@@ -145,18 +154,35 @@ const {
           {JSON.stringify(artist.content, null, 2)}
         </pre>
       </Content> -->
+
+      <!-- <ArtistClient artist={artist} client:visible /> -->
+
+      <!-- {artist.content && <Content class="content" content={artist.content} />} -->
+
       {
-        artist.discogsBio && (
-          <details class="w-full sm:w-[85%]">
-            <summary class="text-sm font-bold sm:text-base">
-              Discogs Bio
-            </summary>
-            <p class="bio mt-2" set:html={artist.discogsBio} />
-          </details>
+        artist.content && (
+          <div class="content mt-8 max-w-[65ch]">
+            <ContentReact
+              className="prose-sm sm:prose dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
+              artist={artist}
+              client:visible
+            />
+          </div>
         )
       }
 
-      {artist.content && <Content class="content" content={artist.content} />}
+      {
+        artist.discogsBio && (
+          <details class="mt-8">
+            <summary class="text-sm font-bold sm:text-base">
+              Discogs Bio
+            </summary>
+            <div class="bio prose-sm mt-2 dark:prose-invert sm:prose">
+              <p set:html={artist.discogsBio} />
+            </div>
+          </details>
+        )
+      }
 
       {
         records.length > 0 && (

@@ -18,9 +18,9 @@ const ArtistData: React.FC<Props> = ({ path }) => {
   const [artistData, setArtistData] = React.useState(null);
   const [error, setError] = React.useState(null);
 
-  useEffect(() => {
-    if (currentImageUrl) setCurrentImageUrl(currentImageUrl);
-  }, []);
+  // useEffect(() => {
+  //   if (currentImageUrl) setCurrentImageUrl(currentImageUrl);
+  // }, []);
 
   const debouncedArtistName = useDebounce(artistName, 1000);
 

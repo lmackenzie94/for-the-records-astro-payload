@@ -598,6 +598,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@payloadcms/live-preview@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@payloadcms/live-preview/-/live-preview-0.1.2.tgz#3c86038118f1aeef2dbaf6ed32f2f76969b8a0fa"
+  integrity sha512-UAGY5TpCyoLixdoONQCQNYrAlgc2eGwIAo7pt1CQuBlPdy4vAK4gZLkF2r70IGuLwDXVllD+eeByxIJwGscABg==
+
 "@slate-serializers/dom@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@slate-serializers/dom/-/dom-2.0.0.tgz#f0f3f6521196e895cd4c55d81ed4725e36564eda"
@@ -1510,6 +1515,11 @@ escalade@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
   integrity sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==
+
+escape-html@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
+  integrity sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==
 
 escape-string-regexp@^1.0.5:
   version "1.0.5"
