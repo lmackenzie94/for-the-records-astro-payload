@@ -4,7 +4,7 @@ import { URL, apiFetch } from './api';
 
 // GET ALL RECORDS
 export const getRecords = async () =>
-  (await await apiFetch(`${URL}/api/records?${getStatusQuery('published')}`))
+  (await apiFetch(`${URL}/api/records?${getStatusQuery('published')}`))
     .docs as Record[];
 
 // GET RECORD BY ID
