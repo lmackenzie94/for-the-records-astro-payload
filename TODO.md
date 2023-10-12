@@ -20,16 +20,15 @@
 18. add clear visual indication in CMS list view of which records/artists were created by the user vs other users
 19. make this a PWA
 20. remove // @ts-nocheck where used
-21. try re-adding John Mayer - discogs images don't show up
-22. Resize / compress uploaded images
-23. clean up node modules / package.json; remove unused packages
-24. build a custom CMS view for Records and Artists (similar to how they're displayed on the front end)
-25. Commit buddy.yml file
-26. Images uploaded via production CMS won't show up locally (and vice versa) - what to do about this? 🤔
-27. Somehow allow Lexical editor to use Record/Artist theme colours
-28. Lexical text-alignment wasn't working - had to add logic to the serializer
+21. Resize / compress uploaded images
+22. clean up node modules / package.json; remove unused packages
+23. build a custom CMS view for Records and Artists (similar to how they're displayed on the front end)
+24. Commit buddy.yml file
+25. Images uploaded via production CMS won't show up locally (and vice versa) - what to do about this? 🤔
+26. Somehow allow Lexical editor to use Record/Artist theme colours
+27. Lexical text-alignment wasn't working - had to add logic to the serializer
     - BUG: if you set alignment to center, you can't undo it without deleting the text and starting over
-29. Lexical inline links not working.
+28. Lexical inline links not working.
 
 # LOOK INTO:
 

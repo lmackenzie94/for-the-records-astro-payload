@@ -9,6 +9,7 @@ const ContentReact = ({ artist, className = '' }) => {
   const serverURL = import.meta.env.DEV
     ? 'http://localhost:3001'
     : 'https://for-the-records.com';
+
   console.log('serverURL', serverURL);
 
   const { data } = useLivePreview({
