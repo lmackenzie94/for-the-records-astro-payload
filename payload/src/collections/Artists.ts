@@ -36,8 +36,9 @@ const Artists: CollectionConfig = {
     livePreview: {
       url: ({ data }) =>
         // `${process.env.PAYLOAD_PUBLIC_SITE_URL}/artists/${data.slug}` .env var wasn't working on prod
-        // maybe try process.env.NODE_ENV === 'production' ? 'https://for-the-records.com' : 'http://localhost:3000' instead
-        `https://for-the-records.com/artists/${data.slug}`
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000'
+          : 'https://for-the-records.com'
     }
   },
   access: {
