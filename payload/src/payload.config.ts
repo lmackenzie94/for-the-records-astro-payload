@@ -75,18 +75,11 @@ export default buildConfig({
         }
       ]
     },
-    autoLogin:
-      process.env.NODE_ENV === 'development'
-        ? {
-            email: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_EMAIL,
-            password: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_PASSWORD,
-            prefillOnly: true
-          }
-        : {
-            email: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_EMAIL,
-            password: ' ',
-            prefillOnly: true
-          },
+    autoLogin: {
+      email: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_EMAIL,
+      password: process.env.PAYLOAD_PUBLIC_AUTO_LOGIN_PASSWORD, // don't supply this in production
+      prefillOnly: true
+    },
     meta: {
       titleSuffix: '| For The Records.'
       // NOTE: /assets would work because of the config in server.ts

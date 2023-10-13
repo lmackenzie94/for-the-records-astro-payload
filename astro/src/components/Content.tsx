@@ -3,23 +3,19 @@
 import { useLivePreview } from '@/hooks/useLivePreview';
 import { Serialize } from '@/utils/lexical/ReactSerializer';
 
-const ContentReact = ({ artist, className = '' }) => {
+const ContentReact = ({ content, className = '' }) => {
   // const contentArray = getContentArray(content);
 
   const serverURL = import.meta.env.DEV
     ? 'http://localhost:3001'
     : 'https://for-the-records.com';
 
-  console.log('serverURL', serverURL);
-
   const { data } = useLivePreview({
-    initialData: artist,
+    initialData: content,
     // serverURL: import.meta.env.PAYLOAD_URL // doesn't work...
     serverURL
     // depth: 2
   });
-
-  console.log('DATA', data);
 
   return (
     <div className={`${className}`}>

@@ -55,6 +55,7 @@ export interface Record {
   label?: string;
   genres: string[] | Genre[];
   releaseYear?: string;
+  collectionStatus?: 'own' | 'want' | 'like';
   useCustomImage?: boolean;
   image?: string | Media;
   imageUrl?: string;

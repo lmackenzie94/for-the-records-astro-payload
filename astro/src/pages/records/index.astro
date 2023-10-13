@@ -7,13 +7,86 @@ import { getRecords } from '@/utils/payload/record';
 const records = await getRecords();
 ---
 
+<style>
+  .filter {
+    @apply self-start rounded-full border-2 border-transparent px-2 font-mono text-xs font-bold text-black transition-colors duration-300 hocus:border-black dark:text-white dark:hocus:border-white;
+  }
+
+  .filter.active {
+    @apply border-black bg-black text-white dark:border-white dark:bg-white dark:text-black;
+  }
+</style>
+
+<script>
+  const allFilter = document.querySelector('#filter-all') as HTMLButtonElement;
+  const ownFilter = document.querySelector('#filter-own') as HTMLButtonElement;
+  const wantFilter = document.querySelector(
+    '#filter-want'
+  ) as HTMLButtonElement;
+  const records = document.querySelectorAll(
+    '.record'
+  ) as NodeListOf<HTMLElement>;
+
+  let activeFilter = allFilter;
+
+  const filterAll = () => {
+    activateFilter(allFilter);
+
+    records.forEach((record) => {
+      record.classList.remove('hidden');
+    });
+  };
+
+  const filterOwn = () => {
+    activateFilter(ownFilter);
+
+    records.forEach((record) => {
+      if (record?.dataset?.status === 'own') {
+        record.classList.remove('hidden');
+      } else {
+        record.classList.add('hidden');
+      }
+    });
+  };
+
+  const filterWant = () => {
+    activateFilter(wantFilter);
+
+    records.forEach((record) => {
+      if (record?.dataset?.status === 'want') {
+        record.classList.remove('hidden');
+      } else {
+        record.classList.add('hidden');
+      }
+    });
+  };
+
+  const activateFilter = (filter: HTMLButtonElement) => {
+    activeFilter.classList.remove('active');
+    filter.classList.add('active');
+    activeFilter = filter;
+  };
+
+  allFilter?.addEventListener('click', filterAll);
+  ownFilter?.addEventListener('click', filterOwn);
+  wantFilter?.addEventListener('click', filterWant);
+</script>
+
 <Layout title="Records">
-  <h1
-    class="heading-text-shadow relative z-10 -mb-[.3em] ml-1 text-6xl font-black text-[#c5c5c5] mix-blend-exclusion dark:text-[#f8f8f8] md:text-7xl"
-    transition:animate="fade"
-  >
-    Records.
-  </h1>
+  <div class="flex items-center justify-between">
+    <h1
+      class="heading-text-shadow relative z-10 -mb-[.3em] ml-1 text-6xl font-black text-[#c5c5c5] mix-blend-exclusion dark:text-[#f8f8f8] md:text-7xl"
+      transition:animate="fade"
+    >
+      Records.
+    </h1>
+    <div class="flex gap-1">
+      <button id="filter-all" class="active filter">All</button>
+      <button id="filter-own" class="filter">Own</button>
+      <button id="filter-want" class="filter">Want</button>
+    </div>
+  </div>
+
   {
     records?.length ? (
       <Grid>

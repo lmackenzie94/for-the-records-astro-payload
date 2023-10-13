@@ -12,7 +12,7 @@ interface Props {
 const { record, class: className, small } = Astro.props;
 ---
 
-<article class={className}>
+<article class={`record ${className}`} data-status={record.collectionStatus}>
   <a
     href={`/records/${record.slug}`}
     class="glossy-hover mb-2 block rounded-sm"
@@ -20,9 +20,7 @@ const { record, class: className, small } = Astro.props;
     <RecordImage record={record} transition:name={`record-${record.id}`} />
   </a>
   <p
-    class={`font-medium leading-5 ${
-      small ? 'text-xs sm:text-sm' : 'text-sm sm:text-base'
-    }`}
+    class={`font-medium leading-5 ${small ? 'text-xs' : 'text-xs sm:text-sm'}`}
   >
     {record.title}
   </p>

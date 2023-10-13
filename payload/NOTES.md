@@ -218,7 +218,7 @@ Logging in to the CMS at /login creates a cookie called "payload-token"
       `pm2 save`
       `pm2 list`
       `sudo systemctl start pm2-luke`
-      - when in doubt, `sudo reboot`
+      - when in doubt, `sudo reboot` or `pm2 restart all`
     - PM2 Docs (https://pm2.keymetrics.io/docs/usage/process-management/)
 
 #### [Transfer Files to Droplets With FileZilla](https://docs.digitalocean.com/products/droplets/how-to/transfer-files/)
@@ -296,8 +296,6 @@ proxy_set_header Connection 'upgrade';
 proxy_set_header Host $host;
 proxy_cache_bypass $http_upgrade;
 }
-
-pm2 didn't seem to work with `yarn`...
 
 #### Questions:
 

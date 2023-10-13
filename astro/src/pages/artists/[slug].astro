@@ -35,6 +35,9 @@ const records = await getRecordsByArtist(artist.id);
 const genres: Genre[] = artist.genres?.map((genre) => genre.title) || [];
 const similarArtists = await getSimilarArtistsByGenre(artist);
 
+const hasContent =
+  artist?.content && artist.content?.root?.children?.length > 0;
+
 const {
   themeColor,
   invertedThemeColor,
@@ -103,7 +106,7 @@ const {
     color: var(--darkModeTextColor);
   }
 
-  details summary::-webkit-details-marker,
+  /* details summary::-webkit-details-marker,
   details summary::marker {
     color: var(--lightModeTextColor);
   }
@@ -111,14 +114,14 @@ const {
   html.dark details summary::-webkit-details-marker,
   html.dark details summary::marker {
     color: var(--darkModeTextColor);
-  }
+  } */
 </style>
 
 <Layout title={artist.name}>
   <section class="grid grid-cols-12 items-start gap-2">
     <div class="col-span-full flex flex-col sm:col-span-9 md:col-span-10">
       <h1
-        class="relative z-10 -mb-4 ml-1 text-5xl font-black mix-blend-exclusion sm:-mb-6 md:text-7xl"
+        class="relative z-10 -mb-4 ml-1 text-5xl font-black mix-blend-exclusion sm:-mb-5 md:text-7xl"
         transition:animate="fade"
       >
         {artist.name}
@@ -133,7 +136,7 @@ const {
             />
           </div>
         </div>
-        <div class="mt-8 flex flex-col justify-between sm:mt-16">
+        <div class="mt-8 flex flex-col justify-between sm:mt-14">
           <div class="font-mono text-sm">
             {
               genres && (
@@ -149,38 +152,36 @@ const {
         </div>
       </div>
 
-      <!-- <Content>
-        <pre>
-          {JSON.stringify(artist.content, null, 2)}
-        </pre>
-      </Content> -->
+      {
+        artist.discogsBio && (
+          // <details class="mt-8">
+          //   <summary class="text-sm font-bold sm:text-base">
+          //     Discogs Bio
+          //   </summary>
+          //   <div class="bio prose-sm mt-2 dark:prose-invert sm:prose">
+          //     <p set:html={artist.discogsBio} />
+          //   </div>
+          // </details>
+          <div class="bio prose prose-sm mt-8 dark:prose-invert prose-headings:text-sm">
+            <h2 class="text-sm font-bold">Discogs Bio</h2>
+            <p set:html={artist.discogsBio} />
+          </div>
+        )
+      }
 
       <!-- <ArtistClient artist={artist} client:visible /> -->
 
       <!-- {artist.content && <Content class="content" content={artist.content} />} -->
 
       {
-        artist.content && (
-          <div class="content mt-8 max-w-[65ch]">
+        hasContent && (
+          <div class="content prose prose-sm mt-2">
             <ContentReact
-              className="prose-sm sm:prose dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
-              artist={artist}
+              className="prose prose-sm dark:prose-invert prose-headings:text-sm prose-headings:text-[var(--lightModeTextColor)] dark:prose-headings:text-[var(--darkModeTextColor)]"
+              content={artist}
               client:visible
             />
           </div>
-        )
-      }
-
-      {
-        artist.discogsBio && (
-          <details class="mt-8">
-            <summary class="text-sm font-bold sm:text-base">
-              Discogs Bio
-            </summary>
-            <div class="bio prose-sm mt-2 dark:prose-invert sm:prose">
-              <p set:html={artist.discogsBio} />
-            </div>
-          </details>
         )
       }
 

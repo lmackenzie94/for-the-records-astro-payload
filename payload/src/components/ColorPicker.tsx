@@ -12,7 +12,7 @@ const ColorPicker = ({ name }) => {
   const collectionKey = name === 'colorPickerRecords' ? 'record' : 'artist';
 
   const { open } = useEyeDropper();
-  const [error, setError] = useState();
+  const [_, setError] = useState();
   const [isSelecting, setIsSelecting] = useState(false);
 
   const { value: themeColor, setValue: selectedThemeColor } = useField({
@@ -150,7 +150,7 @@ function Preview({ color, heading, selectedImageUrl }) {
             fontWeight: 900,
             fontSize: '3.8rem',
             mixBlendMode: 'exclusion',
-            color: color ? color : '#000',
+            color: color ? color : '#cbcbcb',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             lineHeight: '1'

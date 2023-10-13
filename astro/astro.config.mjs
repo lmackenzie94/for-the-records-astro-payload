@@ -21,7 +21,8 @@ export default defineConfig({
       }
     }),
     prefetch({
-      selector: 'a'
+      // selector: 'a' --> prefetch all links when visible
+      intentSelector: 'a' // --> prefetch links on hover
     }),
     sitemap(),
     react()

@@ -1,5 +1,6 @@
 ---
 import Artist from '@/components/Artist.astro';
+import ContentReact from '@/components/Content';
 import Content from '@/components/Content.astro';
 import Record from '@/components/Record.astro';
 import RecordArtists from '@/components/RecordArtists.astro';
@@ -39,13 +40,28 @@ const { record } = Astro.props;
 const artists: ArtistType[] = record.artist;
 const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
+const ownIt = record.collectionStatus === 'own';
+const wantIt = record.collectionStatus === 'want';
+
 const similarRecords = await getSimilarRecordsByGenre(record);
+
+const hasContent =
+  record?.content && record.content?.root?.children?.length > 0;
+
+// TODO: sort this out - shouldn't need this
+// seemed to only be an issue for "Where The Light Is"
+const hasBlankParagraph =
+  record?.content &&
+  record.content?.root?.children?.[0]?.type === 'paragraph' &&
+  record.content?.root?.children?.[0]?.children?.length === 0;
 
 const {
   themeColor,
   invertedThemeColor,
   lightModeTextColor,
-  darkModeTextColor
+  darkModeTextColor,
+  themeColorFaded,
+  invertedThemeColorFaded
 } = getThemeColors(record.themeColor, '#cbcbcb');
 ---
 
@@ -80,7 +96,9 @@ const {
     themeColor,
     invertedThemeColor,
     lightModeTextColor,
-    darkModeTextColor
+    darkModeTextColor,
+    themeColorFaded,
+    invertedThemeColorFaded
   }}
 >
   h1 {
@@ -96,13 +114,44 @@ const {
   html.dark :is(h2:not(.aside-heading), h3, h4, h5, h6, span.label) {
     color: var(--darkModeTextColor);
   }
+
+  .status-badge {
+    @apply text-white;
+    background-color: var(--lightModeTextColor);
+  }
+
+  html.dark .status-badge {
+    @apply text-black;
+    background-color: var(--darkModeTextColor);
+  }
+
+  .content {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--themeColorFaded);
+  }
+
+  html.dark .content {
+    background-color: var(--invertedThemeColorFaded);
+  }
+
+  .content :global(a) {
+    /* NOTE: only works with :global() because otherwise Astro appends a data-attribute to the selector, which the a elements in the bio don't have */
+    color: var(--lightModeTextColor);
+    text-decoration: underline;
+    font-weight: bolder;
+  }
+
+  html.dark .content :global(a) {
+    color: var(--darkModeTextColor);
+  }
 </style>
 
 <Layout title={record.title}>
   <section class="grid grid-cols-12 items-start gap-2">
     <div class="col-span-full flex flex-col sm:col-span-9 md:col-span-10">
       <h1
-        class="relative z-10 -mb-4 ml-1 text-5xl font-black mix-blend-exclusion sm:-mb-6 md:text-7xl"
+        class="relative z-10 -mb-4 ml-1 text-5xl font-black mix-blend-exclusion sm:-mb-5 md:text-7xl"
         transition:animate="fade"
       >
         {record.title}
@@ -116,7 +165,7 @@ const {
             />
           </div>
         </div>
-        <div class="mt-8 flex flex-col justify-between sm:mt-16">
+        <div class="mt-8 flex flex-col justify-between sm:mt-14">
           <div class="font-mono text-sm">
             <p>
               <span class="label font-mono font-bold tracking-tighter"
@@ -149,12 +198,31 @@ const {
                 </p>
               )
             }
+            {
+              (ownIt || wantIt) && (
+                <span class="status-badge mt-2 inline-block rounded-full px-3 py-1 font-mono text-xs font-bold">
+                  {ownIt ? 'Own It' : 'Want It'}
+                </span>
+              )
+            }
           </div>
         </div>
       </div>
 
       <!-- {record.content && <Content heading="About" content={record.content} />} -->
-      {record.content && <Content content={record.content} />}
+      <!-- {record.content && <Content content={record.content} />} -->
+
+      {
+        hasContent && !hasBlankParagraph && (
+          <div class="content prose prose-sm mt-2">
+            <ContentReact
+              className="prose prose-sm dark:prose-invert prose-headings:text-sm prose-headings:text-[var(--lightModeTextColor)] dark:prose-headings:text-[var(--darkModeTextColor)]"
+              content={record}
+              client:visible
+            />
+          </div>
+        )
+      }
 
       {
         artists.length && (

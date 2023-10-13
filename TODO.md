@@ -29,6 +29,9 @@
 27. Lexical text-alignment wasn't working - had to add logic to the serializer
     - BUG: if you set alignment to center, you can't undo it without deleting the text and starting over
 28. Lexical inline links not working.
+29. "Content" live preview only works if the field has existing content
+30. Get drafts and versions working
+31. Seems like lexical editor "Content" field has an empty <p> tag as the default value ... ??
 
 # LOOK INTO:
 
@@ -36,6 +39,7 @@
 2. Possible to seed DB with initial test/dev data? (https://github.com/payloadcms/public-demo/blob/master/src/cron/reset.ts)
 3. Cloudinary plugin
 4. why are so many images being created during build?
+5. "Too Many Requests" error
 
 # Deploy Process Notes
 

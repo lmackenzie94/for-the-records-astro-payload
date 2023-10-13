@@ -161,6 +161,26 @@ const Records: CollectionConfig = {
       maxLength: 4
     },
     {
+      name: 'collectionStatus',
+      label: 'Collection Status',
+      type: 'select',
+      defaultValue: 'like',
+      options: [
+        {
+          label: 'Own It',
+          value: 'own'
+        },
+        {
+          label: 'Want It',
+          value: 'want'
+        },
+        {
+          label: 'Just Like It',
+          value: 'like'
+        }
+      ]
+    },
+    {
       name: 'useCustomImage',
       label: 'Use Custom Record Image?',
       type: 'checkbox',
