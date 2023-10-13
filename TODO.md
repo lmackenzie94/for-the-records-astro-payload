@@ -32,6 +32,7 @@
 29. "Content" live preview only works if the field has existing content
 30. Get drafts and versions working
 31. Seems like lexical editor "Content" field has an empty <p> tag as the default value ... ??
+32. Don't rebuild CMS on push if only front-end files have changed
 
 # LOOK INTO:
 
