@@ -18,7 +18,7 @@
 16. Fix color preview if custom record image is used
 17. Limit homepage to 8 records (random?)
 18. add clear visual indication in CMS list view of which records/artists were created by the user vs other users
-19. make this a PWA
+19. make this a PWA (with offline support)
 20. remove // @ts-nocheck where used
 21. Resize / compress uploaded images
 22. clean up node modules / package.json; remove unused packages
@@ -32,6 +32,7 @@
 29. "Content" live preview only works if the field has existing content
 30. Get drafts and versions working
 31. Seems like lexical editor "Content" field has an empty <p> tag as the default value ... ??
+32. Set up Payload blocks - make them work with Lexical
 
 # LOOK INTO:
 
