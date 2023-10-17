@@ -17,7 +17,8 @@
   }
 
   :root {
-    --gradient-light: #f0f0f0;
+    --gradient-light: #f3f3f3;
+    --gradient-dark: #1e1e1e;
   }
 
   body {
@@ -31,7 +32,7 @@
 
 @layer utilities {
   .bg-gradient-light {
-    background: #f0f0f0;
+    background: var(--gradient-light);
     background: linear-gradient(
       -45deg,
       var(--gradient-light) 0%,
@@ -41,8 +42,13 @@
   }
 
   .bg-gradient-dark {
-    background: #1c1c1c;
-    background: linear-gradient(-45deg, #1c1c1c 0%, #1c1c1c 50%, #1e1e1e 50%);
+    background: var(--gradient-dark);
+    background: linear-gradient(
+      -45deg,
+      var(--gradient-dark) 0%,
+      var(--gradient-dark) 50%,
+      #202020 50%
+    );
   }
 
   /* .heading-text-shadow {
