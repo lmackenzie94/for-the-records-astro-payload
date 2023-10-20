@@ -21,6 +21,7 @@
 19. make this a PWA (with offline support)
 20. remove // @ts-nocheck where used
 21. Resize / compress uploaded images
+    - https://unpic.pics/
 22. clean up node modules / package.json; remove unused packages
 23. build a custom CMS view for Records and Artists (similar to how they're displayed on the front end)
 24. Commit buddy.yml file
