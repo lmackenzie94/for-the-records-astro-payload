@@ -1,6 +1,6 @@
 // import { webpackBundler } from '@payloadcms/bundler-webpack';
 import { viteBundler } from '@payloadcms/bundler-vite';
-import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { postgresAdapter } from '@payloadcms/db-postgres';
 // import { slateEditor } from '@payloadcms/richtext-slate';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload/config';
@@ -29,7 +29,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     css: path.resolve(__dirname, './styles/custom.scss'),
-    // bundler: viteBundler(),
+    // bundler: webpackBundler(),
     bundler: viteBundler(),
     // vite: (config) => ({
     //   ...config,
@@ -97,8 +97,10 @@ export default buildConfig({
   },
   // editor: slateEditor({}),
   editor: lexicalEditor({}),
-  db: mongooseAdapter({
-    url: process.env.MONGODB_URI
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI
+    }
   }),
   globals: [SiteSettings],
   collections: [Users, Media, Records, Artists, Genres],

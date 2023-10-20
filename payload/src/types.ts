@@ -21,7 +21,7 @@ export interface Config {
   };
 }
 export interface User {
-  id: string;
+  id: number;
   name?: string;
   role: 'admin' | 'user';
   updatedAt: string;
@@ -36,7 +36,7 @@ export interface User {
   password: string;
 }
 export interface Media {
-  id: string;
+  id: number;
   alt?: string;
   updatedAt: string;
   createdAt: string;
@@ -48,23 +48,23 @@ export interface Media {
   height?: number;
 }
 export interface Record {
-  id: string;
+  id: number;
   title: string;
   slug?: string;
-  artist: string[] | Artist[];
+  artist: number[] | Artist[];
   label?: string;
-  genres: string[] | Genre[];
+  genres: number[] | Genre[];
   releaseYear?: string;
   collectionStatus?: 'own' | 'want' | 'like';
   useCustomImage?: boolean;
-  image?: string | Media;
+  image?: number | Media;
   imageUrl?: string;
   favouriteTracks?: {
     title: string;
     notes?: string;
     id?: string;
   }[];
-  createdBy?: string | User;
+  createdBy?: number | User;
   themeColor?: string;
   content?: {
     [k: string]: unknown;
@@ -74,12 +74,12 @@ export interface Record {
   createdAt: string;
 }
 export interface Artist {
-  id: string;
+  id: number;
   name: string;
   slug?: string;
-  genres?: string[] | Genre[];
+  genres?: number[] | Genre[];
   useCustomImage?: boolean;
-  image?: string | Media;
+  image?: number | Media;
   imageUrl?: string;
   themeColor?: string;
   discogsBio?: string;
@@ -91,17 +91,17 @@ export interface Artist {
   createdAt: string;
 }
 export interface Genre {
-  id: string;
+  id: number;
   title: string;
   slug?: string;
   updatedAt: string;
   createdAt: string;
 }
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string;
   value?:
@@ -117,17 +117,17 @@ export interface PayloadPreference {
   createdAt: string;
 }
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string;
   batch?: number;
   updatedAt: string;
   createdAt: string;
 }
 export interface SiteSetting {
-  id: string;
+  id: number;
   title: string;
   description: string;
-  logo: string | Media;
+  logo: number | Media;
   updatedAt?: string;
   createdAt?: string;
 }
