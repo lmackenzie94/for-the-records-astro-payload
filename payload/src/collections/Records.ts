@@ -62,43 +62,43 @@ const Records: CollectionConfig = {
             return data;
           }
         }
-      },
-      async ({ req, operation, data }) => {
-        // TODO: better way to do this?? Not sure if query is right
-        if (operation === 'create') {
-          // confirm "title" + "artist" combo is unique
-          const { title, artist } = data;
-
-          const existingRecord = await req.payload.find({
-            collection: 'records',
-            where: {
-              title,
-              artist,
-              and: [
-                {
-                  title: {
-                    equals: title
-                  },
-                  artist: {
-                    equals: artist[0]
-                  }
-                }
-              ]
-            }
-          });
-
-          if (existingRecord?.totalDocs > 0) {
-            console.error(
-              `A record with the same title and artist already exists.`
-            );
-            throw new Error(
-              `A record with the same title and artist already exists.`
-            );
-          }
-
-          return data;
-        }
       }
+      // async ({ req, operation, data }) => {
+      //   // TODO: better way to do this?? Not sure if query is right
+      //   if (operation === 'create') {
+      //     // confirm "title" + "artist" combo is unique
+      //     const { title, artist } = data;
+
+      //     const existingRecord = await req.payload.find({
+      //       collection: 'records',
+      //       where: {
+      //         title,
+      //         artist,
+      //         and: [
+      //           {
+      //             title: {
+      //               equals: title
+      //             },
+      //             artist: {
+      //               equals: artist[0]
+      //             }
+      //           }
+      //         ]
+      //       }
+      //     });
+
+      //     if (existingRecord?.totalDocs > 0) {
+      //       console.error(
+      //         `A record with the same title and artist already exists.`
+      //       );
+      //       throw new Error(
+      //         `A record with the same title and artist already exists.`
+      //       );
+      //     }
+
+      //     return data;
+      //   }
+      // }
     ],
     afterChange: [
       async () => {
@@ -189,7 +189,7 @@ const Records: CollectionConfig = {
     },
     {
       name: 'useCustomImage',
-      label: 'Use Custom Record Image?',
+      label: 'Use Custom Record Image',
       type: 'checkbox',
       defaultValue: false,
       admin: {

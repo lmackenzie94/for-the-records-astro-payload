@@ -139,7 +139,7 @@ const Artists: CollectionConfig = {
     },
     {
       name: 'useCustomImage',
-      label: 'Use Custom Artist Image?',
+      label: 'Use Custom Artist Image',
       type: 'checkbox',
       defaultValue: false,
       admin: {
