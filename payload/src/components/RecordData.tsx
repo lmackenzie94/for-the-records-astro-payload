@@ -69,9 +69,7 @@ const RecordData: React.FC<Props> = ({ path }) => {
         marginBottom: '2rem'
       }}
     >
-      <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem' }}>
-        Record Data (from Discogs)
-      </h3>
+      <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem' }}>Record Data</h3>
       {recordData ? (
         <div>
           {error && (
@@ -139,18 +137,29 @@ const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
     <div
       style={{
         display: 'flex',
-        gap: '2rem'
+        borderRadius: '4px',
+        background: '#f4f4f4',
+        padding: '1rem 0'
       }}
     >
-      {recordData?.slice(0, NUM_RECORDS_TO_DISPLAY).map((record) => {
+      {recordData?.slice(0, NUM_RECORDS_TO_DISPLAY).map((record, idx) => {
         const { title, cover_image, year, genre, label, country } = record;
 
         const mainLabel = label[0];
 
         const isSelected = currentImageUrl === cover_image;
 
+        const isInnerRecord = idx !== 0 && idx !== NUM_RECORDS_TO_DISPLAY - 1;
+
         return (
-          <article key={cover_image}>
+          <article
+            key={cover_image}
+            style={{
+              padding: '0 1.5rem',
+              borderRight: isInnerRecord ? '1px solid #e2e2e2' : 'none',
+              borderLeft: isInnerRecord ? '1px solid #e2e2e2' : 'none'
+            }}
+          >
             <div
               className={`recordImage ${isSelected ? 'selected' : ''}`}
               style={{
@@ -193,21 +202,28 @@ const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
                 </span>
               )}
             </div>
-            <p
+            <div
               style={{
-                margin: '.5em 0',
-                fontWeight: 'bold',
-                maxWidth: '15ch',
-                lineHeight: 1.1
+                marginTop: '10px',
+                maxWidth: '18ch'
               }}
             >
-              {title} ({year})
-            </p>
-            <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>
-              {genre.join(', ')}
-            </p>
-            <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{mainLabel}</p>
-            <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{country}</p>
+              <p
+                style={{
+                  fontWeight: 'bold',
+                  lineHeight: 1.1,
+                  margin: 0
+                }}
+              >
+                {title}{' '}
+                {year && <span style={{ fontWeight: 'normal' }}>({year})</span>}
+              </p>
+              <p style={{ margin: '.3em 0', lineHeight: 1.1 }}>
+                {genre.join(', ')}
+              </p>
+              <p style={{ margin: '.3em 0', lineHeight: 1.1 }}>{mainLabel}</p>
+              {/* <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{country}</p> */}
+            </div>
           </article>
         );
       })}

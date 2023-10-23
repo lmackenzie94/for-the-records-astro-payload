@@ -56,32 +56,31 @@ const Artists: CollectionConfig = {
     delete: isAdminOrCreatedBy
   },
   hooks: {
-    afterChange: [
-      async () => {
-        console.log(process.env.TOKEN);
-
-        try {
-          process.env.NODE_ENV !== 'development' &&
-            console.log(
-              await fetch(
-                `https://api.github.com/repos/${process.env.REPOSITORY}/dispatches`,
-                {
-                  method: 'POST',
-                  headers: {
-                    Accept: 'application/vnd.github.everest-preview+json',
-                    Authorization: `token ${process.env.TOKEN}`
-                  },
-                  body: JSON.stringify({
-                    event_type: 'payload_update'
-                  })
-                }
-              )
-            );
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    ]
+    // afterChange: [
+    //   async () => {
+    //     console.log(process.env.TOKEN);
+    //     try {
+    //       process.env.NODE_ENV !== 'development' &&
+    //         console.log(
+    //           await fetch(
+    //             `https://api.github.com/repos/${process.env.REPOSITORY}/dispatches`,
+    //             {
+    //               method: 'POST',
+    //               headers: {
+    //                 Accept: 'application/vnd.github.everest-preview+json',
+    //                 Authorization: `token ${process.env.TOKEN}`
+    //               },
+    //               body: JSON.stringify({
+    //                 event_type: 'payload_update'
+    //               })
+    //             }
+    //           )
+    //         );
+    //     } catch (e) {
+    //       console.log(e);
+    //     }
+    //   }
+    // ]
   },
   fields: [
     {
@@ -96,25 +95,6 @@ const Artists: CollectionConfig = {
       relationTo: 'genres',
       type: 'relationship',
       hasMany: true
-    },
-    {
-      name: 'useCustomImage',
-      label: 'Use Custom Artist Image?',
-      type: 'checkbox',
-      defaultValue: false,
-      admin: {
-        description:
-          'When a custom image is used, selecting an image below will have no effect.'
-      }
-    },
-    {
-      name: 'image',
-      label: 'Artist Image (Custom)',
-      type: 'upload',
-      relationTo: 'media',
-      admin: {
-        condition: (_, siblingData) => siblingData.useCustomImage
-      }
     },
     {
       name: 'setImageUrl',
@@ -155,6 +135,25 @@ const Artists: CollectionConfig = {
         components: {
           Field: ColorPicker
         }
+      }
+    },
+    {
+      name: 'useCustomImage',
+      label: 'Use Custom Artist Image?',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          'When a custom image is used, selecting an image below will have no effect.'
+      }
+    },
+    {
+      name: 'image',
+      label: 'Artist Image (Custom)',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        condition: (_, siblingData) => siblingData.useCustomImage
       }
     },
     {

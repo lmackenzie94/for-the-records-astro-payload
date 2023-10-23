@@ -47,7 +47,7 @@ Logging in to the CMS at /login creates a cookie called "payload-token"
 
 **7. Going forward, SSH using the new user (luke)**
 
-- `ssh luke@68.183.200.33`
+- `ssh luke@68.183.200.33` (or use the alias `ssh for-the-records`)
 
 #### [Domain & DNS Setup](https://docs.digitalocean.com/products/networking/dns/getting-started/quickstart/)
 
@@ -174,7 +174,18 @@ Logging in to the CMS at /login creates a cookie called "payload-token"
 
 #### [Install & Secure MongoDB](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-20-04) and [Create new MongoDB and user](https://mhagemann.medium.com/how-to-add-a-new-user-to-a-mongodb-database-d896776b5362)
 
-- skipped for now - using MongoDB Atlas instead
+- skipped for now - using Postgres instead (see below)
+
+#### [Install & Setup Postgres](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04)
+
+- after installing Postgres:
+  - `sudo -u postgres createuser --interactive` (user = "luke", make superuser)
+- create a new DB:
+  - `sudo -u postgres createdb for-the-records`
+- add `postgresql-client` to droplet:
+  - `sudo apt install postgresql-client`
+- `pg_isready -d <db_name> -h <host_name> -p <port_number> -U <db_user>`
+  - `pg_isready -d for-the-records -h localhost -p 5432 -U luke`
 
 #### [Install Node.js](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-20-04)
 
@@ -231,6 +242,14 @@ Logging in to the CMS at /login creates a cookie called "payload-token"
 - `Port:` 22
 - `Logon Type:` Interactive
 - `User:` luke
+
+#### Update Node version on Droplet
+
+- `sudo npm cache clean -f`
+- `sudo npm install -g n` (`n` is a Node version manager)
+- `sudo n stable`
+- `sudo n latest`
+- `sudo n lts`
 
 **TEMPORARY:**
 

@@ -64,9 +64,7 @@ const ArtistData: React.FC<Props> = ({ path }) => {
         marginBottom: '2rem'
       }}
     >
-      <h3 style={{ margin: '0', fontSize: '1rem' }}>
-        Artist Image (from Discogs)
-      </h3>
+      <h3 style={{ margin: '0 0 .5em', fontSize: '1rem' }}>Artist Image</h3>
       {artistData ? (
         <div>
           {error && (
@@ -80,7 +78,7 @@ const ArtistData: React.FC<Props> = ({ path }) => {
               {error}
             </p>
           )}
-          <p
+          {/* <p
             style={{
               fontSize: '.8rem',
               color: 'lightgray',
@@ -89,7 +87,7 @@ const ArtistData: React.FC<Props> = ({ path }) => {
           >
             Discogs Artist Name:{' '}
             <span style={{ fontWeight: 'bold' }}>{artistData.name}</span>
-          </p>
+          </p> */}
           <ArtistImages
             artistData={artistData}
             currentImageUrl={currentImageUrl}

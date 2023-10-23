@@ -55,6 +55,7 @@ const Records: CollectionConfig = {
   hooks: {
     beforeChange: [
       ({ req, operation, data }) => {
+        // store who created the record
         if (operation === 'create') {
           if (req.user) {
             data.createdBy = req.user.id;
@@ -63,6 +64,7 @@ const Records: CollectionConfig = {
         }
       },
       async ({ req, operation, data }) => {
+        // TODO: better way to do this?? Not sure if query is right
         if (operation === 'create') {
           // confirm "title" + "artist" combo is unique
           const { title, artist } = data;
@@ -78,7 +80,7 @@ const Records: CollectionConfig = {
                     equals: title
                   },
                   artist: {
-                    equals: artist
+                    equals: artist[0]
                   }
                 }
               ]
@@ -86,6 +88,9 @@ const Records: CollectionConfig = {
           });
 
           if (existingRecord?.totalDocs > 0) {
+            console.error(
+              `A record with the same title and artist already exists.`
+            );
             throw new Error(
               `A record with the same title and artist already exists.`
             );
@@ -160,25 +165,27 @@ const Records: CollectionConfig = {
       minLength: 4,
       maxLength: 4
     },
+    // TODO: why is this component editable for users who didn't create the record - should be greyed out
     {
-      name: 'collectionStatus',
-      label: 'Collection Status',
-      type: 'select',
-      defaultValue: 'like',
-      options: [
-        {
-          label: 'Own It',
-          value: 'own'
-        },
-        {
-          label: 'Want It',
-          value: 'want'
-        },
-        {
-          label: 'Just Like It',
-          value: 'like'
+      name: 'setImageData',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: RecordData,
+          Cell: RecordDataCell
         }
-      ]
+      }
+    },
+    // TODO: shouldn't actually need this - save the image url to the setImageData field
+    {
+      name: 'imageUrl',
+      label: 'Image URL',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        hidden: true
+      }
     },
     {
       name: 'useCustomImage',
@@ -199,28 +206,25 @@ const Records: CollectionConfig = {
         condition: (_, siblingData) => siblingData.useCustomImage
       }
     },
-
-    // TODO: why is this component editable for users who didn't create the record - should be greyed out
     {
-      name: 'setImageUrl',
-      type: 'ui',
-      admin: {
-        components: {
-          Field: RecordData,
-          Cell: RecordDataCell
+      name: 'collectionStatus',
+      label: 'Collection Status',
+      type: 'select',
+      defaultValue: 'like',
+      options: [
+        {
+          label: 'Own It',
+          value: 'own'
+        },
+        {
+          label: 'Want It',
+          value: 'want'
+        },
+        {
+          label: 'Just Like It',
+          value: 'like'
         }
-      }
-    },
-    // TODO: shouldn't actually need this - save the image url to the setImageUrl field
-    {
-      name: 'imageUrl',
-      label: 'Image URL',
-      type: 'text',
-      admin: {
-        position: 'sidebar',
-        readOnly: true,
-        hidden: true
-      }
+      ]
     },
     {
       name: 'favouriteTracks',

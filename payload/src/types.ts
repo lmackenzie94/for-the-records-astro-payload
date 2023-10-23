@@ -55,10 +55,10 @@ export interface Record {
   label?: string;
   genres: number[] | Genre[];
   releaseYear?: string;
-  collectionStatus?: 'own' | 'want' | 'like';
+  imageUrl?: string;
   useCustomImage?: boolean;
   image?: number | Media;
-  imageUrl?: string;
+  collectionStatus?: 'own' | 'want' | 'like';
   favouriteTracks?: {
     title: string;
     notes?: string;
@@ -78,10 +78,10 @@ export interface Artist {
   name: string;
   slug?: string;
   genres?: number[] | Genre[];
-  useCustomImage?: boolean;
-  image?: number | Media;
   imageUrl?: string;
   themeColor?: string;
+  useCustomImage?: boolean;
+  image?: number | Media;
   discogsBio?: string;
   content?: {
     [k: string]: unknown;
@@ -134,18 +134,5 @@ export interface SiteSetting {
 
 
 declare module 'payload' {
-  export interface GeneratedTypes {
-    collections: {
-      'users': User
-      'media': Media
-      'records': Record
-      'artists': Artist
-      'genres': Genre
-      'payload-preferences': PayloadPreference
-      'payload-migrations': PayloadMigration
-    }
-    globals: {
-      'site-settings': SiteSetting
-    }
-  }
+  export interface GeneratedTypes extends Config {}
 }
