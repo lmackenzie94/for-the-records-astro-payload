@@ -9,9 +9,11 @@
   }
 
   :is(h1, h2, h3, h4, h5, h6) {
+    font-family: 'ui-sans-serif', 'system-ui', 'sans-serif';
     font-weight: 700;
     font-size: 1.5em;
     line-height: 1.33;
     margin-bottom: 1em;
+    text-transform: none;
   }
 }

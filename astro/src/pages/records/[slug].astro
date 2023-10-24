@@ -1,6 +1,7 @@
 ---
 import Artist from '@/components/Artist.astro';
 import ContentReact from '@/components/Content';
+import Content from '@/components/Content.astro';
 import Record from '@/components/Record.astro';
 import RecordArtists from '@/components/RecordArtists.astro';
 import RecordImage from '@/components/RecordImage.astro';
@@ -208,9 +209,18 @@ const {
       </div>
 
       <!-- {record.content && <Content heading="About" content={record.content} />} -->
-      <!-- {record.content && <Content content={record.content} />} -->
-
       {
+        hasContent && (
+          <div class="content prose prose-sm mt-2">
+            <Content
+              class="prose prose-sm dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
+              content={record.content}
+            />
+          </div>
+        )
+      }
+
+      <!-- {
         hasContent && !hasBlankParagraph && (
           <div class="content prose prose-sm mt-2">
             <ContentReact
@@ -220,7 +230,7 @@ const {
             />
           </div>
         )
-      }
+      } -->
 
       {
         artists.length && (

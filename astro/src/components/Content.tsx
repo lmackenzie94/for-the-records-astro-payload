@@ -19,30 +19,7 @@ const ContentReact = ({ content, className = '' }) => {
 
   return (
     <div className={`${className}`}>
-      {/* {data && <h2>About {data?.name}</h2>} */}
       <Serialize nodes={data?.content?.root?.children} />
-      {/* {contentArray.map((value) => {
-        if (typeof value === 'string') {
-          return <article dangerouslySetInnerHTML={{ __html: value }} />;
-        } else {
-          return (
-            <img
-              src={getImageSrc(value.src)}
-              width={value.width}
-              height={value.height}
-              // format="webp"
-              alt=""
-            />
-          );
-        }
-      })} */}
-      {/* <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos, libero
-        totam harum illo obcaecati, hic iste vitae distinctio fuga nisi quam
-        dolor est iure aliquid minus dolore, temporibus ipsa esse molestias
-        tempore nemo sint molestiae. Doloremque itaque tempore non facilis
-        earum, unde eos, rem esse molestias autem recusandae labore iste!
-      </p> */}
     </div>
   );
 };

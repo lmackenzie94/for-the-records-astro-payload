@@ -8,7 +8,7 @@ interface Props {
   class?: string;
 }
 
-const { artist, class: className, small } = Astro.props;
+const { artist, class: className = '', small } = Astro.props;
 
 const genres: Genre[] = artist?.genres?.map((genre) => genre.title) || [];
 ---

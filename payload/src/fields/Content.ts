@@ -7,20 +7,21 @@ import { Field } from 'payload/types';
 // import { Banner } from '../blocks/Banner'
 // import { CallToAction } from '../blocks/CallToAction'
 
-export const content: Field = {
-  name: 'content',
+export const richText = (name: string): Field => ({
+  name,
   type: 'richText',
   // Pass the Lexical editor here and override base settings as necessary
   editor: lexicalEditor({
-    lexical: {
-      namespace: 'payload',
-      theme: {
-        // empty object seems to disable the default theme... 👍
-        // heading: {
-        //   h1: 'heading-1'
-        // }
-      }
-    },
+    //! overwrote theme classes in _lexical.scss
+    // lexical: {
+    //   namespace: 'payload',
+    //   theme: {
+    //     // empty object seems to disable the default theme... 👍
+    //     // heading: {
+    //     //   h1: 'heading-1'
+    //     // }
+    //   }
+    // },
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
       LinkFeature({
@@ -65,4 +66,4 @@ export const content: Field = {
       // }),
     ]
   })
-};
+});

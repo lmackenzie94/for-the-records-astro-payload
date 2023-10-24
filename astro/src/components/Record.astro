@@ -9,7 +9,7 @@ interface Props {
   class?: string;
 }
 
-const { record, class: className, small } = Astro.props;
+const { record, class: className = '', small } = Astro.props;
 ---
 
 <article class={`record ${className}`} data-status={record.collectionStatus}>

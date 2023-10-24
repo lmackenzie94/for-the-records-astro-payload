@@ -1,23 +1,13 @@
 ---
-import { getContentArray } from '@/utils/helpers';
-import { getImageSrc } from '@/utils/payload/image';
-import { Image } from 'astro:assets';
-const { heading, content, class: className, ...rest } = Astro.props;
-const contentArray = getContentArray(content);
+import { Serialize } from '@/utils/lexical/ReactSerializer';
 
-interface Props {
-  heading?: string;
-  content?: {
-    [k: string]: unknown;
-  }[];
-  class?: string;
-  [k: string]: unknown;
-}
+const { content, class: className } = Astro.props;
 ---
 
-<div class={`prose ${className}`} {...rest}>
-  {heading && <h2>{heading}</h2>}
-  {
+<div class={`${className}`}>
+  <Serialize nodes={content?.root?.children} />
+
+  <!-- {
     contentArray.map((value) => {
       if (typeof value === 'string') {
         return <article set:html={value} />;
@@ -33,5 +23,5 @@ interface Props {
         );
       }
     })
-  }
+  } -->
 </div>

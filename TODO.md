@@ -36,6 +36,7 @@
 32. Set up Payload blocks - make them work with Lexical
 33. Don't rebuild CMS on push if only front-end files have changed
 34. How to export/import data from CMS?
+35. BUG: json error in console on Production (related to Content / LivePreview) - causes own/want filters not to work if you go to a record page then back to the Records page
 
 # LOOK INTO:
 

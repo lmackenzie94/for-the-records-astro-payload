@@ -1,7 +1,7 @@
 ---
 import Artist from '@/components/Artist.astro';
 import ArtistImage from '@/components/ArtistImage.astro';
-import ContentReact from '@/components/Content.tsx';
+import Content from '@/components/Content.astro';
 import Record from '@/components/Record.astro';
 import Layout from '@/layouts/Layout.astro';
 import type { Artist as ArtistType, Genre } from '@/types';
@@ -162,9 +162,18 @@ const {
 
       <!-- <ArtistClient artist={artist} client:visible /> -->
 
-      <!-- {artist.content && <Content class="content" content={artist.content} />} -->
-
       {
+        hasContent && (
+          <div class="content prose prose-sm mt-2">
+            <Content
+              class="prose prose-sm dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
+              content={artist.content}
+            />
+          </div>
+        )
+      }
+
+      <!-- {
         hasContent && (
           <div class="content prose prose-sm mt-2">
             <ContentReact
@@ -174,7 +183,7 @@ const {
             />
           </div>
         )
-      }
+      } -->
 
       {
         records.length > 0 && (

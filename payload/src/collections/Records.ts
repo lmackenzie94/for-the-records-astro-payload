@@ -1,6 +1,6 @@
 import ColorPicker from '@/components/ColorPicker';
 import RecordData, { RecordDataCell } from '@/components/RecordData';
-import { content } from '@/fields/Content';
+import { richText } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
 
@@ -298,7 +298,7 @@ const Records: CollectionConfig = {
         }
       }
     },
-    content,
+    richText('content'),
     status
   ]
 };

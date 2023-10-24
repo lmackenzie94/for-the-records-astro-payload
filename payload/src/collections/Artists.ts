@@ -1,6 +1,6 @@
 import ArtistData, { ArtistDataCell } from '@/components/ArtistData';
 import ColorPicker from '@/components/ColorPicker';
-import { content } from '@/fields/Content';
+import { richText } from '@/fields/Content';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
 import { CollectionConfig } from 'payload/types';
@@ -167,7 +167,7 @@ const Artists: CollectionConfig = {
       type: 'checkbox',
       defaultValue: false
     },
-    content,
+    richText('content'),
     status
   ]
 };
