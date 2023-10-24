@@ -92,18 +92,18 @@ const {
     background-color: var(--themeColorFaded);
   }
 
-  .bio :global(a),
-  .content :global(a) {
-    /* NOTE: only works with :global() because otherwise Astro appends a data-attribute to the selector, which the a elements in the bio don't have */
+  /* NOTE: only works with :global() because otherwise Astro appends a data-attribute to the selector, which the a elements in the bio don't have */
+  .content :global(strong),
+  .bio :global(strong) {
     color: var(--lightModeTextColor);
-    text-decoration: underline;
-    font-weight: bolder;
   }
 
-  html.dark .bio :global(a),
-  html.dark .content :global(a) {
+  html.dark .content :global(strong),
+  html.dark .bio :global(strong) {
     color: var(--darkModeTextColor);
   }
+
+  /* COULD ALSO USE CLASSES LIKE... text-[var(--lightModeTextColor)] */
 
   /* details summary::-webkit-details-marker,
   details summary::marker {
@@ -152,15 +152,7 @@ const {
       </div>
 
       {
-        artist.discogsBio && (
-          // <details class="mt-8">
-          //   <summary class="text-sm font-bold sm:text-base">
-          //     Discogs Bio
-          //   </summary>
-          //   <div class="bio prose-sm mt-2 dark:prose-invert sm:prose">
-          //     <p set:html={artist.discogsBio} />
-          //   </div>
-          // </details>
+        artist.discogsBio && !artist.hideDiscogsBio && (
           <div class="bio prose prose-sm mt-8 dark:prose-invert prose-headings:text-sm">
             <h2 class="text-sm font-bold">Discogs Bio</h2>
             <p set:html={artist.discogsBio} />
@@ -176,7 +168,7 @@ const {
         hasContent && (
           <div class="content prose prose-sm mt-2">
             <ContentReact
-              className="prose prose-sm dark:prose-invert prose-headings:text-sm prose-headings:text-[var(--lightModeTextColor)] dark:prose-headings:text-[var(--darkModeTextColor)]"
+              className="prose prose-sm dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
               content={artist}
               client:visible
             />

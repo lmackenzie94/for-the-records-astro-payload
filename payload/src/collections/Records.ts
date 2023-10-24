@@ -34,7 +34,14 @@ const Records: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'artist', 'createdBy', 'status'],
     useAsTitle: 'title',
-    group: 'Content'
+    group: 'Content',
+    livePreview: {
+      url: ({ data }) =>
+        // `${process.env.PAYLOAD_PUBLIC_SITE_URL}/records/${data.slug}` .env var wasn't working on prod
+        process.env.NODE_ENV === 'development'
+          ? `http://localhost:3000/records/${data.slug}`
+          : `https://for-the-records.com/records/${data.slug}`
+    }
   },
   access: {
     // TODO: doesn't work on front-end - req.user is undefined

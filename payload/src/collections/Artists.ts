@@ -161,6 +161,12 @@ const Artists: CollectionConfig = {
       label: 'Discogs Bio',
       type: 'textarea'
     },
+    {
+      name: 'hideDiscogsBio',
+      label: 'Hide Discogs Bio?',
+      type: 'checkbox',
+      defaultValue: false
+    },
     content,
     status
   ]

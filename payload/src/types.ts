@@ -83,6 +83,7 @@ export interface Artist {
   useCustomImage?: boolean;
   image?: number | Media;
   discogsBio?: string;
+  hideDiscogsBio?: boolean;
   content?: {
     [k: string]: unknown;
   }[];

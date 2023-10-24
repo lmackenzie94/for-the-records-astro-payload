@@ -1,6 +1,4 @@
-import pkg from '@payloadcms/live-preview';
-const { subscribe, unsubscribe } = pkg;
-
+import { subscribe, unsubscribe } from '@payloadcms/live-preview';
 import { useCallback, useEffect, useState } from 'react';
 
 export const useLivePreview = <T extends any>(props: {

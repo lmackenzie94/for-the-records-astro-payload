@@ -35,6 +35,7 @@
 31. Seems like lexical editor "Content" field has an empty <p> tag as the default value ... ??
 32. Set up Payload blocks - make them work with Lexical
 33. Don't rebuild CMS on push if only front-end files have changed
+34. How to export/import data from CMS?
 
 # LOOK INTO:
 

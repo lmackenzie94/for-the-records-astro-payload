@@ -5,8 +5,6 @@ import escapeHTML from 'escape-html';
 import { Fragment } from 'react';
 
 import {
-  IS_ALIGN_CENTER,
-  IS_ALIGN_RIGHT,
   IS_BOLD,
   IS_CODE,
   IS_ITALIC,
@@ -67,15 +65,16 @@ export function Serialize({ nodes }: Props): JSX.Element {
         }
 
         if (node.type === 'paragraph' && node.format && node.children) {
-          if (IS_ALIGN_CENTER) {
+          if (node.format === 'center') {
             return (
               <p key={index} className="text-center">
+                <p>sup</p>
                 {Serialize({ nodes: node.children })}
               </p>
             );
           }
 
-          if (IS_ALIGN_RIGHT) {
+          if (node.format === 'right') {
             return (
               <p key={index} className="text-right">
                 {Serialize({ nodes: node.children })}
@@ -192,7 +191,7 @@ export function Serialize({ nodes }: Props): JSX.Element {
             return <blockquote key={index}>{serializedChildren}</blockquote>;
           }
           case 'link': {
-            const attributes: {
+            const fields: {
               doc?: any;
               linkType?: 'custom' | 'internal';
               newTab?: boolean;
@@ -200,32 +199,30 @@ export function Serialize({ nodes }: Props): JSX.Element {
               rel?: string;
               sponsored?: boolean;
               url?: string;
-            } = node.attributes;
+            } = node.fields;
 
-            if (attributes?.linkType === 'custom') {
-              const rel = `${attributes?.rel ?? ''} ${
-                attributes?.nofollow ? ' nofollow' : ''
+            if (fields?.linkType === 'custom') {
+              const rel = `${fields?.rel ?? ''} ${
+                fields?.nofollow ? ' nofollow' : ''
               }`;
               return (
                 <a
                   key={index}
-                  href={attributes.url}
-                  target={attributes.newTab ? 'target="_blank"' : undefined}
+                  href={fields.url}
+                  target={fields.newTab ? 'target="_blank"' : undefined}
                   rel={rel}
                 >
                   {serializedChildren}
                 </a>
               );
             } else {
-              return <span key={index}>Internal link coming soon</span>;
+              return <span key={index}>INTERNAL LINKS COMING SOON</span>;
+              //   return `<a href="${getLinkForPage(fields.doc)}"${
+              //   fields.newTab ? ' target=_"blank"' : ''
+              // } rel="${fields?.rel ?? ''}${
+              //   fields?.sponsored ? ' sponsored' : ''
+              // }${fields?.nofollow ? ' nofollow' : ''}">${serializedChildren}</a>`
             }
-
-            // TODO: internal links
-            // return `<a href="${getLinkForPage(attributes.doc)}"${
-            //   attributes.newTab ? ' target=_"blank"' : ''
-            // } rel="${attributes?.rel ?? ''}${
-            //   attributes?.sponsored ? ' sponsored' : ''
-            // }${attributes?.nofollow ? ' nofollow' : ''}">${serializedChildren}</a>` // TODO: Check doc link handling
           }
           case 'inline-image': {
             // TODO: inline-images based on InlineImagePlugin

@@ -1,7 +1,6 @@
 ---
 import Artist from '@/components/Artist.astro';
 import ContentReact from '@/components/Content';
-import Content from '@/components/Content.astro';
 import Record from '@/components/Record.astro';
 import RecordArtists from '@/components/RecordArtists.astro';
 import RecordImage from '@/components/RecordImage.astro';
@@ -134,16 +133,16 @@ const {
     background-color: var(--invertedThemeColorFaded);
   }
 
-  .content :global(a) {
-    /* NOTE: only works with :global() because otherwise Astro appends a data-attribute to the selector, which the a elements in the bio don't have */
+  /* NOTE: only works with :global() because otherwise Astro appends a data-attribute to the selector, which the a elements in the bio don't have */
+  .content :global(strong) {
     color: var(--lightModeTextColor);
-    text-decoration: underline;
-    font-weight: bolder;
   }
 
-  html.dark .content :global(a) {
+  html.dark .content :global(strong) {
     color: var(--darkModeTextColor);
   }
+
+  /* COULD ALSO USE CLASSES LIKE... text-[var(--lightModeTextColor)] */
 </style>
 
 <Layout title={record.title}>
@@ -215,7 +214,7 @@ const {
         hasContent && !hasBlankParagraph && (
           <div class="content prose prose-sm mt-2">
             <ContentReact
-              className="prose prose-sm dark:prose-invert prose-headings:text-sm prose-headings:text-[var(--lightModeTextColor)] dark:prose-headings:text-[var(--darkModeTextColor)]"
+              className="prose prose-sm dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
               content={record}
               client:visible
             />
