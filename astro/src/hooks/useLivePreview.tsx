@@ -1,4 +1,6 @@
-import { subscribe, unsubscribe } from '@payloadcms/live-preview';
+import LivePreview from '@payloadcms/live-preview';
+// import {subscribe, unsubscribe} from '@payloadcms/live-preview'; // buddy build fails with this
+// ^^ ERROR: Named export 'subscribe' not found. The requested module '@payloadcms/live-preview' is a CommonJS module, which may not support all module.exports as named exports.
 import { useCallback, useEffect, useState } from 'react';
 
 export const useLivePreview = <T extends any>(props: {
@@ -19,7 +21,7 @@ export const useLivePreview = <T extends any>(props: {
   }, []);
 
   useEffect(() => {
-    const subscription = subscribe({
+    const subscription = LivePreview.subscribe({
       callback: onChange,
       depth,
       initialData,
@@ -27,7 +29,7 @@ export const useLivePreview = <T extends any>(props: {
     });
 
     return () => {
-      unsubscribe(subscription);
+      LivePreview.unsubscribe(subscription);
     };
   }, [serverURL, onChange, depth, initialData]);
 
