@@ -24,12 +24,12 @@ const RecordData: React.FC<Props> = ({ path }) => {
 
   useEffect(() => {
     if (debouncedRecordTitle) {
-      getRecordData(debouncedRecordTitle);
+      getRecordData(debouncedRecordTitle, recordArtistIds);
     }
   }, [debouncedRecordTitle, recordArtistIds]);
 
   // TODO: narrow down based on selected artist (if there is one)
-  const getRecordData = async (recordTitle: string) => {
+  const getRecordData = async (recordTitle: string, recordArtistIds: any) => {
     try {
       const mainArtistId = recordArtistIds ? recordArtistIds[0] : null;
       const recordData = await fetchRecordData(recordTitle, mainArtistId);
@@ -63,6 +63,10 @@ const RecordData: React.FC<Props> = ({ path }) => {
     }
   };
 
+  useEffect(() => {
+    if (error) console.error(`Something went wrong... ${error}`);
+  }, [error]);
+
   return (
     <div
       style={{
@@ -72,17 +76,6 @@ const RecordData: React.FC<Props> = ({ path }) => {
       <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem' }}>Record Data</h3>
       {recordData ? (
         <div>
-          {error && (
-            <p
-              style={{
-                color: 'red',
-                fontSize: '.8rem',
-                marginBottom: '1rem'
-              }}
-            >
-              {error}
-            </p>
-          )}
           <RecordImagesAndInfo
             recordData={recordData}
             currentImageUrl={currentImageUrl}

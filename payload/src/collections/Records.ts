@@ -7,7 +7,7 @@ import { status } from '@/fields/Status';
 import { CollectionConfig } from 'payload/types';
 
 const isAdminOrCreatedBy = ({ req: { user } }) => {
-  console.log('CURRENT USER ', user);
+  // console.log('CURRENT USER ', user);
 
   // TODO: comment back in to allow "admins" to view/edit/etc all records (in the CMS)
   // Scenario #1 - Check if user has the 'admin' role
@@ -140,31 +140,42 @@ const Records: CollectionConfig = {
     // since configuration is in code we can call functions to define data structures dynamically in a reusable way
     slug(),
     {
-      name: 'artist',
-      type: 'relationship',
-      relationTo: 'artists',
-      hasMany: true,
-      required: true
+      type: 'row',
+      fields: [
+        {
+          name: 'artist',
+          type: 'relationship',
+          relationTo: 'artists',
+          hasMany: true,
+          required: true
+        },
+        {
+          name: 'label',
+          type: 'text'
+        }
+      ]
     },
     {
-      name: 'label',
-      type: 'text'
+      type: 'row',
+      fields: [
+        {
+          name: 'genres',
+          label: 'Genre(s)',
+          relationTo: 'genres',
+          type: 'relationship',
+          hasMany: true,
+          required: true
+        },
+        {
+          name: 'releaseYear',
+          type: 'text',
+          label: 'Release Year',
+          minLength: 4,
+          maxLength: 4
+        }
+      ]
     },
-    {
-      name: 'genres',
-      label: 'Genre(s)',
-      relationTo: 'genres',
-      type: 'relationship',
-      hasMany: true,
-      required: true
-    },
-    {
-      name: 'releaseYear',
-      type: 'text',
-      label: 'Release Year',
-      minLength: 4,
-      maxLength: 4
-    },
+
     // TODO: why is this component editable for users who didn't create the record - should be greyed out
     {
       name: 'setImageData',
