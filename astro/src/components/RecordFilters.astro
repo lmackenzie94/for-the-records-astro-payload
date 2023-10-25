@@ -10,66 +10,61 @@
 
 <script>
   //astro:page-load = An event that fires at the end of page navigation, after the new page is visible to the user and blocking styles and scripts are loaded
-  // TODO: why is this needed when using <ViewTransitions />?
-  // BUG: works on page load, but if you change pages and come back, it doesn't work
-  document.addEventListener('astro:page-load', () => {
-    const allFilter = document.querySelector(
-      '#filter-all'
-    ) as HTMLButtonElement;
-    const ownFilter = document.querySelector(
-      '#filter-own'
-    ) as HTMLButtonElement;
-    const wantFilter = document.querySelector(
-      '#filter-want'
-    ) as HTMLButtonElement;
-    const records = document.querySelectorAll(
-      '.record'
-    ) as NodeListOf<HTMLElement>;
+  // BUG: works on page load, but if you change pages and come back, it doesn't work (<ViewTransitions /> is the culprit)
+  // document.addEventListener('astro:page-load', () => {
+  const allFilter = document.querySelector('#filter-all') as HTMLButtonElement;
+  const ownFilter = document.querySelector('#filter-own') as HTMLButtonElement;
+  const wantFilter = document.querySelector(
+    '#filter-want'
+  ) as HTMLButtonElement;
+  const records = document.querySelectorAll(
+    '.record'
+  ) as NodeListOf<HTMLElement>;
 
-    let activeFilter = allFilter;
+  let activeFilter = allFilter;
 
-    const filterAll = () => {
-      activateFilter(allFilter);
+  const filterAll = () => {
+    activateFilter(allFilter);
 
-      records.forEach((record) => {
+    records.forEach((record) => {
+      record.classList.remove('hidden');
+    });
+  };
+
+  const filterOwn = () => {
+    activateFilter(ownFilter);
+
+    records.forEach((record) => {
+      if (record?.dataset?.status === 'own') {
         record.classList.remove('hidden');
-      });
-    };
+      } else {
+        record.classList.add('hidden');
+      }
+    });
+  };
 
-    const filterOwn = () => {
-      activateFilter(ownFilter);
+  const filterWant = () => {
+    activateFilter(wantFilter);
 
-      records.forEach((record) => {
-        if (record?.dataset?.status === 'own') {
-          record.classList.remove('hidden');
-        } else {
-          record.classList.add('hidden');
-        }
-      });
-    };
+    records.forEach((record) => {
+      if (record?.dataset?.status === 'want') {
+        record.classList.remove('hidden');
+      } else {
+        record.classList.add('hidden');
+      }
+    });
+  };
 
-    const filterWant = () => {
-      activateFilter(wantFilter);
+  const activateFilter = (filter: HTMLButtonElement) => {
+    activeFilter.classList.remove('active');
+    filter.classList.add('active');
+    activeFilter = filter;
+  };
 
-      records.forEach((record) => {
-        if (record?.dataset?.status === 'want') {
-          record.classList.remove('hidden');
-        } else {
-          record.classList.add('hidden');
-        }
-      });
-    };
-
-    const activateFilter = (filter: HTMLButtonElement) => {
-      activeFilter.classList.remove('active');
-      filter.classList.add('active');
-      activeFilter = filter;
-    };
-
-    allFilter?.addEventListener('click', filterAll);
-    ownFilter?.addEventListener('click', filterOwn);
-    wantFilter?.addEventListener('click', filterWant);
-  });
+  allFilter?.addEventListener('click', filterAll);
+  ownFilter?.addEventListener('click', filterOwn);
+  wantFilter?.addEventListener('click', filterWant);
+  // });
 </script>
 
 <div class="flex gap-1">
