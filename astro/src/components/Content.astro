@@ -1,27 +1,5 @@
 ---
-import { Serialize } from '@/utils/lexical/ReactSerializer';
-
 const { content, class: className } = Astro.props;
 ---
 
-<div class={`${className}`}>
-  <Serialize nodes={content?.root?.children} />
-
-  <!-- {
-    contentArray.map((value) => {
-      if (typeof value === 'string') {
-        return <article set:html={value} />;
-      } else {
-        return (
-          <Image
-            src={getImageSrc(value.src)}
-            width={value.width}
-            height={value.height}
-            format="webp"
-            alt=""
-          />
-        );
-      }
-    })
-  } -->
-</div>
+<div class={`${className}`} set:html={content} />

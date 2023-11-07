@@ -45,16 +45,6 @@ const wantIt = record.collectionStatus === 'want';
 
 const similarRecords = await getSimilarRecordsByGenre(record);
 
-const hasContent =
-  record?.content && record.content?.root?.children?.length > 0;
-
-// TODO: sort this out - shouldn't need this
-// seemed to only be an issue for "Where The Light Is"
-const hasBlankParagraph =
-  record?.content &&
-  record.content?.root?.children?.[0]?.type === 'paragraph' &&
-  record.content?.root?.children?.[0]?.children?.length === 0;
-
 const {
   themeColor,
   invertedThemeColor,
@@ -208,29 +198,16 @@ const {
         </div>
       </div>
 
-      <!-- {record.content && <Content heading="About" content={record.content} />} -->
       {
-        hasContent && (
+        record?.content_html && (
           <div class="content prose prose-sm mt-2">
             <Content
               class="prose prose-sm dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
-              content={record.content}
+              content={record.content_html}
             />
           </div>
         )
       }
-
-      <!-- {
-        hasContent && !hasBlankParagraph && (
-          <div class="content prose prose-sm mt-2">
-            <ContentReact
-              className="prose prose-sm dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
-              content={record}
-              client:visible
-            />
-          </div>
-        )
-      } -->
 
       {
         artists.length && (

@@ -35,9 +35,6 @@ const records = await getRecordsByArtist(artist.id);
 const genres: Genre[] = artist.genres?.map((genre) => genre.title) || [];
 const similarArtists = await getSimilarArtistsByGenre(artist);
 
-const hasContent =
-  artist?.content && artist.content?.root?.children?.length > 0;
-
 const {
   themeColor,
   invertedThemeColor,
@@ -163,11 +160,11 @@ const {
       <!-- <ArtistClient artist={artist} client:visible /> -->
 
       {
-        hasContent && (
+        artist?.content_html && (
           <div class="content prose prose-sm mt-2">
             <Content
               class="prose prose-sm dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
-              content={artist.content}
+              content={artist.content_html}
             />
           </div>
         )

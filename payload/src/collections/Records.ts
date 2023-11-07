@@ -1,33 +1,11 @@
 import ColorPicker from '@/components/ColorPicker';
 import RecordData, { RecordDataCell } from '@/components/RecordData';
-import { richText } from '@/fields/Content';
+import { richText } from '@/fields/RichText';
 import { slug } from '@/fields/Slug';
 import { status } from '@/fields/Status';
+import { isAdminOrCreatedBy } from '@/utils/helpers';
 
 import { CollectionConfig } from 'payload/types';
-
-const isAdminOrCreatedBy = ({ req: { user } }) => {
-  // console.log('CURRENT USER ', user);
-
-  // TODO: comment back in to allow "admins" to view/edit/etc all records (in the CMS)
-  // Scenario #1 - Check if user has the 'admin' role
-  if (user && user.role === 'admin') {
-    return true;
-  }
-
-  // Scenario #2 - Allow only documents with the current user set to the 'createdBy' field
-  if (user) {
-    // Will return access for only documents that were created by the current user
-    return {
-      createdBy: {
-        equals: user.id
-      }
-    };
-  }
-
-  // Scenario #3 - Disallow all others
-  return false;
-};
 
 const Records: CollectionConfig = {
   slug: 'records',
@@ -298,7 +276,7 @@ const Records: CollectionConfig = {
         }
       }
     },
-    richText('content'),
+    ...richText('content', true),
     status
   ]
 };

@@ -22,79 +22,87 @@ export interface Config {
 }
 export interface User {
   id: number;
-  name?: string;
+  name?: string | null;
   role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
-  resetPasswordToken?: string;
-  resetPasswordExpiration?: string;
-  salt?: string;
-  hash?: string;
-  loginAttempts?: number;
-  lockUntil?: string;
-  password: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password: string | null;
 }
 export interface Media {
   id: number;
-  alt?: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string;
-  filename?: string;
-  mimeType?: string;
-  filesize?: number;
-  width?: number;
-  height?: number;
+  url?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
 }
 export interface Record {
   id: number;
   title: string;
-  slug?: string;
-  artist: number[] | Artist[];
-  label?: string;
-  genres: number[] | Genre[];
-  releaseYear?: string;
-  imageUrl?: string;
-  useCustomImage?: boolean;
-  image?: number | Media;
-  collectionStatus?: 'own' | 'want' | 'like';
-  favouriteTracks?: {
-    title: string;
-    notes?: string;
-    id?: string;
-  }[];
-  createdBy?: number | User;
-  themeColor?: string;
-  content?: {
-    [k: string]: unknown;
-  }[];
-  status?: 'draft' | 'published';
+  slug?: string | null;
+  artist: (number | Artist)[];
+  label?: string | null;
+  genres: (number | Genre)[];
+  releaseYear?: string | null;
+  imageUrl?: string | null;
+  useCustomImage?: boolean | null;
+  image?: number | Media | null;
+  collectionStatus?: ('own' | 'want' | 'like') | null;
+  favouriteTracks?:
+    | {
+        title: string;
+        notes?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  createdBy?: (number | null) | User;
+  themeColor?: string | null;
+  content?:
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
+  content_html?: string | null;
+  status?: ('draft' | 'published') | null;
   updatedAt: string;
   createdAt: string;
 }
 export interface Artist {
   id: number;
   name: string;
-  slug?: string;
-  genres?: number[] | Genre[];
-  imageUrl?: string;
-  themeColor?: string;
-  useCustomImage?: boolean;
-  image?: number | Media;
-  discogsBio?: string;
-  hideDiscogsBio?: boolean;
-  content?: {
-    [k: string]: unknown;
-  }[];
-  status?: 'draft' | 'published';
+  slug?: string | null;
+  genres?: (number | Genre)[] | null;
+  imageUrl?: string | null;
+  themeColor?: string | null;
+  useCustomImage?: boolean | null;
+  image?: number | Media | null;
+  discogsBio?: string | null;
+  hideDiscogsBio?: boolean | null;
+  content?:
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
+  content_html?: string | null;
+  status?: ('draft' | 'published') | null;
   updatedAt: string;
   createdAt: string;
 }
 export interface Genre {
   id: number;
   title: string;
-  slug?: string;
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -104,7 +112,7 @@ export interface PayloadPreference {
     relationTo: 'users';
     value: number | User;
   };
-  key?: string;
+  key?: string | null;
   value?:
     | {
         [k: string]: unknown;
@@ -119,8 +127,8 @@ export interface PayloadPreference {
 }
 export interface PayloadMigration {
   id: number;
-  name?: string;
-  batch?: number;
+  name?: string | null;
+  batch?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -129,8 +137,8 @@ export interface SiteSetting {
   title: string;
   description: string;
   logo: number | Media;
-  updatedAt?: string;
-  createdAt?: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 
 

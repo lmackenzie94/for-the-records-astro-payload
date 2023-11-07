@@ -1,7 +1,6 @@
 // import { webpackBundler } from '@payloadcms/bundler-webpack';
 import { viteBundler } from '@payloadcms/bundler-vite';
 import { postgresAdapter } from '@payloadcms/db-postgres';
-// import { slateEditor } from '@payloadcms/richtext-slate';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload/config';
 
@@ -95,7 +94,6 @@ export default buildConfig({
       }
     }
   },
-  // editor: slateEditor({}),
   editor: lexicalEditor({}),
   db: postgresAdapter({
     pool: {

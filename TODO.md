@@ -27,16 +27,13 @@
 24. Commit buddy.yml file
 25. Images uploaded via production CMS won't show up locally (and vice versa) - what to do about this? 🤔
 26. Somehow allow Lexical editor to use Record/Artist theme colours
-27. Lexical text-alignment wasn't working - had to add logic to the serializer
-    - BUG: if you set alignment to center, you can't undo it without deleting the text and starting over
-28. Lexical inline links not working.
-29. "Content" live preview only works if the field has existing content
-30. Get drafts and versions working
-31. Seems like lexical editor "Content" field has an empty <p> tag as the default value ... ??
-32. Set up Payload blocks - make them work with Lexical
-33. Don't rebuild CMS on push if only front-end files have changed
-34. How to export/import data from CMS?
-35. BUG: json error in console on Production (related to Content / LivePreview) - causes own/want filters not to work if you go to a record page then back to the Records page
+27. "Content" live preview only works if the field has existing content
+28. Get drafts and versions working
+29. Seems like lexical editor "Content" field has an empty <p> tag as the default value ... ??
+30. Set up Payload blocks - make them work with Lexical
+31. Don't rebuild CMS on push if only front-end files have changed
+32. How to export/import data from CMS?
+33. BUG: json error in console on Production (related to Content / LivePreview) - causes own/want filters not to work if you go to a record page then back to the Records page
 
 # LOOK INTO:
 

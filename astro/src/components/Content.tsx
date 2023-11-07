@@ -1,11 +1,8 @@
 'use client';
 
 import { useLivePreview } from '@/hooks/useLivePreview';
-import { Serialize } from '@/utils/lexical/ReactSerializer';
 
 const ContentReact = ({ content, className = '' }) => {
-  // const contentArray = getContentArray(content);
-
   const serverURL = import.meta.env.DEV
     ? 'http://localhost:3001'
     : 'https://for-the-records.com';
