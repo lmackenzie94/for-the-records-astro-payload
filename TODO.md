@@ -33,6 +33,8 @@
 30. BUG: json error in console on Production (related to Content / LivePreview) - causes own/want filters not to work if you go to a record page then back to the Records page
 31. BUG: admin login - email disappears after entering it (only happens once)
 32. BUG: Lexical editor - "open in new tab" and internal links don't work properly
+33. Make "Similar Artists" and "Similar Records" sticky on scroll.
+34. add sub-domain for dev environment (ex: dev.for-the-records.com)
 
 # LOOK INTO:
 
