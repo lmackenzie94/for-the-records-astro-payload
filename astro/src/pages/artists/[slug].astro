@@ -150,7 +150,7 @@ const {
 
       {
         artist.discogsBio && !artist.hideDiscogsBio && (
-          <div class="bio prose prose-sm mt-8 dark:prose-invert prose-headings:text-sm">
+          <div class="bio prose prose-sm mt-6 dark:prose-invert prose-headings:text-sm">
             <h2 class="text-sm font-bold">Discogs Bio</h2>
             <p set:html={artist.discogsBio} />
           </div>
@@ -161,7 +161,9 @@ const {
 
       {
         artist?.content_html && (
-          <div class="content prose prose-sm mt-2">
+          <div 
+            class={`content prose prose-sm ${artist.hideDiscogsBio ? 'mt-6' : 'mt-2'}`}
+          >
             <Content
               class="prose prose-sm dark:prose-invert prose-headings:text-black dark:prose-headings:text-white"
               content={artist.content_html}
