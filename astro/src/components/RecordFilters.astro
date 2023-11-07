@@ -10,7 +10,9 @@
 
 <script>
   //astro:page-load = An event that fires at the end of page navigation, after the new page is visible to the user and blocking styles and scripts are loaded
-  // BUG: works on page load, but if you change pages and come back, it doesn't work (<ViewTransitions /> is the culprit)
+  // TODO: why is this needed when using <ViewTransitions />?
+  // BUG: works on page load, but if you change pages and come back, it doesn't work
+  // BUG 2: adding astro:page-load listener seems to cause flash of unstyled content when clicking between records/artists
   // document.addEventListener('astro:page-load', () => {
   const allFilter = document.querySelector('#filter-all') as HTMLButtonElement;
   const ownFilter = document.querySelector('#filter-own') as HTMLButtonElement;
