@@ -18,7 +18,7 @@ export default function DeployButton() {
     );
 
     if (response.ok) {
-      alert('Deploy triggered!');
+      alert('Deploy from MAIN BRANCH triggered!');
     } else {
       alert('Something went wrong. Please try again.');
     }
@@ -26,7 +26,10 @@ export default function DeployButton() {
   };
 
   return (
-    <article style={{ marginTop: `2rem` }}>
+    <article
+      style={{ marginTop: `2rem` }}
+      title="REMEMBER: this deploys from the MAIN branch!"
+    >
       <img
         id="buddy-badge"
         src="https://app.buddy.works/lukes-personal-workspace/for-the-records-astro-payload/pipelines/pipeline/469266/badge.svg?token=1e5f39bef2f6738c3985cd62b49f197c31ac10d132287f274d7c391c8ce56cd2"
