@@ -22,6 +22,12 @@ const RecordData: React.FC<Props> = ({ path }) => {
 
   const debouncedRecordTitle = useDebounce(recordTitle, 1000);
 
+  // TODO: need this?
+  // added b/c record images weren't loading in prod for some reason until I changed the artist dropdown
+  useEffect(() => {
+    getRecordData(recordTitle, recordArtistIds);
+  }, []);
+
   useEffect(() => {
     if (debouncedRecordTitle) {
       getRecordData(debouncedRecordTitle, recordArtistIds);
@@ -30,6 +36,15 @@ const RecordData: React.FC<Props> = ({ path }) => {
 
   // TODO: narrow down based on selected artist (if there is one)
   const getRecordData = async (recordTitle: string, recordArtistIds: any) => {
+    console.log('GETTING RECORD DATA');
+    if (!recordTitle) {
+      console.warn('no record title - skipping fetch');
+      return;
+    }
+    if (!recordArtistIds) {
+      console.warn('no artist id - fetching using title only');
+    }
+
     try {
       const mainArtistId = recordArtistIds ? recordArtistIds[0] : null;
       const recordData = await fetchRecordData(recordTitle, mainArtistId);
@@ -101,19 +116,17 @@ const RecordData: React.FC<Props> = ({ path }) => {
           )} */}
         </div>
       ) : (
-        <>
-          {!recordTitle && (
-            <p
-              style={{
-                fontSize: '.8rem',
-                color: 'rgba(255,0,0,0.5)',
-                marginBottom: 0
-              }}
-            >
-              Enter a record name and artist to get images
-            </p>
-          )}
-        </>
+        <p
+          style={{
+            fontSize: '.8rem',
+            color: 'rgba(255,0,0,0.5)',
+            marginBottom: 0
+          }}
+        >
+          {!recordTitle
+            ? `Enter a record name and artist to get images`
+            : `No images found for ${recordTitle}`}
+        </p>
       )}
     </div>
   );

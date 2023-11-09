@@ -29,6 +29,8 @@ export const fetchRecordData = async (
     discogsUrl += `&artist=${mainArtistName}`;
   }
 
+  console.log(`Fetching Discogs record data from: ${discogsUrl}`);
+
   const response = await fetch(discogsUrl);
 
   if (!response.ok) {
