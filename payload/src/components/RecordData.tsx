@@ -36,7 +36,6 @@ const RecordData: React.FC<Props> = ({ path }) => {
 
   // TODO: narrow down based on selected artist (if there is one)
   const getRecordData = async (recordTitle: string, recordArtistIds: any) => {
-    console.log('GETTING RECORD DATA');
     if (!recordTitle) {
       console.warn('no record title - skipping fetch');
       return;
@@ -44,6 +43,9 @@ const RecordData: React.FC<Props> = ({ path }) => {
     if (!recordArtistIds) {
       console.warn('no artist id - fetching using title only');
     }
+
+    console.log(`Fetching record data for ${recordTitle}...`);
+    console.log(`Artist ID: ${recordArtistIds}`);
 
     try {
       const mainArtistId = recordArtistIds ? recordArtistIds[0] : null;
