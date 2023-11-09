@@ -93,7 +93,7 @@ const ArtistData: React.FC<Props> = ({ path }) => {
             currentImageUrl={currentImageUrl}
             onClick={setFields}
           />
-          {currentImageUrl && (
+          {/* {currentImageUrl && (
             <details style={{ marginTop: '1rem' }}>
               <summary style={{ cursor: 'pointer' }}>
                 Selected Image URL
@@ -109,7 +109,7 @@ const ArtistData: React.FC<Props> = ({ path }) => {
                 {currentImageUrl}
               </a>
             </details>
-          )}
+          )} */}
         </div>
       ) : (
         <>
@@ -183,9 +183,9 @@ const ArtistImages = ({ artistData, currentImageUrl, onClick }) => {
               <span
                 style={{
                   position: 'absolute',
-                  top: '-5px',
-                  right: '5px',
-                  fontSize: '2rem'
+                  top: '-9px',
+                  right: '3px',
+                  fontSize: '1.5rem'
                 }}
               >
                 ✅

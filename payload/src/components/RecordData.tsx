@@ -82,7 +82,7 @@ const RecordData: React.FC<Props> = ({ path }) => {
             onClick={setFields}
           />
 
-          {currentImageUrl && (
+          {/* {currentImageUrl && (
             <details style={{ marginTop: '1rem' }}>
               <summary style={{ cursor: 'pointer' }}>
                 Selected Image URL
@@ -98,7 +98,7 @@ const RecordData: React.FC<Props> = ({ path }) => {
                 {currentImageUrl}
               </a>
             </details>
-          )}
+          )} */}
         </div>
       ) : (
         <>
@@ -148,7 +148,7 @@ const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
           <article
             key={cover_image}
             style={{
-              padding: '0 1.5rem',
+              padding: '0 2rem',
               borderRight: isInnerRecord ? '1px solid #e2e2e2' : 'none',
               borderLeft: isInnerRecord ? '1px solid #e2e2e2' : 'none'
             }}
@@ -186,9 +186,9 @@ const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
                 <span
                   style={{
                     position: 'absolute',
-                    top: '-5px',
-                    right: '5px',
-                    fontSize: '2rem'
+                    top: '-9px',
+                    right: '3px',
+                    fontSize: '1.5rem'
                   }}
                 >
                   ✅
@@ -198,23 +198,30 @@ const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
             <div
               style={{
                 marginTop: '10px',
-                maxWidth: '18ch'
+                maxWidth: '22ch',
+                fontSize: '.9rem'
               }}
             >
               <p
                 style={{
                   fontWeight: 'bold',
-                  lineHeight: 1.1,
+                  lineHeight: 1.2,
                   margin: 0
                 }}
               >
                 {title}{' '}
-                {year && <span style={{ fontWeight: 'normal' }}>({year})</span>}
+                {year && (
+                  <span style={{ fontWeight: 'normal', fontSize: '.9' }}>
+                    ({year})
+                  </span>
+                )}
               </p>
-              <p style={{ margin: '.3em 0', lineHeight: 1.1 }}>
+              <p style={{ margin: '.3em 0', lineHeight: 1.1, fontSize: '.9' }}>
                 {genre.join(', ')}
               </p>
-              <p style={{ margin: '.3em 0', lineHeight: 1.1 }}>{mainLabel}</p>
+              <p style={{ margin: '.3em 0', lineHeight: 1.1, fontSize: '.9' }}>
+                {mainLabel}
+              </p>
               {/* <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{country}</p> */}
             </div>
           </article>

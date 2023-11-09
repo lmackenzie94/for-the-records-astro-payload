@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "concurrently \"cd payload && yarn dev\" \"cd astro && yarn dev\"",
+    "install-deps": "yarn install && cd astro && yarn install && cd .. && cd payload && yarn install && cd ..",
     "format": "cd astro && yarn format && cd .. && cd payload && yarn format && cd .."
   },
   "devDependencies": {
