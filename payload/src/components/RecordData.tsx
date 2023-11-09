@@ -22,12 +22,6 @@ const RecordData: React.FC<Props> = ({ path }) => {
 
   const debouncedRecordTitle = useDebounce(recordTitle, 1000);
 
-  // TODO: need this?
-  // added b/c record images weren't loading in prod for some reason until I changed the artist dropdown
-  useEffect(() => {
-    getRecordData(recordTitle, recordArtistIds);
-  }, []);
-
   useEffect(() => {
     if (debouncedRecordTitle) {
       getRecordData(debouncedRecordTitle, recordArtistIds);
@@ -90,7 +84,15 @@ const RecordData: React.FC<Props> = ({ path }) => {
         marginBottom: '2rem'
       }}
     >
-      <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem' }}>Record Data</h3>
+      <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem' }}>
+        Record Data
+        <button
+          onClick={() => getRecordData(recordTitle, recordArtistIds)}
+          style={{ marginLeft: '0.5rem' }}
+        >
+          🔁
+        </button>
+      </h3>
       {recordData ? (
         <div>
           <RecordImagesAndInfo
