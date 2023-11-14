@@ -59,6 +59,12 @@ export interface Record {
   useCustomImage?: boolean | null;
   image?: number | Media | null;
   collectionStatus?: ('own' | 'want' | 'like') | null;
+  content?:
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
+  content_html?: string | null;
   favouriteTracks?:
     | {
         title: string;
@@ -68,12 +74,6 @@ export interface Record {
     | null;
   createdBy?: (number | null) | User;
   themeColor?: string | null;
-  content?:
-    | {
-        [k: string]: unknown;
-      }[]
-    | null;
-  content_html?: string | null;
   status?: ('draft' | 'published') | null;
   updatedAt: string;
   createdAt: string;

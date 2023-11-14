@@ -222,6 +222,7 @@ const Records: CollectionConfig = {
         }
       ]
     },
+    ...richText('content', true),
     {
       name: 'favouriteTracks',
       label: 'Favourite Tracks',
@@ -276,7 +277,6 @@ const Records: CollectionConfig = {
         }
       }
     },
-    ...richText('content', true),
     status
   ]
 };

@@ -47,6 +47,7 @@ const RecordData: React.FC<Props> = ({ path }) => {
       setRecordData(recordData.results);
     } catch (error) {
       setError(error.message);
+      setRecordData(null);
     }
   };
 
@@ -87,8 +88,16 @@ const RecordData: React.FC<Props> = ({ path }) => {
       <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem' }}>
         Record Data
         <button
-          onClick={() => getRecordData(recordTitle, recordArtistIds)}
-          style={{ marginLeft: '0.5rem' }}
+          role="button"
+          onClick={(e) => {
+            e.preventDefault();
+            getRecordData(recordTitle, recordArtistIds);
+          }}
+          style={{
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer'
+          }}
         >
           🔁
         </button>

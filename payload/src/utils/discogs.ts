@@ -5,12 +5,19 @@ export const fetchRecordData = async (
   recordTitle: string,
   mainArtistId: string
 ) => {
+  console.log('fetchRecordData', recordTitle, mainArtistId);
+
   let mainArtistName = null;
   if (mainArtistId) {
     // use the main artist ID to get the artist name via the Payload API
-    const res = await fetch(
-      `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/api/artists/${mainArtistId}`
-    );
+
+    // TODO: why doesn't process.env work in production?
+    const serverURL =
+      process.env.PAYLOAD_PUBLIC_SERVER_URL || 'https://for-the-records.com';
+    const URL = `${serverURL}/api/artists/${mainArtistId}`;
+
+    console.log(`Fetching artist name from: ${URL}`);
+    const res = await fetch(URL);
 
     if (!res.ok) {
       throw new Error('Error fetching artist name...');

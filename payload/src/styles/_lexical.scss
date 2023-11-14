@@ -1,11 +1,11 @@
 .rich-text-lexical .editor-shell {
+  --padding: 1.44rem;
   font-family: 'ui-sans-serif', 'system-ui', 'sans-serif';
-  border: 1px solid #e9e9e9;
-  padding: 0 1rem;
-  border-radius: 0.2rem;
+  border-left: 1px solid #dddddd;
+  padding: 0 var(--padding);
 
   .editor-placeholder {
-    display: none;
+    padding-left: var(--padding);
   }
 
   :is(h1, h2, h3, h4, h5, h6) {
@@ -13,6 +13,7 @@
     font-weight: 700;
     font-size: 1.5em;
     line-height: 1.33;
+    margin-top: 0;
     margin-bottom: 1em;
     text-transform: none;
   }
