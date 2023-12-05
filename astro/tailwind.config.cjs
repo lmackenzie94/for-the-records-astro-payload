@@ -33,7 +33,7 @@ module.exports = {
         'fade-in-scale': {
           '0%': {
             opacity: '0',
-            transform: 'scale(0.95)'
+            transform: 'scale(0.85)'
           },
           '100%': {
             opacity: '1',
@@ -43,7 +43,7 @@ module.exports = {
         'fade-in-drop-down': {
           '0%': {
             opacity: '0',
-            transform: 'translateY(-40px) scale(0.97)'
+            transform: 'translateY(-40px) scale(0.95)'
           },
           '40%': {
             opacity: '1',
@@ -61,7 +61,7 @@ module.exports = {
       },
       animation: {
         'fade-in-scale': 'fade-in-scale 0.2s ease-out forwards',
-        'fade-in-drop-down': 'fade-in-drop-down 1s ease-out 0.2s forwards'
+        'fade-in-drop-down': 'fade-in-drop-down 1.3s ease-out 0.3s forwards'
       }
     }
   },

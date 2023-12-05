@@ -4,7 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import { getSiteSettings } from '@/utils/payload/globals';
 import { getRandomRecords } from '@/utils/payload/record';
 
-const records = await getRandomRecords();
+const records = await getRandomRecords(8);
 
 const { title: siteTitle } = await getSiteSettings();
 ---
@@ -20,10 +20,13 @@ const { title: siteTitle } = await getSiteSettings();
   <section class="flex flex-wrap justify-center">
     {
       records?.length > 0 &&
-        records.map((record) => {
+        records.map((record, idx) => {
           return (
             <div
               class="record w-1/2 flex-grow-0 animate-fade-in-scale opacity-0 md:w-1/4"
+              style={`animation-delay: ${
+                400 + idx * 110
+              }ms; animation-duration: 400ms;`}
               transition:name={`record-${record.id}`}
             >
               <a href={`/records/${record.slug}`}>
