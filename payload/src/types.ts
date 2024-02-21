@@ -20,6 +20,10 @@ export interface Config {
     'site-settings': SiteSetting;
   };
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
 export interface User {
   id: number;
   name?: string | null;
@@ -35,6 +39,10 @@ export interface User {
   lockUntil?: string | null;
   password: string | null;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
 export interface Media {
   id: number;
   alt?: string | null;
@@ -47,6 +55,10 @@ export interface Media {
   width?: number | null;
   height?: number | null;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "records".
+ */
 export interface Record {
   id: number;
   title: string;
@@ -78,6 +90,10 @@ export interface Record {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artists".
+ */
 export interface Artist {
   id: number;
   name: string;
@@ -99,6 +115,10 @@ export interface Artist {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres".
+ */
 export interface Genre {
   id: number;
   title: string;
@@ -106,6 +126,10 @@ export interface Genre {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences".
+ */
 export interface PayloadPreference {
   id: number;
   user: {
@@ -125,6 +149,10 @@ export interface PayloadPreference {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations".
+ */
 export interface PayloadMigration {
   id: number;
   name?: string | null;
@@ -132,6 +160,10 @@ export interface PayloadMigration {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
 export interface SiteSetting {
   id: number;
   title: string;
