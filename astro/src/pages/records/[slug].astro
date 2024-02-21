@@ -40,8 +40,18 @@ const { record } = Astro.props;
 const artists: ArtistType[] = record.artist;
 const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
-const ownIt = record.collectionStatus === 'own';
-const wantIt = record.collectionStatus === 'want';
+let recordStatus;
+
+switch (record.collectionStatus) {
+  case 'own':
+    recordStatus = 'Own It';
+    break;
+  case 'want':
+    recordStatus = 'Want It';
+    break;
+  default:
+    recordStatus = 'Just Like It';
+}
 
 const similarRecords = await getSimilarRecordsByGenre(record);
 
@@ -187,13 +197,12 @@ const {
                 </p>
               )
             }
-            {
-              (ownIt || wantIt) && (
-                <span class="status-badge mt-2 inline-block rounded-full px-3 py-1 font-mono text-xs font-bold">
-                  {ownIt ? 'Own It' : 'Want It'}
-                </span>
-              )
-            }
+
+            <span
+              class="status-badge mt-2 inline-block rounded-full px-3 py-1 font-mono text-xs font-bold"
+            >
+              {recordStatus}
+            </span>
           </div>
         </div>
       </div>
