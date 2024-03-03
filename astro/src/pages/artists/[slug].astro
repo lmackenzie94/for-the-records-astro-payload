@@ -161,7 +161,7 @@ const {
 
       {
         artist?.content_html && (
-          <div 
+          <div
             class={`content prose prose-sm ${artist.hideDiscogsBio ? 'mt-6' : 'mt-2'}`}
           >
             <Content
@@ -186,18 +186,13 @@ const {
 
       {
         records.length > 0 && (
-          <>
-            <h2 class="mb-4 mt-16 text-lg font-bold sm:text-xl">
-              Records in Your Collection
-            </h2>
-            <div class="grid grid-cols-12 gap-4">
-              {records.map((record) => (
-                <div class="col-span-3 md:col-span-2">
-                  <Record small record={record} />
-                </div>
-              ))}
-            </div>
-          </>
+          <div class="mt-6 grid grid-cols-12 gap-4">
+            {records.map((record) => (
+              <div class="col-span-3 md:col-span-2">
+                <Record small record={record} />
+              </div>
+            ))}
+          </div>
         )
       }
     </div>
