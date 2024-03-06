@@ -71,11 +71,21 @@ export interface Record {
   useCustomImage?: boolean | null;
   image?: number | Media | null;
   collectionStatus?: ('own' | 'want' | 'like') | null;
-  content?:
-    | {
+  content?: {
+    root: {
+      children: {
+        type: string;
+        version: number;
         [k: string]: unknown;
-      }[]
-    | null;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      type: string;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   content_html?: string | null;
   favouriteTracks?:
     | {
@@ -105,11 +115,21 @@ export interface Artist {
   image?: number | Media | null;
   discogsBio?: string | null;
   hideDiscogsBio?: boolean | null;
-  content?:
-    | {
+  content?: {
+    root: {
+      children: {
+        type: string;
+        version: number;
         [k: string]: unknown;
-      }[]
-    | null;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      type: string;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   content_html?: string | null;
   status?: ('draft' | 'published') | null;
   updatedAt: string;
