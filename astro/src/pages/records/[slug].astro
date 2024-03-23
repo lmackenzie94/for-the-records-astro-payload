@@ -1,6 +1,7 @@
 ---
-import Artist from '@/components/Artist.astro';
-import ContentReact from '@/components/Content';
+// import Artist from '@/components/Artist.astro';
+// import ContentReact from '@/components/Content';
+import ArtistImage from '@/components/ArtistImage.astro';
 import Content from '@/components/Content.astro';
 import Record from '@/components/Record.astro';
 import RecordArtists from '@/components/RecordArtists.astro';
@@ -14,6 +15,7 @@ import type {
 import { getThemeColors, invertHex } from '@/utils/helpers';
 import { getRecords, getSimilarRecordsByGenre } from '@/utils/payload/record';
 import type { InferGetStaticParamsType } from 'astro';
+import { Image } from 'astro:assets';
 
 // TODO: how to get type hints...?
 
@@ -37,7 +39,7 @@ interface Props {
 // const { slug } = Astro.params as Params;
 const { record } = Astro.props;
 
-const artists: ArtistType[] = record.artist;
+// const artists: ArtistType[] = record.artist;
 const genres: Genre[] = record.genres?.map((genre) => genre.title) || [];
 
 let recordStatus;
@@ -164,14 +166,30 @@ const {
             />
           </div>
         </div>
-        <div class="mt-8 flex flex-col justify-between sm:mt-14">
+        <div class="mt-8 flex flex-col justify-between sm:mt-10">
           <div class="font-mono text-sm">
-            <p>
-              <span class="label font-mono font-bold tracking-tighter"
-                >Artist:
-              </span>
-              <RecordArtists record={record} class="hocus:underline" />
-            </p>
+            <div
+              class="mb-4 flex flex-col gap-y-2 sm:flex-row sm:items-center sm:gap-x-4"
+            >
+              {
+                record.artist.map((artist) => (
+                  // TODO: use ArtistImage component
+                  <a class="flex items-center" href={`/artists/${artist.slug}`}>
+                    <Image
+                      src={artist.imageUrl}
+                      alt={artist.name}
+                      class="mr-2 h-8 w-8 rounded-full object-cover"
+                      width={artist.imageUrl.match(/w:(\d+)/)?.[1] || 100}
+                      height={artist.imageUrl.match(/h:(\d+)/)?.[1] || 100}
+                      quality="high"
+                    />
+                    <p class="font-mono text-sm tracking-tighter">
+                      {artist.name}
+                    </p>
+                  </a>
+                ))
+              }
+            </div>
             <p>
               <span class="label font-mono font-bold tracking-tighter"
                 >Year:
@@ -197,13 +215,12 @@ const {
                 </p>
               )
             }
-
-            <span
-              class="status-badge mt-2 inline-block rounded-full px-3 py-1 font-mono text-xs font-bold"
-            >
-              {recordStatus}
-            </span>
           </div>
+          <span
+            class="status-badge my-2 inline-block self-start rounded-full px-3 py-1 font-mono text-xs font-bold"
+          >
+            {recordStatus}
+          </span>
         </div>
       </div>
 
@@ -217,27 +234,17 @@ const {
           </div>
         )
       }
-
-      {
-        similarRecords.length > 0 && (
-          <div class="mt-8 grid grid-cols-12 gap-4 rounded-lg bg-black/5 p-6 dark:bg-white/5 sm:mt-12">
-            {similarRecords.map((record) => (
-              <div class="col-span-2">
-                <Record record={record} />
-              </div>
-            ))}
-          </div>
-        )
-      }
     </div>
-
     {
-      artists?.length > 0 && (
-        <aside class="col-span-full mt-8 sm:col-span-3 sm:mt-0 md:col-span-2">
+      similarRecords.length > 0 && (
+        <aside class="col-span-full mt-8 rounded-lg bg-black/5 px-5 py-4 dark:bg-white/5 sm:col-span-3 sm:mt-0 md:col-span-2">
+          <h2 class="aside-heading mb-4 text-center font-bold">
+            Similar Records
+          </h2>
           <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-col sm:items-center sm:gap-7">
-            {artists.map((artist, idx) => (
+            {similarRecords.map((record, idx) => (
               <div class={`${idx === 2 && 'hidden sm:block'}`}>
-                <Artist artist={artist} class="flex-1" />
+                <Record small record={record} class="flex-1" />
               </div>
             ))}
           </div>
