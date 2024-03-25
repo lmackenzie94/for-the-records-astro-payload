@@ -6,8 +6,12 @@ import { URL, apiFetch } from './api';
 // import qs from 'qs';
 
 // GET ALL ARTISTS
-export const getArtists = async () =>
-  (await apiFetch(`${URL}/api/artists`)).docs as Artist[];
+export const getArtists = async (limit: number = 0) =>
+  (
+    await apiFetch(
+      `${URL}/api/artists?${getStatusQuery('published')}&${getLimitQuery(limit)}`
+    )
+  ).docs as Artist[];
 
 // GET ARTIST BY ID
 export const getArtistById = async (id: string) =>

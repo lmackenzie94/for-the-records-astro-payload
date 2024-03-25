@@ -3,9 +3,13 @@ import { getLimitQuery, getStatusQuery } from '@/utils/helpers';
 import { URL, apiFetch } from './api';
 
 // GET ALL RECORDS
-export const getRecords = async () =>
-  (await apiFetch(`${URL}/api/records?${getStatusQuery('published')}`))
-    .docs as Record[];
+// have to set a limit of 0, otherwise only 10 records will be fetched
+export const getRecords = async (limit: number = 0) =>
+  (
+    await apiFetch(
+      `${URL}/api/records?${getStatusQuery('published')}&${getLimitQuery(limit)}`
+    )
+  ).docs as Record[];
 
 // GET RECORD BY ID
 export const getRecordById = async (id: string) =>

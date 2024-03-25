@@ -29,6 +29,9 @@ module.exports = {
       }
     },
     extend: {
+      fontSize: {
+        '2xs': '0.65rem'
+      },
       listStyleType: {
         circle: 'circle'
       },

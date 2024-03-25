@@ -25,7 +25,7 @@ const genres: Genre[] = artist?.genres?.map((genre) => genre.title) || [];
   >
     {artist.name}
   </p>
-  <p class="text-xs text-gray-medium dark:text-gray-light">
+  <p class="text-2xs text-gray-medium dark:text-gray-light sm:text-xs">
     {genres.join(', ')}
   </p>
 </article>
