@@ -29,6 +29,9 @@ module.exports = {
       }
     },
     extend: {
+      listStyleType: {
+        circle: 'circle'
+      },
       keyframes: {
         'fade-in-scale': {
           '0%': {
