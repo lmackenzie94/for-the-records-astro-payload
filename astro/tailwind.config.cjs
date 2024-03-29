@@ -29,6 +29,13 @@ module.exports = {
       }
     },
     extend: {
+      // typography: {
+      //   DEFAULT: {
+      //     css: {
+      //       maxWidth: '70ch'
+      //     }
+      //   }
+      // },
       fontSize: {
         '2xs': '0.65rem'
       },
