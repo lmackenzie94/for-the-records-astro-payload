@@ -17,14 +17,9 @@
   </svg>
 </button>
 
-<script is:inline>
-  // TODO: why doesn't this work when changing pages
-  // seems like ViewTransitions re-runs the scripts
-  // causing "theme" has already been declared error
-
-  // WORKAROUND: if theme is not defined yet
-  // but caused FOUC on page change
-  if (typeof theme === 'undefined') {
+<script>
+  // astro:page-load is needed when using ViewTransitions; also had to remove is:inline from the script tag (see docs - https://docs.astro.build/en/tutorials/add-view-transitions/#update-scripts)
+  document.addEventListener('astro:page-load', () => {
     const theme = (() => {
       if (
         typeof localStorage !== 'undefined' &&
@@ -44,7 +39,7 @@
       document.documentElement.classList.add('dark');
     }
 
-    window.localStorage.setItem('theme', theme);
+    window.localStorage.setItem('theme', theme ?? '');
 
     const handleToggleClick = () => {
       const element = document.documentElement;
@@ -57,7 +52,20 @@
     document
       .getElementById('themeToggle')
       .addEventListener('click', handleToggleClick);
-  }
+  });
+</script>
+
+<!-- prevents possible flash of light theme -->
+<!-- 
+  The following function checks the browser’s localStorage for dark theme 
+  and will run immediately after the new page has replaced the old page, BEFORE the DOM elements are painted to the screen. 
+-->
+<script>
+  document.addEventListener('astro:after-swap', () => {
+    localStorage.theme === 'dark'
+      ? document.documentElement.classList.add('dark')
+      : document.documentElement.classList.remove('dark');
+  });
 </script>
 
 <style>

@@ -1,6 +1,7 @@
 ---
 import Grid from '@/components/Grid.astro';
 import Record from '@/components/Record.astro';
+import RecordFilters from '@/components/RecordFilters.astro';
 import Layout from '@/layouts/Layout.astro';
 import { getRecords } from '@/utils/payload/record';
 
@@ -15,7 +16,11 @@ const records = await getRecords();
     >
       Records.
     </h1>
-    <!-- <RecordFilters /> -->
+
+    <!-- TOOD: enable on mobile -->
+    <div class="hidden sm:block">
+      <RecordFilters />
+    </div>
   </div>
 
   {

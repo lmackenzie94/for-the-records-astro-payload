@@ -1,6 +1,13 @@
+<div class="flex gap-1">
+  <button id="filter-all" class="filter">All</button>
+  <button id="filter-own" class="filter">Own</button>
+  <button id="filter-want" class="filter">Want</button>
+  <button id="filter-like" class="filter">Just Like</button>
+</div>
+
 <style>
   .filter {
-    @apply self-start rounded-full border-2 border-transparent px-2 font-mono text-xs font-bold text-black transition-colors duration-300 hocus:border-black dark:text-white dark:hocus:border-white;
+    @apply self-start rounded-full border-2 border-transparent px-2 font-mono text-xs font-bold tracking-tighter text-black transition-colors duration-300 hocus:border-black dark:text-white dark:hocus:border-white;
   }
 
   .filter.active {
@@ -9,68 +16,75 @@
 </style>
 
 <script>
-  //astro:page-load = An event that fires at the end of page navigation, after the new page is visible to the user and blocking styles and scripts are loaded
-  // TODO: why is this needed when using <ViewTransitions />?
-  // BUG: works on page load, but if you change pages and come back, it doesn't work
-  // BUG 2: adding astro:page-load listener seems to cause flash of unstyled content when clicking between records/artists
-  // document.addEventListener('astro:page-load', () => {
-  const allFilter = document.querySelector('#filter-all') as HTMLButtonElement;
-  const ownFilter = document.querySelector('#filter-own') as HTMLButtonElement;
-  const wantFilter = document.querySelector(
-    '#filter-want'
-  ) as HTMLButtonElement;
-  const records = document.querySelectorAll(
-    '.record'
-  ) as NodeListOf<HTMLElement>;
+  type FilterKeys = 'all' | 'own' | 'want' | 'like';
 
-  let activeFilter = allFilter;
+  interface Filters {
+    [key: string]: HTMLButtonElement | null;
+  }
 
-  const filterAll = () => {
-    activateFilter(allFilter);
+  document.addEventListener('astro:page-load', () => {
+    const filters: Filters = {
+      all: document.querySelector('#filter-all'),
+      own: document.querySelector('#filter-own'),
+      want: document.querySelector('#filter-want'),
+      like: document.querySelector('#filter-like')
+    };
 
-    records.forEach((record) => {
-      record.classList.remove('hidden');
-    });
-  };
+    const records = document.querySelectorAll('.record');
 
-  const filterOwn = () => {
-    activateFilter(ownFilter);
+    let activeFilter: HTMLButtonElement | null = null;
 
-    records.forEach((record) => {
-      if (record?.dataset?.status === 'own') {
-        record.classList.remove('hidden');
-      } else {
-        record.classList.add('hidden');
+    const activateFilter = (filter: HTMLButtonElement) => {
+      activeFilter?.classList.remove('active');
+      filter?.classList.add('active');
+      activeFilter = filter;
+    };
+
+    const updateURL = (status: FilterKeys) => {
+      const url = new URL(window.location.href);
+
+      if (status === 'all') {
+        url.searchParams.delete('s');
+        window.history.pushState({}, '', url.toString());
+        return;
       }
-    });
-  };
 
-  const filterWant = () => {
-    activateFilter(wantFilter);
+      url.searchParams.set('s', status);
+      window.history.pushState({}, '', url.toString());
+    };
 
-    records.forEach((record) => {
-      if (record?.dataset?.status === 'want') {
-        record.classList.remove('hidden');
+    const setInitialFilter = () => {
+      console.log('SETTING INITIAL FILTER');
+      const url = new URL(window.location.href);
+      const status = url.searchParams.get('s') as FilterKeys;
+      if (status && filters[status]) {
+        activateFilter(filters[status]);
+        filterRecords(status);
       } else {
-        record.classList.add('hidden');
+        activateFilter(filters.all!);
       }
+    };
+
+    const filterRecords = (status: FilterKeys) => {
+      activateFilter(filters[status]!);
+      updateURL(status);
+
+      records.forEach((record) => {
+        if (status === 'all' || record?.dataset?.status === status) {
+          record.classList.remove('hidden');
+        } else {
+          record.classList.add('hidden');
+        }
+      });
+    };
+
+    Object.keys(filters).forEach((filter) => {
+      filters[filter as FilterKeys]?.addEventListener('click', () =>
+        filterRecords(filter as FilterKeys)
+      );
     });
-  };
 
-  const activateFilter = (filter: HTMLButtonElement) => {
-    activeFilter.classList.remove('active');
-    filter.classList.add('active');
-    activeFilter = filter;
-  };
-
-  allFilter?.addEventListener('click', filterAll);
-  ownFilter?.addEventListener('click', filterOwn);
-  wantFilter?.addEventListener('click', filterWant);
-  // });
+    //! TODO: why does this get called when changing pages? (ex. after clicking one of the records)
+    setInitialFilter();
+  });
 </script>
-
-<div class="flex gap-1">
-  <button id="filter-all" class="active filter">All</button>
-  <button id="filter-own" class="filter">Own</button>
-  <button id="filter-want" class="filter">Want</button>
-</div>

@@ -1,9 +1,8 @@
 ---
 import { getSiteSettings } from '@/utils/payload/globals';
 import PayloadImage from './PayloadImage.astro';
-import ThemeToggleReact from './ThemeToggle.tsx';
-// import ThemeToggleAstro from './ThemeToggle.astro';
-
+// import ThemeToggleReact from './ThemeToggle';
+import ThemeToggle from './ThemeToggle.astro';
 const { logo } = await getSiteSettings();
 ---
 
@@ -56,11 +55,10 @@ const { logo } = await getSiteSettings();
         <a href="/records" class="font-mono tracking-tight">Records</a>
         <a href="/artists" class="font-mono tracking-tight">Artists</a>
         <!-- <button id="login" class="font-mono tracking-tight"> Login</button> -->
-        <!-- TODO: figure out why astro version causes flash when changing pages -->
-        <!-- <ThemeToggleAstro /> -->
+        <ThemeToggle />
 
         <!-- client:load = high priority; load & hydrte component JS immediately on page load -->
-        <ThemeToggleReact client:load />
+        <!-- <ThemeToggleReact client:load /> -->
       </div>
     </nav>
   </div>
