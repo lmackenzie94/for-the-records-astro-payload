@@ -152,6 +152,15 @@ const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
     return <p>No records found.</p>;
   }
 
+  // if current image is no longer in the list of images, add it back
+  // otherwise, you can't tell it's selected because it's not displayed
+  if (
+    currentImageUrl &&
+    !recordData.find((record) => record.cover_image === currentImageUrl)
+  ) {
+    recordData.unshift({ cover_image: currentImageUrl });
+  }
+
   return (
     <div
       style={{
@@ -162,7 +171,7 @@ const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
       }}
     >
       {recordData?.slice(0, NUM_RECORDS_TO_DISPLAY).map((record, idx) => {
-        const { title, cover_image, year, genre, label, country } = record;
+        const { title, cover_image, year, genre, label } = record;
 
         const mainLabel = label[0];
 
@@ -248,7 +257,6 @@ const RecordImagesAndInfo = ({ recordData, currentImageUrl, onClick }) => {
               <p style={{ margin: '.3em 0', lineHeight: 1.1, fontSize: '.9' }}>
                 {mainLabel}
               </p>
-              {/* <p style={{ margin: '.5em 0', lineHeight: 1.1 }}>{country}</p> */}
             </div>
           </article>
         );

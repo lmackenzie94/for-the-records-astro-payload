@@ -139,6 +139,15 @@ const ArtistImages = ({ artistData, currentImageUrl, onClick }) => {
     return <p>No images found for {artistName}</p>;
   }
 
+  // if current image is no longer in the list of images, add it back
+  // otherwise, you can't tell it's selected because it's not displayed
+  if (
+    currentImageUrl &&
+    !images.find((image) => image.uri === currentImageUrl)
+  ) {
+    images.unshift({ uri: currentImageUrl });
+  }
+
   return (
     <div
       style={{
